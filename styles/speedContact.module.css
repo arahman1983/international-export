@@ -1,0 +1,21 @@
+.speedContact{
+  position: absolute;
+  width: max-content;
+  height: 3rem;
+  background-color: var(--primary);
+  top: -5px;
+  right: 0;
+  color: var(--invert-color);
+  padding: 0.7rem  3rem;
+  border-radius: 0 0 50px 50px;
+  display: flex;
+}
+
+.speedContact a.icon {
+  width: 1.5rem;
+}
+
+a.phoneNo, a.phoneNo:hover{
+  font-size: 1.5rem;
+  line-height: 1;
+}
