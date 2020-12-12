@@ -1,6 +1,8 @@
 :root{
   --primary : #003A5E;
   --primaryII: #186EA3;
+  --primary70 : rgba(0, 58, 94, 0.7);
+  --primaryII70: rgb(24, 110, 163, 0.7);
   --danger: #E74B3B;
   --text-g : #333;
   --invert-color: #FFF;
