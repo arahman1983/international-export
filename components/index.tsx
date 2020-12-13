@@ -6,3 +6,4 @@ export { default as ProductCard } from './productCard'
 /* ********** Home components ********/
 export { default as Slider } from './homeComponents/slider'
 export { default as HomeAbout } from './homeComponents/homeAbout'
+export { default as BrandSlider } from './homeComponents/brandSlider'

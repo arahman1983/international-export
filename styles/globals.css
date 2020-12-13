@@ -114,3 +114,17 @@ a, a:hover {
   color: var(--invert-color);
   transition: all 0.5s;
 }
+
+.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right,
+.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left,
+.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right:hover,
+.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left:hover
+{
+  background-color: transparent;
+}
+
+.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right::before,
+.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left::before
+{
+  color: #333;
+}
