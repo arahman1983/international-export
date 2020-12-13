@@ -1,0 +1,14 @@
+.prCard{
+  border-width: 0;
+  box-shadow: #333 0 0 2px;
+  border-radius: 10px;
+}
+
+.prCard h4{
+  color: var(--danger);
+}
+
+.prCard img{
+  max-height: 200px;
+  margin-bottom: 1rem;
+}

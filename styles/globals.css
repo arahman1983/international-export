@@ -79,3 +79,38 @@ a, a:hover {
   color: var(--invert-color);
   padding: 1rem 0
 }
+
+.btnInvertOutline{
+  background-color: transparent;
+  border: var(--invert-color) 1px solid;
+  border-radius: 20px;
+  color: var(--invert-color);
+  padding: 0.25rem 1.5rem;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  z-index: 999;
+  transition: all 0.5s;
+}
+.btnInvertOutline:hover{
+  background-color: var(--invert-color);
+  color: var(--primary);
+  transition: all 0.5s;
+}
+
+
+.btnPrimaryOutline{
+  background-color: transparent;
+  border: var(--primary) 1px solid;
+  border-radius: 20px;
+  color: var(--primary);
+  padding: 0.25rem 1.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  z-index: 999;
+  transition: all 0.5s;
+}
+.btnPrimaryOutline:hover{
+  background-color: var(--primary);
+  color: var(--invert-color);
+  transition: all 0.5s;
+}

@@ -30,20 +30,3 @@
 .container{
   z-index: 999;
 }
-
-.btnInvertOutline{
-  background-color: transparent;
-  border: var(--invert-color) 1px solid;
-  border-radius: 20px;
-  color: var(--invert-color);
-  padding: 0.25rem 1.5rem;
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  z-index: 999;
-  transition: all 0.5s;
-}
-.btnInvertOutline:hover{
-  background-color: var(--invert-color);
-  color: var(--primary);
-  transition: all 0.5s;
-}
