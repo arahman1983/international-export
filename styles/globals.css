@@ -40,7 +40,7 @@ a, a:hover {
 .navbar-light .navbar-nav .nav-link{
   color: var(--text-g);
   opacity: 1;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   margin-inline-end: 1rem;
   border-bottom:transparent 3px solid;
 }

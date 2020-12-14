@@ -47,6 +47,8 @@ export default function Home() {
       image: "/images/bmw.png"
     }
   ])
+  
+  
   return (
     <div className={styles.container}>
       <Layout>

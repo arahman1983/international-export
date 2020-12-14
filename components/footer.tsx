@@ -1,7 +1,10 @@
-export default function Footer () {
-  return(
+import useTranslation from "../locals/localHook"
+
+export default function Footer() {
+  const { t } = useTranslation();
+  return (
     <footer className="row mx-0 bg-gradient justify-content-center">
-        <small>All copyrights received to National Export 2020</small>
+      <small>{t("CopyRights")}</small>
     </footer>
   )
 }
