@@ -13,7 +13,9 @@ export default function Layout({ children }) {
       <div className="w-100">
         <Header />
       </div>
-      {children}
+      <div style={{minHeight: '75vh'}}>
+        {children}
+      </div>
       <Footer/>
     </LanguageProvider>
   )
