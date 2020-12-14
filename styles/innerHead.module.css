@@ -1,0 +1,9 @@
+.innerHeader{
+  width: 100%;
+  height: 220px;
+  position: relative;
+  top: 100;
+  left: 0;
+  background: url("/images/bottomSlide.svg") no-repeat;
+  background-size: cover;
+}

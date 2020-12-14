@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Layout, DetailsPage } from '../components'
+import { Layout, DetailsPage, InnerHeader } from '../components'
 import About from '../types/about'
 
 
@@ -12,6 +12,9 @@ export default function AboutComp() {
   })
   return (
     <Layout>
+      <div className="container">
+        <InnerHeader />
+      </div>
       <DetailsPage details={about}/>
     </Layout>
   )
