@@ -115,6 +115,23 @@ a, a:hover {
   transition: all 0.5s;
 }
 
+
+.btnPrimary{
+  background-color: var(--primary);
+  border-radius: 10px;
+  color: var(--invert-color);
+  padding: 0.7rem 1.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  z-index: 999;
+  transition: all 0.5s;
+}
+.btnPrimary:hover{
+  background-color: var(--primary);
+  color: var(--invert-color);
+  transition: all 0.5s;
+}
+
 .react-multiple-carousel__arrow.react-multiple-carousel__arrow--right,
 .react-multiple-carousel__arrow.react-multiple-carousel__arrow--left,
 .react-multiple-carousel__arrow.react-multiple-carousel__arrow--right:hover,
