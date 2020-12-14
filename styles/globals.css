@@ -128,3 +128,8 @@ a, a:hover {
 {
   color: #333;
 }
+
+.red-Divider{
+  border-bottom: solid 2px var(--danger);
+  margin-top: 1rem;
+}

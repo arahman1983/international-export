@@ -4,6 +4,7 @@ export { default as Footer } from './footer'
 export { default as SpeedContact } from './speedContact'
 export { default as ProductCard } from './productCard'
 export { default as Loader } from './loader'
+export { default as DetailsPage} from './details'
 /* ********** Home components ********/
 export { default as Slider } from './homeComponents/slider'
 export { default as HomeAbout } from './homeComponents/homeAbout'
