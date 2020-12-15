@@ -14,6 +14,7 @@ export const LangStrings = {
     Subject: "Message subject",
     Message: "Message",
     Send: "Send",
+    ContactInfo: "Contact Information",
     CopyRights: "All Copy Rights are received to International Export 2020"
   }, 
   ar : {
@@ -30,6 +31,7 @@ export const LangStrings = {
     Subject: "عنوان الرسالة",
     Message: "الرسالة",
     Send: "أرسل",
+    ContactInfo: "معلومات التواصل",
     CopyRights: " جميع الحقوق محفوظة 2020",
     ChangeLang: "En",
   }

@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import useTranslation from "../locals/localHook"
 import { LanguageContext } from '../locals/langProvider'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
@@ -8,6 +9,7 @@ import SpeedContact from './speedContact'
 
 
 export default function Header() {
+  const router = useRouter()
   const { t } = useTranslation()
   const [locale, setLocale] = useContext(LanguageContext)
   const changeLang = () => {
@@ -27,10 +29,10 @@ export default function Header() {
 
           <Nav className="ml-auto mt-5" dir={t("Dir")} >
             <Link href="/">
-              <Nav.Link href="/" >{t("Home")}</Nav.Link>
+              <a className={`nav-link ${router.pathname === '/' && 'active'}`}>{t("Home")}</a>
             </Link>
             <Link href="/about">
-              <Nav.Link href="/about" >{t("About")}</Nav.Link>
+              <a className={`nav-link ${router.pathname === '/about' && 'active'}`}>{t("About")}</a>
             </Link>
             <NavDropdown title={t("Products")} id="products">
               <Link href="/">
@@ -51,7 +53,7 @@ export default function Header() {
               </Link>
             </NavDropdown>
             <Link href="/contact">
-              <Nav.Link href="/contact">{t("Contact")}</Nav.Link>
+            <a className={`nav-link ${router.pathname === '/contact' && 'active'}`}>{t("Contact")}</a>
             </Link>
             <Nav.Link onClick={changeLang}>{t("ChangeLang")}</Nav.Link>
           </Nav>

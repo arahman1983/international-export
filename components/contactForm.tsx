@@ -3,6 +3,7 @@ import useTranslation from "../locals/localHook"
 
 export default function ContactForm () {
   const { t } = useTranslation();
+  const dir = t("Dir")
   const [cEmail, setCEmail] = useState<string>("")
   const [cSubject, setCSubject] = useState<string>("")
   const [cMessage, setCMessage] = useState<string>("")
@@ -53,9 +54,10 @@ export default function ContactForm () {
     }
   }
   return(
-    <>
-    <h4 className="text-danger mb-4">{t("EmailUs")}</h4>
-      <form onSubmit={sendMessage}>
+    <div  dir={dir}>
+      <h4 className={`text-danger w-100 ${dir === 'rtl' && 'text-right'}`}>{t("EmailUs")}</h4>
+      <div className="red-Divider w-50"></div>
+      <form className="my-4" onSubmit={sendMessage}>
         <div className="form-group">
           <input type="email" ref={refEmail} className="form-control" placeholder={t("Email")} value={cEmail} onChange={handleEmail}/>
         </div>
@@ -69,6 +71,6 @@ export default function ContactForm () {
           <button className="btn btnPrimary btn-block">{t("Send")}</button>
         </div>
       </form>
-    </>
+    </div>
   )
 }

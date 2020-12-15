@@ -1,16 +1,14 @@
 import { useState } from 'react'
-import { Layout, ContactForm, InnerHeader } from '../components'
+import { Layout, ContactForm, InnerHeader, ContactInfo } from '../components'
 
 export default function ContactUs(){
   return(
     <Layout>
+      <InnerHeader image="/images/aboutBg.svg"/>
       <div className="container">
-        <InnerHeader/>
-      </div>
-      <div className="container" style={{marginTop: '-80px'}}>
         <div className="row">
           <div className="col-md-6">
-
+            <ContactInfo/>
           </div>
           <div className="col-md-6">
             <ContactForm />

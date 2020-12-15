@@ -7,6 +7,7 @@ export { default as Loader } from './loader'
 export { default as DetailsPage } from './details'
 export { default as InnerHeader } from './innerpagesHeader'
 export { default as ContactForm } from './contactForm'
+export { default as ContactInfo } from './contactInfo'
 /* ********** Home components ********/
 export { default as Slider } from './homeComponents/slider'
 export { default as HomeAbout } from './homeComponents/homeAbout'
