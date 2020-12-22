@@ -32,7 +32,7 @@ export default function products({ products }) {
         <div className="row m-0">
           {
             filteredProducts.map((product: Product, i: number) =>
-              <div className="col-md-3" key={i}>
+              <div className="col-md-4" key={i}>
                 <ProductCard ProductItem={product} />
               </div>
             )
