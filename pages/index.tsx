@@ -5,6 +5,7 @@ import Product from '../types/product'
 import Brand from '../types/brands'
 
 
+
 export default function Home() {
   const [productsItem] = useState < Product[] | undefined >([
     {

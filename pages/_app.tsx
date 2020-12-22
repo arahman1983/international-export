@@ -20,7 +20,11 @@ function MyApp({ Component, pageProps }) {
     }
   }, [])
 
-  return isLoaded ? <LanguageProvider><Component {...pageProps} /></LanguageProvider> : <Loader />
+  return isLoaded ? (
+      <LanguageProvider>
+        <Component {...pageProps} />
+      </LanguageProvider>
+      ) : <Loader />
 }
 
 export default MyApp

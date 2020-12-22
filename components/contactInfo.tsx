@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 
-export default function ContactInfo () {
+export default function ContactInfo ({contactInfo}) {
   const { t } = useTranslation();
   const dir = t("Dir")
 
@@ -18,21 +18,24 @@ export default function ContactInfo () {
           <div className={styles.icon}>
               <FontAwesomeIcon icon={faMapMarkerAlt} color="#dc3545" style={{width:'15px'}} />
           </div>
-          <p className="m-0">15 building name, Street Name, Town, Country</p>
+          <p className="m-0">{contactInfo.address}</p>
         </div>
 
         <div className="d-flex my-3">
           <div className={styles.icon}>
               <FontAwesomeIcon icon={faPhoneAlt} color="#dc3545" style={{width:'15px'}} />
           </div>
-          <p className="m-0">010-202-3555</p>
+          {
+            contactInfo.phone.map((phone:string, i:number) => <p key={i} className="m-0">{phone}</p>)
+          }
+          
         </div>
 
         <div className="d-flex my-3">
           <div className={styles.icon}>
               <FontAwesomeIcon icon={faEnvelope} color="#dc3545" style={{width:'15px'}} />
           </div>
-          <p className="m-0">info@international-expo.com</p>
+            {contactInfo.email.map((email:string,i:number) => <p key={i} className="m-0">{email}</p>)}
         </div>
 
       </div>
