@@ -5,7 +5,8 @@ export const locals = ["en", "ar"]
 export const LanguageContext = createContext([])
 
 export const LanguageProvider: React.FC = ({ children }) => {
-  const [locale, setLocale] = useState<string | undefined>("en")
+  let lang:string =  localStorage.getItem('lang')
+  const [locale, setLocale] = useState<string | undefined>(lang ? lang : "en")
 
   return (
     <LanguageContext.Provider value={[locale, setLocale]}>

@@ -13,8 +13,9 @@ export default function Header() {
   const { t } = useTranslation()
   const [locale, setLocale] = useContext(LanguageContext)
   const changeLang = () => {
-    let newLocal = t("ChangeLang").toLowerCase();
+    let newLocal:string = t("ChangeLang").toLowerCase();
     setLocale(newLocal)
+    localStorage.setItem('lang', newLocal)
   }
   return (
     <div className="container" >

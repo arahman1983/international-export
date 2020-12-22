@@ -12,7 +12,7 @@ export default function ProductCard({ ProductItem }) {
         <h4>{ProductItem.title}</h4>
         <p className="text-justify">{ProductItem.description.slice(0, 100)}</p>
         <div className="row justify-content-center">
-          <Link href={`/product/${ProductItem.id}`}>
+          <Link href={`/products/${ProductItem.id}`}>
             <a className="btn btnPrimaryOutline mx-auto">
               {t("ReadMore")}
             </a>

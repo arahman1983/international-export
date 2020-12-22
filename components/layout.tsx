@@ -1,11 +1,10 @@
 import Head from 'next/head'
-import {Header, Footer} from "../components"
-import {LanguageProvider} from '../locals/langProvider'
+import { Header, Footer } from "../components"
 
-export default function Layout({ children }) {  
+export default function Layout({ children }) {
 
   return (
-    <LanguageProvider>
+    <>
       <Head>
         <title>International Export</title>
         <link rel="icon" href="/fav.png" />
@@ -17,6 +16,6 @@ export default function Layout({ children }) {
         {children}
       </div>
       <Footer/>
-    </LanguageProvider>
+      </>
   )
 }
