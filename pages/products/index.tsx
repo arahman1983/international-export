@@ -36,7 +36,7 @@ export default function products({ products }) {
         
         <FilteredProducts filterProducts={filterProducts} type={type} q={q} />
         
-        <div className="row m-0">
+        <div className="row m-0 justify-content-center">
           {
             filteredProducts?.length > 0 
             ?
@@ -71,19 +71,72 @@ export async function getStaticProps() {
         },
         {
           id: "2",
-          title: "New Product 2",
+          title: "Oil",
           description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
-          image: "/images/lamp.jpg",
-          category: 'wheels',
-          brand: 'Honda'
+          image: "/images/1.jpg",
+          category: 'oil',
+          brand: 'Toyota'
         },
         {
           id: "3",
           title: "New Product 3",
           description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
           image: "/images/lamp.jpg",
+          category: 'wheels',
+          brand: 'Honda'
+        },
+        {
+          id: "4",
+          title: "New Product 4",
+          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
+          image: "/images/lamp.jpg",
           category: 'lamps',
           brand: 'BYD'
+        },
+        {
+          id: "5",
+          title: "Product 5",
+          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
+          image: "/images/wheel.webp",
+          category: 'lamps',
+          brand: 'Hundy'
+        }
+      ],
+      brands: [
+        {
+          id: "1",
+          name: "Toyota",
+          image: "/images/toyota.png"
+        },
+        {
+          id: "2",
+          name: "Renault",
+          image: "/images/rino.png"
+        },
+        {
+          id: "3",
+          name: "Hundy",
+          image: "/images/huy.png"
+        },
+        {
+          id: "4",
+          name: "BYD",
+          image: "/images/byd.png"
+        },
+        {
+          id: "5",
+          name: "BMW",
+          image: "/images/bmw.png"
+        }
+      ],
+      categories: [
+        {
+          id: "1",
+          name: "Wheels"
+        },
+        {
+          id: "2",
+          name: "lamps"
         }
       ]
     },

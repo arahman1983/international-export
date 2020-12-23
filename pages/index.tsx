@@ -14,7 +14,7 @@ export default function Home({ about, brands, products, slider }) {
         </div>
         <HomeAbout about={about} />
         <div className="container">
-          <div className="row mx-0 my-5">
+          <div className="row mx-0 my-5 justify-content-center">
             {
               products.map((product: Product, i: number) =>
                 <div className="col-md-4" key={i}>
@@ -71,19 +71,35 @@ export async function getStaticProps() {
         },
         {
           id: "2",
-          title: "New Product 2",
+          title: "Oil",
           description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
-          image: "/images/lamp.jpg",
-          category: 'wheels',
-          brand: 'Honda'
+          image: "/images/1.jpg",
+          category: 'oil',
+          brand: 'Toyota'
         },
         {
           id: "3",
           title: "New Product 3",
           description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
           image: "/images/lamp.jpg",
+          category: 'wheels',
+          brand: 'Honda'
+        },
+        {
+          id: "4",
+          title: "New Product 4",
+          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
+          image: "/images/lamp.jpg",
           category: 'lamps',
           brand: 'BYD'
+        },
+        {
+          id: "5",
+          title: "Product 5",
+          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
+          image: "/images/wheel.webp",
+          category: 'lamps',
+          brand: 'Hundy'
         }
       ],
       brands: [

@@ -7,7 +7,7 @@ export default function ProductCard({ ProductItem }) {
   const { t } = useTranslation()
   return (
     <Link href={`/products/${ProductItem.id}`}>
-      <a type="button" className={`card ${styles.prCard}`}>
+      <a type="button" className={`card ${styles.prCard} mb-5`}>
         <div className="card-body">
           <img src={ProductItem.image} alt={ProductItem.title} className="w-100" />
           <h4>{ProductItem.title}</h4>
