@@ -6,17 +6,17 @@
 
 .innerHeader img{
   vertical-align: middle;
-  /* margin-top: -220px; */
 }
 
 
 .innerHeader::after{
   content:"";
   width: 100%;
-  height: 220px;
+  height: 10px;
   position: absolute;
-  bottom: -50px;
+  bottom: 0px;
   left: 0;
-  background: url("/images/bottomSlide.svg") no-repeat;
-  background-size: cover;
+  background-color: #FFF;
+  border-top: var(--danger) 20px solid;
+  z-index: 999;
 }

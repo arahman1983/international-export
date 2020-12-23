@@ -4,8 +4,8 @@ export default function ContactUs({ contactInfo }) {
   return (
     <Layout>
       <InnerHeader image="/images/aboutBg.svg" />
-      <div className="container">
-        <div className="row">
+      <div className="container my-5">
+        <div className="row mx-0">
           <div className="col-md-6">
             <ContactInfo contactInfo={contactInfo} />
           </div>

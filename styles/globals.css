@@ -43,6 +43,8 @@ a, a:hover {
   font-size: 1.1rem;
   margin-inline-end: 1rem;
   border-bottom:transparent 3px solid;
+  padding-bottom: 15px;
+  margin-top: 20px;
 }
 .navbar-light .navbar-nav .nav-link.active{
   color: var(--danger);
@@ -50,7 +52,7 @@ a, a:hover {
 }
 
 .carousel-item{
-  height: 800px;
+  height: 500px;
 }
 
 .carousel-item img{
@@ -62,14 +64,16 @@ a, a:hover {
   width: 100%;
   height: 200px;
   position: absolute;
-  bottom: 0;
+  bottom: -66px;
   left: 0;
   background: url("/images/bottomSlide.svg") no-repeat;
   background-size: cover;
 }
-
+.carousel-indicators{
+  display: none;
+}
 .carousel-caption{
-  bottom: 150px;
+  bottom: 90px;
   text-shadow: #000 2px 2px;
 }
 

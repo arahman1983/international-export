@@ -71,7 +71,7 @@ export default function Header() {
 
   return (
     <div className="container" >
-      <Navbar bg="white" expand="lg" className="w-100 p-0">
+      <Navbar bg="white" expand="lg" className="w-100 p-0" style={{maxHeight:'120px'}}>
         <Link href="/">
           <a><Image src="/images/logo.png" width={188} height={133} alt="International Export" /></a>
         </Link>

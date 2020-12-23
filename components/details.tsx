@@ -5,7 +5,7 @@ export default function DetailsPage ({details}){
   const { t } = useTranslation()
   const dir = t("Dir")
 return(
-  <div className="container" dir={dir} >
+  <div className="container my-5" dir={dir} >
         <div className="row">
           <div className= "col-md-10 mx-auto">
             <h2 className={`text-danger w-100 ${dir === 'rtl' && 'text-right'}`} >{details.title}</h2>

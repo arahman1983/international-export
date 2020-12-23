@@ -9,10 +9,10 @@ export default function Layout({ children }) {
         <title>International Export</title>
         <link rel="icon" href="/fav.png" />
       </Head>
-      <div className="w-100">
+      <div className="w-100 bg-white position-fixed " style={{zIndex:999}}>
         <Header />
       </div>
-      <div style={{minHeight: '80vh'}}>
+      <div style={{minHeight: '80vh', paddingTop:'120px'}}>
         {children}
       </div>
       <Footer/>
