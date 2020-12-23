@@ -1,18 +1,24 @@
 import styles from '../styles/Home.module.css'
 import { Layout, Slider, HomeAbout, ProductCard, BrandSlider } from '../components'
 import Product from '../types/product'
-
+import Fade from 'react-reveal/Fade';
 
 
 export default function Home({ about, brands, products, slider }) {
   return (
     <div className={styles.container}>
       <Layout>
-        <Slider slider={slider} />
+        <Fade>
+          <Slider slider={slider} />
+        </Fade>
         <div className="container my-5">
-          <BrandSlider sliderItems={brands} />
+          <Fade>
+            <BrandSlider sliderItems={brands} />
+          </Fade>
         </div>
-        <HomeAbout about={about} />
+        <Fade>
+          <HomeAbout about={about} />
+        </Fade>
         <div className="container">
           <div className="row mx-0 my-5 justify-content-center">
             {
