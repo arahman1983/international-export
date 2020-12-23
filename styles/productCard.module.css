@@ -2,7 +2,17 @@
   border-width: 0;
   box-shadow: #333 0 0 2px;
   border-radius: 10px;
+  margin: auto;
+  transition: all 0.5s;
 }
+
+.prCard:hover{
+  border-width: 0;
+  box-shadow: rgb(114, 114, 114) 0 0 2px;
+  border-radius: 10px;
+  transform: scale(1.1);
+}
+
 
 .prCard h4{
   color: var(--danger);

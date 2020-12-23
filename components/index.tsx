@@ -8,6 +8,7 @@ export { default as DetailsPage } from './details'
 export { default as InnerHeader } from './innerpagesHeader'
 export { default as ContactForm } from './contactForm'
 export { default as ContactInfo } from './contactInfo'
+export { default as NoData} from './noData'
 /* ********** Home components ********/
 export { default as Slider } from './homeComponents/slider'
 export { default as HomeAbout } from './homeComponents/homeAbout'

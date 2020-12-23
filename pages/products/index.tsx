@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from "next/router"
-import { Layout, InnerHeader, ProductCard } from "../../components";
+import { Layout, InnerHeader, ProductCard, NoData } from "../../components";
 import Product from "../../types/product";
 
 export default function products({ products }) {
@@ -31,11 +31,15 @@ export default function products({ products }) {
         </div>
         <div className="row m-0">
           {
+            filteredProducts?.length > 0 
+            ?
             filteredProducts.map((product: Product, i: number) =>
               <div className="col-md-4" key={i}>
                 <ProductCard ProductItem={product} />
               </div>
             )
+            :
+            <NoData message="Products you search about not found" />
           }
         </div>
       </div>

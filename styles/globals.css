@@ -150,3 +150,12 @@ a, a:hover {
   border-bottom: solid 2px var(--danger);
   margin-top: 1rem;
 }
+
+
+.brand-img img{
+  transition: all 0.5s;
+}
+
+.brand-img:hover img{
+  transform: scale(1.2);
+}
