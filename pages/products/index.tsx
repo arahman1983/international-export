@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from "next/router"
-import { Layout, InnerHeader, ProductCard, NoData } from "../../components";
+import { Layout, InnerHeader, ProductCard, NoData, FilteredProducts } from "../../components";
 import Product from "../../types/product";
 
 export default function products({ products }) {
@@ -20,15 +20,22 @@ export default function products({ products }) {
         setFilteredProducts(products)
   }, [])
 
+  const filterProducts = (title:string, brand:string, category:string) => {
+    setFilteredProducts(
+      products.filter((product: Product) => 
+      product.title.indexOf(title) >= 0 &&  product.brand.indexOf(brand)>=0 && product.category.indexOf(category)>=0)
+      )
+  }
+
 
 
   return (
     <Layout>
-      <InnerHeader image='/images/aboutBg.svg' />
+      <InnerHeader image='/images/sliderA.jpg' />
       <div className="container my-5">
-        <div className="row my-3">
-          Filter
-        </div>
+        
+        <FilteredProducts filterProducts={filterProducts} type={type} q={q} />
+        
         <div className="row m-0">
           {
             filteredProducts?.length > 0 
