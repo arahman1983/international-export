@@ -74,7 +74,7 @@ export default function FilteredProducts({filterProducts, type, q}) {
         <input list="brands" className="form-control"  placeholder="Filter by brand" value={filterBrand} onChange={changeBrand} />
         <datalist id="brands">
           {
-            brands && brands.map((brand:Brand, i:number) => <option value={brand.name} />)
+            brands && brands.map((brand:Brand, i:number) => <option key={i} value={brand.name} />)
           }
         </datalist>
       </div>
@@ -82,7 +82,7 @@ export default function FilteredProducts({filterProducts, type, q}) {
       <input list="categories" className="form-control" placeholder="Filter by category" value={filterCategory} onChange={changeCategory}/>
         <datalist id="categories">
         {
-            categories && categories.map((category:Category, i:number) => <option value={category.name} />)
+            categories && categories.map((category:Category, i:number) => <option  key={i} value={category.name} />)
           }
         </datalist>
       </div>
