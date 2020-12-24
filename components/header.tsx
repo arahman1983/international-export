@@ -72,15 +72,15 @@ export default function Header() {
   return (
     <div className="container" >
       <Navbar bg="white" expand="lg" className="w-100 p-0" style={{maxHeight:'120px'}}>
+        <SpeedContact />
         <Link href="/">
           <a><Image src="/images/logo.png" width={188} height={133} alt="International Export" /></a>
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
 
-          <SpeedContact />
 
-          <Nav className="ml-auto mt-5" dir={t("Dir")} >
+          <Nav className="ml-auto mt-md-5" dir={t("Dir")} >
             <Link href="/">
               <a className={`nav-link ${router.pathname === '/' && 'active'}`}>{t("Home")}</a>
             </Link>
