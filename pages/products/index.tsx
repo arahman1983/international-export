@@ -23,7 +23,7 @@ export default function products({ products }) {
   const filterProducts = (title:string, brand:string, category:string) => {
     setFilteredProducts(
       products.filter((product: Product) => 
-      product.title.indexOf(title) >= 0 &&  product.brand.indexOf(brand)>=0 && product.category.indexOf(category)>=0)
+      product.title.toLocaleLowerCase().indexOf(title.toLocaleLowerCase()) >= 0 &&  product.brand.toLocaleLowerCase().indexOf(brand.toLocaleLowerCase())>=0 && product.category.toLocaleLowerCase().indexOf(category.toLocaleLowerCase())>=0)
       )
   }
 
