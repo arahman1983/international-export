@@ -164,6 +164,12 @@ a, a:hover {
   transform: scale(1.2);
 }
 
+.content-warper{
+  min-height: 80vh !important;
+  padding: 2rem;
+}
+
+
 @media only screen and (max-width: 550px){
   .carousel-item{
     height: max-content

@@ -14,3 +14,7 @@ export { default as FilteredProducts } from './filterProducts'
 export { default as Slider } from './homeComponents/slider'
 export { default as HomeAbout } from './homeComponents/homeAbout'
 export { default as BrandSlider } from './homeComponents/brandSlider'
+/* *********** Admin Panel **********/
+export { default as AdminLayout } from './adminLayout'
+export { default as AdminHeader } from './adminHeader'
+export { default as SideMenu} from './sideMenu'

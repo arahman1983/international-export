@@ -15,7 +15,10 @@ export const LangStrings = {
     Message: "Message",
     Send: "Send",
     ContactInfo: "Contact Information",
-    CopyRights: "All Copy Rights are received to International Export 2020"
+    CopyRights: "All Copy Rights are received to International Export 2020",
+    LoginHead: "Log in",
+    EmailInput: "Please Enter your Email",
+    PasswordInput: "Please Enter your password"
   }, 
   ar : {
     Dir: "rtl",
@@ -34,5 +37,8 @@ export const LangStrings = {
     ContactInfo: "معلومات التواصل",
     CopyRights: " جميع الحقوق محفوظة 2020",
     ChangeLang: "En",
+    LoginHead: "تسجيل الدخول",
+    EmailInput: "البريد الالكتروني",
+    PasswordInput: "من فضلك أدخل كلمة المرور"
   }
 }
