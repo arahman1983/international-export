@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export default function AdminHeader(){
   return(
     <div className={`bg-light py-2 px-5 ${styles.header} `}>
-      <Image src="/images/logo.png" className="mx-auto" width={155} height={100} />
-      <ul className="nav my-5">
+      {/* <Image src="/images/logo.png" className="mx-auto" width={155} height={100} /> */}
+      <h3 className="my-3 text-danger">International Export</h3>
+      <ul className="nav">
       <li className="nav-item mx-2">
         <Link href='/admin/profile'>
           <button className="btn mt-3">
