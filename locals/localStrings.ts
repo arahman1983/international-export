@@ -18,7 +18,18 @@ export const LangStrings = {
     CopyRights: "All Copy Rights are received to International Export 2020",
     LoginHead: "Log in",
     EmailInput: "Please Enter your Email",
-    PasswordInput: "Please Enter your password"
+    PasswordInput: "Please Enter your password",
+    Categories: 'Categories',
+    AdBrands: 'Brands',
+    AdProducts: 'Products',
+    Users: 'Users',
+    Add: 'Add New',
+    Edit: 'Edit Item',
+    Delete: 'Delete Item',
+    Title : "Title",
+    ArTitle : "Arabic Title",
+    CrDate: "Created Date",
+    UpDate: "Updated Date",
   }, 
   ar : {
     Dir: "rtl",
@@ -39,6 +50,17 @@ export const LangStrings = {
     ChangeLang: "En",
     LoginHead: "تسجيل الدخول",
     EmailInput: "البريد الالكتروني",
-    PasswordInput: "من فضلك أدخل كلمة المرور"
+    PasswordInput: "من فضلك أدخل كلمة المرور",
+    Categories: 'التصنيفات',
+    AdBrands: 'العلامات التجارية',
+    AdProducts: 'المنتجات',
+    Users: 'المستخدمين',
+    Add: 'إضافة جديد',
+    Edit: 'تعديل',
+    Delete: 'حذف',
+    Title : "عنوان",
+    ArTitle : "العنوان العربي",
+    CrDate: "تاريخ الانشاء",
+    UpDate: "تاريخ التعديل",
   }
 }

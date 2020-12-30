@@ -167,6 +167,15 @@ a, a:hover {
 .content-warper{
   min-height: 80vh !important;
   padding: 2rem;
+  min-width: 80%;
+}
+
+.textPrimary{
+  color: var(--primary)
+}
+
+.thead-dark{
+  background-color: var(--primary) !important;
 }
 
 

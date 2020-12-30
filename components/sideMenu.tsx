@@ -4,10 +4,12 @@ import { faTimes, faBars, faUsers, faPuzzlePiece, faCopyright, faCar, faPhoneAlt
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from '../styles/sideMenu.module.css'
 import { useRouter } from 'next/router'
+import useTranslation from "../locals/localHook"
 
 export default function SideMenu() {
   const [collapsed, setCollapsed] = useState(false)
   const router = useRouter()
+  const { t } = useTranslation()
 
   const toggleMenu = (e:React.MouseEvent<HTMLButtonElement>) => {
     setCollapsed(!collapsed)
@@ -15,27 +17,27 @@ export default function SideMenu() {
 
   const menuItems = [
     {
-      title: 'Categories',
+      title: t('Categories'),
       link: '/admin/categories',
       icon: faPuzzlePiece
     },
     {
-      title: 'Brands',
+      title: t('AdBrands'),
       link: '/admin/brands',
       icon: faCopyright
     },
     {
-      title: 'Products',
+      title: t('AdProducts'),
       link: '/admin/products',
       icon: faCar
     },
     {
-      title: 'Contact Us',
+      title: t('Contact'),
       link: '/admin/contacts',
       icon: faPhoneAlt
     },
     {
-      title: 'Users',
+      title: t('Users'),
       link: '/admin/users',
       icon: faUsers
     }
