@@ -51,7 +51,7 @@ export default function SideMenu() {
             <li className={styles.sideItem} key={i}>
               <Link href={item.link}>
                 <a className={styles.sideLink}> 
-                  <FontAwesomeIcon icon={item.icon} color="#003A5E" 
+                  <FontAwesomeIcon icon={item.icon}
                   style={
                     collapsed 
                     ? { width: '25px', marginLeft: '5px' } 

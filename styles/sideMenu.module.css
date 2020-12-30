@@ -1,6 +1,6 @@
 .sideMenu{
   width: 300px;
-  min-height: 90vh;
+  min-height: 92vh;
   background-color: rgba(0, 0, 0, 0.1);
   position: relative;
   transition: all 0.5s;
@@ -31,10 +31,11 @@
   padding: 1rem 0.8rem;
   border-bottom: gray 1px solid;
   cursor: pointer;
+  color: #003A5E;
 }
 
 .sideItem:hover{
-  background-color: gray;
+  background-color: #003A5E;
   color: #FFF;
 }
 

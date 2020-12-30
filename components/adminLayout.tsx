@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { AdminHeader, SideMenu } from "../components"
+import { AdminHeader, SideMenu, AdminFooter } from "../components"
 
 export default function AdminLayout({ children }) {
 
@@ -16,6 +16,7 @@ export default function AdminLayout({ children }) {
           {children}
         </div>
       </div>
+          <AdminFooter/>
       {/* <Footer/> */}
       </>
   )
