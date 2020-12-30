@@ -34,6 +34,14 @@
   color: #003A5E;
 }
 
+.sideItemActive{
+  padding: 1rem 0.8rem;
+  border-bottom: gray 1px solid;
+  cursor: pointer;
+  background-color: #003A5E;
+  color: #FFF;
+}
+
 .sideItem:hover{
   background-color: #003A5E;
   color: #FFF;
