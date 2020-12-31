@@ -2,7 +2,7 @@ import useTranslation from "../locals/localHook"
 import {DeleteBtn, EditBtn} from '../components'
 
 
-export default function AdminTable({tableTitles, items}) {
+export default function AdminTable({tableTitles, items, handleDelete, handleEdit}) {
   const { t } = useTranslation()
   const cols =  items?.map(item => Object.values(item))
 
@@ -27,8 +27,8 @@ export default function AdminTable({tableTitles, items}) {
                       <td key={i}>{col}</td>
                     ))
                   }
-                  <td>{!item[item.length-1] && <DeleteBtn /> }</td>
-                  <td>{ <EditBtn /> }</td>
+                  <td>{!item[item.length-1]? <DeleteBtn handleDelete={handleDelete} /> : "Deleted" }</td>
+                  <td>{ <EditBtn handleEdit={handleEdit} /> }</td>
                 </tr>
               ))
             }

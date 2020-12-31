@@ -22,6 +22,7 @@ export { default as AdminFooter} from './adminFooter'
 export { default as AdminSectionHeader} from './adminSectionHeader'
 export { default as AdminTable} from './adminTable'
 export { default as AdmenFilterByDelete} from './adminByDelete'
+export { default as AdminModal } from './adminModal'
 /* *********** Admin Buttons ********/
 export {default as EditBtn} from './utilities/editButton'
 export {default as DeleteBtn} from './utilities/deleteButton'

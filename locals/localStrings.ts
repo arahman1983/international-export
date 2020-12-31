@@ -30,6 +30,10 @@ export const LangStrings = {
     ArTitle : "Arabic Title",
     CrDate: "Created Date",
     UpDate: "Updated Date",
+    ActiveItem: "Active Items",
+    DeleteItem: "Delete Item",
+    All: "All",
+    FilterDelete: "Filter Items"
   }, 
   ar : {
     Dir: "rtl",
@@ -62,5 +66,10 @@ export const LangStrings = {
     ArTitle : "العنوان العربي",
     CrDate: "تاريخ الانشاء",
     UpDate: "تاريخ التعديل",
+    ActiveItem: "العناصر النشطة",
+    DeleteItem: "العناصر المحذوفة",
+    All: "كل العناصر",
+    FilterDelete: "فرز العناصر"
+
   }
 }
