@@ -4,10 +4,10 @@ export default interface Category {
 }
 
 export interface AdminCategory {
-  id: number;
-  name : string;
-  name_ar: string;
-  createdAt: string;
-  updatedAt: string;
+  id?: number;
+  title : string;
+  title_ar: string;
+  createdAt?: string;
+  updatedAt?: string;
   isDeleted: boolean;
 }

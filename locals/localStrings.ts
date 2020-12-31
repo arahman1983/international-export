@@ -36,7 +36,10 @@ export const LangStrings = {
     RestoreItem: "Restore Item",
     All: "All",
     FilterDelete: "Filter Items",
-    ConfirmMessage: "Do you really want to delete this item ?"
+    ConfirmMessage: "Do you really want to delete this item ?",
+    EnglishName: 'English Name',
+    ArabicName: "Arabic Name"
+
   }, 
   ar : {
     Dir: "rtl",
@@ -74,6 +77,8 @@ export const LangStrings = {
     All: "كل العناصر",
     RestoreItem: "اعادة تنشيط العنصر",
     FilterDelete: "فرز العناصر", 
-    ConfirmMessage: "هل أنت متأكد من حذف هذا العنصر ؟"
+    ConfirmMessage: "هل أنت متأكد من حذف هذا العنصر ؟",
+    EnglishName: 'اسم انجليزي',
+    ArabicName: "اسم عربي"
   }
 }

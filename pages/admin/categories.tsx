@@ -1,31 +1,30 @@
 import { useState, useEffect, useRef, useReducer } from 'react'
-import {
-  AdminLayout, AdminSectionHeader, AdminTable,
-  AdmenFilterByDelete, AdminModal, ConfirmDelete,
-  EditCatComponent, AddCatComponent, ActiveBtn
-} from '../../components'
+import { AdminLayout, AdminSectionHeader, AdminTable,AdmenFilterByDelete, 
+  AdminModal, ConfirmDelete, EditCatComponent } from '../../components'
 import useTranslation from "../../locals/localHook"
 import {AdminCategory} from '../../types/categories'
 import categoriesReducer from "../../reducers/categories/reducer";
-import { addCategory, editCategory, setCategories } from "../../reducers/categories/actions";
+import { addCategory, editCategory } from "../../reducers/categories/actions";
 
 
 export default function CategoriesAdmin({ categories }) {
   const { t } = useTranslation()
-  let tableTitles = ['#', t('Title'), t('A rTitle'), t('CrDate'), t('UpDate'), '']
-  // const [allCategories, setAllCategories] = useState<AdminCategory[]>(categories)
+  
   const [allCategories, dispatchCategories] = useReducer(categoriesReducer, categories)
   const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allCategories.filter((category:AdminCategory) => !category.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
   const [selected, setSelected] = useState<AdminCategory | undefined>()
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState<boolean>(false)
+  const filterRef = useRef<HTMLSelectElement>()
+  
+  let tableTitles = ['#', t('Title'), t('A rTitle'), t('CrDate'), t('UpDate'), '']
+  
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  const filterRef = useRef<HTMLSelectElement>()
 
-  const confirmDelete = (item:AdminCategory) => {
-    dispatchCategories(editCategory(item.id,{...item, isDeleted: true}))
+  const confirmDelete = () => {
+    dispatchCategories(editCategory(selected.id,{...selected, isDeleted: true}))
     handleClose()
   }
 
@@ -34,16 +33,25 @@ export default function CategoriesAdmin({ categories }) {
     handleClose()
   }
 
+  const editItem = (item:AdminCategory) => {
+    dispatchCategories(editCategory(item.id,{...item}))
+    handleClose()
+  }
 
-  const handleDelete = (item:AdminCategory) => {
-    setModalType("delete")
-    handleShow()
-    setSelected(item)
+  const addItem = (item:AdminCategory) => {
+    dispatchCategories(addCategory({id: categories.length+1 ,...item}))
+    handleClose()
   }
 
   const handleAdd = () => {
     setModalType("add")
     handleShow()
+  }
+
+  const handleDelete = (item:AdminCategory) => {
+    setModalType("delete")
+    handleShow()
+    setSelected(item)
   }
 
   const handleEdit = (item:AdminCategory) => {
@@ -70,7 +78,6 @@ export default function CategoriesAdmin({ categories }) {
 
   useEffect(() => {
     filterChange()
-
   }, [allCategories])
 
   return (
@@ -101,10 +108,10 @@ export default function CategoriesAdmin({ categories }) {
         }
         FormComponent={
           modalType === 'delete'
-            ? <ConfirmDelete item={selected}  confirmDelete={confirmDelete} handleClose={handleClose} />
+            ? <ConfirmDelete confirmDelete={confirmDelete} handleClose={handleClose} />
             : modalType === 'edit'
-              ? <EditCatComponent item={selected} />
-              : <AddCatComponent />
+              ? <EditCatComponent type={modalType} item={selected} addItem={addItem} editItem={editItem} handleClose={handleClose} />
+              : <EditCatComponent type={modalType} item={{}} addItem={addItem} editItem={editItem} handleClose={handleClose} />
         } />
     </AdminLayout>
   )

@@ -30,4 +30,3 @@ export {default as ActiveBtn} from './utilities/activeButton'
 /* *********** Forms ***********/
 export {default as ConfirmDelete} from './forms/confirmDelete'
 export {default as EditCatComponent} from './forms/editCatComponent'
-export {default as AddCatComponent} from './forms/addCatComponent'

@@ -1,6 +1,6 @@
 import useTranslation from "../../locals/localHook"
 
-export default function ConfirmDelete({item, handleClose, confirmDelete}){
+export default function ConfirmDelete({handleClose, confirmDelete}){
   const { t } = useTranslation()
   return(
     <>
@@ -9,7 +9,7 @@ export default function ConfirmDelete({item, handleClose, confirmDelete}){
           <button className="btn btn-secondary mx-2" onClick={handleClose}>
               {t('Cancel')}
           </button>
-          <button className="btn btn-danger mx-2" onClick={()=>confirmDelete(item)}>
+          <button className="btn btn-danger mx-2" onClick={confirmDelete}>
               {t('Delete')}
           </button>
       </div>
