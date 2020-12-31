@@ -1,22 +1,14 @@
-import { Modal, Button} from 'react-bootstrap'
-import useTranslation from '../locals/localHook'
+import { Modal } from 'react-bootstrap'
 
-export default function AdminModal({ show, handleClose, ...props }) {
-  const { t } = useTranslation()
+export default function AdminModal({ show, handleClose, FormComponent, formTitle,  ...props }) {
   return (
     <Modal show={show} onHide={handleClose} {...props} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>{formTitle}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={handleClose}>
-          Save Changes
-        </Button>
-      </Modal.Footer>
+      <Modal.Body>
+        { FormComponent }
+      </Modal.Body>
     </Modal>
   )
 }

@@ -26,14 +26,17 @@ export const LangStrings = {
     Add: 'Add New',
     Edit: 'Edit Item',
     Delete: 'Delete Item',
+    Cancel: "Cancel",
     Title : "Title",
     ArTitle : "Arabic Title",
     CrDate: "Created Date",
     UpDate: "Updated Date",
     ActiveItem: "Active Items",
     DeleteItem: "Delete Item",
+    RestoreItem: "Restore Item",
     All: "All",
-    FilterDelete: "Filter Items"
+    FilterDelete: "Filter Items",
+    ConfirmMessage: "Do you really want to delete this item ?"
   }, 
   ar : {
     Dir: "rtl",
@@ -69,7 +72,8 @@ export const LangStrings = {
     ActiveItem: "العناصر النشطة",
     DeleteItem: "العناصر المحذوفة",
     All: "كل العناصر",
-    FilterDelete: "فرز العناصر"
-
+    RestoreItem: "اعادة تنشيط العنصر",
+    FilterDelete: "فرز العناصر", 
+    ConfirmMessage: "هل أنت متأكد من حذف هذا العنصر ؟"
   }
 }

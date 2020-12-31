@@ -26,3 +26,8 @@ export { default as AdminModal } from './adminModal'
 /* *********** Admin Buttons ********/
 export {default as EditBtn} from './utilities/editButton'
 export {default as DeleteBtn} from './utilities/deleteButton'
+export {default as ActiveBtn} from './utilities/activeButton'
+/* *********** Forms ***********/
+export {default as ConfirmDelete} from './forms/confirmDelete'
+export {default as EditCatComponent} from './forms/editCatComponent'
+export {default as AddCatComponent} from './forms/addCatComponent'
