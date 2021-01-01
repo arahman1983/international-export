@@ -1,17 +1,17 @@
 import { useState, useEffect, useRef, useReducer } from 'react'
 import { AdminLayout, AdminSectionHeader, AdminTable,AdmenFilterByDelete, 
-  AdminModal, ConfirmDelete, CategoryForm } from '../../components'
+  AdminModal, ConfirmDelete, BrandForm } from '../../components'
 import useTranslation from "../../locals/localHook"
 import {AdminCategory} from '../../types/categories'
-import brandsReducer from "../../reducers/brands/reducer";
-import { addBrand, editBrand } from "../../reducers/brands/actions";
+import categoriesReducer from "../../reducers/categories/reducer";
+import { addCategory, editCategory } from "../../reducers/categories/actions";
 
 
-export default function CategoriesAdmin({ categories }) {
+export default function BrandsAdmin({ brands }) {
   const { t } = useTranslation()
   
-  const [allCategories, dispatchCategories] = useReducer(brandsReducer, categories)
-  const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allCategories.filter((category:AdminCategory) => !category.isDeleted))
+  const [allBrands, dispatchBrands] = useReducer(categoriesReducer, brands)
+  const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allBrands.filter((brand:AdminCategory) => !brand.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
   const [selected, setSelected] = useState<AdminCategory | undefined>()
@@ -25,25 +25,25 @@ export default function CategoriesAdmin({ categories }) {
 
   const confirmDelete = () => {
     /// API for Edit
-    dispatchCategories(editBrand(selected.id,{...selected, isDeleted: true}))
+    dispatchBrands(editCategory(selected.id,{...selected, isDeleted: true}))
     handleClose()
   }
 
   const restoreItem = (item:AdminCategory) => {
     /// API for Edit
-    dispatchCategories(editBrand(item.id,{...item, isDeleted: false}))
+    dispatchBrands(editCategory(item.id,{...item, isDeleted: false}))
     handleClose()
   }
 
   const editItem = (item:AdminCategory) => {
     /// API for Edit
-    dispatchCategories(editBrand(item.id,{...item}))
+    dispatchBrands(editCategory(item.id,{...item}))
     handleClose()
   }
 
   const addItem = (item:AdminCategory) => {
     /// API for Add
-    dispatchCategories(addBrand({id: categories.length+1 ,...item}))
+    dispatchBrands(addCategory({id: brands.length+1 ,...item}))
     handleClose()
   }
 
@@ -69,25 +69,25 @@ export default function CategoriesAdmin({ categories }) {
     setFilterDelete(selectedVal)
     if (selectedVal === "true") {
       setFilteredCategories(
-        allCategories.filter((category: AdminCategory)  => category.isDeleted === true)
+        allBrands.filter((brand: AdminCategory)  => brand.isDeleted === true)
       )
     } else if (selectedVal === "false") {
       setFilteredCategories(
-        allCategories.filter((category: AdminCategory)  => category.isDeleted === false)
+        allBrands.filter((brand: AdminCategory)  => brand.isDeleted === false)
       )
     } else {
-      setFilteredCategories(allCategories)
+      setFilteredCategories(allBrands)
     }
   }
 
   useEffect(() => {
     filterChange()
-  }, [allCategories])
+  }, [allBrands])
 
   return (
     <AdminLayout>
       <AdminSectionHeader 
-        sectionName={t("Categories")} 
+        sectionName={t("Brands")} 
         handleAdd={handleAdd} />
       <hr />
       <AdmenFilterByDelete 
@@ -114,8 +114,8 @@ export default function CategoriesAdmin({ categories }) {
           modalType === 'delete'
             ? <ConfirmDelete confirmDelete={confirmDelete} handleClose={handleClose} />
             : modalType === 'edit'
-              ? <CategoryForm type={modalType} item={selected} addItem={addItem} editItem={editItem} handleClose={handleClose} />
-              : <CategoryForm type={modalType} item={{}} addItem={addItem} editItem={editItem} handleClose={handleClose} />
+              ? <BrandForm type={modalType} item={selected} addItem={addItem} editItem={editItem} handleClose={handleClose} />
+              : <BrandForm type={modalType} item={{}} addItem={addItem} editItem={editItem} handleClose={handleClose} />
         } />
     </AdminLayout>
   )
@@ -128,27 +128,27 @@ export async function getStaticProps() {
 
   return {
     props: {
-      categories: [
+      brands: [
         {
           id: 1,
-          title: "Category Name",
-          title_ar: "اسم الصنف",
+          title: "Brand Name",
+          title_ar: "اسم العلامة",
           created: '2020-12-31 10:30:00',
           updated: '2020-12-31 10:30:00',
           isDeleted: false
         },
         {
           id: 2,
-          title: "Category Name",
-          title_ar: "اسم الصنف",
+          title: "Brand Name",
+          title_ar: "اسم العلامة",
           created: '2020-12-31 10:30:00',
           updated: '2020-12-31 10:30:00',
           isDeleted: true
         },
         {
           id: 3,
-          title: "Category Name",
-          title_ar: "اسم الصنف",
+          title: "Brand Name",
+          title_ar: "اسم العلامة",
           created: '2020-12-31 10:30:00',
           updated: '2020-12-31 10:30:00',
           isDeleted: false

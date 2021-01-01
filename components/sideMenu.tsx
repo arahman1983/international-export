@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import { faTimes, faBars, faUsers, faPuzzlePiece, faCopyright, faCar, faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faBars, faUsers, faPuzzlePiece, faCopyright, faCar, faPhoneAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from '../styles/sideMenu.module.css'
 import { useRouter } from 'next/router'
@@ -16,6 +16,11 @@ export default function SideMenu() {
   }
 
   const menuItems = [
+    {
+      title: t('About'),
+      link: '/admin/about',
+      icon: faInfoCircle
+    },
     {
       title: t('Categories'),
       link: '/admin/categories',
