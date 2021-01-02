@@ -21,7 +21,7 @@ export default function AdminTable({tableTitles, items, restoreItem, handleDelet
         <tbody>
             {
               cols?.map ((item:any[], i:number) =>(
-                <tr key={i} className={item[item.length-1] == true && 'alert-danger'}>
+                <tr key={i} className={item[item.length-1] == true ? 'alert-danger' : ''}>
                   {
                     item.map((col,i)=>(
                       <td key={i}>{col}</td>

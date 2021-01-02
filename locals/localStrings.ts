@@ -29,6 +29,11 @@ export const LangStrings = {
     Cancel: "Cancel",
     Title : "Title",
     ArTitle : "Arabic Title",
+    Description : "Description",
+    ArDescription : "Arabic Description",
+    Details : "Details",
+    ArDetails : "Arabic Details",
+    Save:"Save",
     CrDate: "Created Date",
     UpDate: "Updated Date",
     ActiveItem: "Active Items",
@@ -38,7 +43,8 @@ export const LangStrings = {
     FilterDelete: "Filter Items",
     ConfirmMessage: "Do you really want to delete this item ?",
     EnglishName: 'English Name',
-    ArabicName: "Arabic Name"
+    ArabicName: "Arabic Name",
+    Image: 'Upload Image'
 
   }, 
   ar : {
@@ -70,6 +76,11 @@ export const LangStrings = {
     Delete: 'حذف',
     Title : "عنوان",
     ArTitle : "العنوان العربي",
+    Description : "الوصف الانجليزي",
+    ArDescription : "الوصف العربي",
+    Details : "التفاصيل الانجليزي",
+    ArDetails : "التفاصيل العربي",
+    Save:"Save",
     CrDate: "تاريخ الانشاء",
     UpDate: "تاريخ التعديل",
     ActiveItem: "العناصر النشطة",
@@ -79,6 +90,7 @@ export const LangStrings = {
     FilterDelete: "فرز العناصر", 
     ConfirmMessage: "هل أنت متأكد من حذف هذا العنصر ؟",
     EnglishName: 'اسم انجليزي',
-    ArabicName: "اسم عربي"
+    ArabicName: "اسم عربي",
+    Image: 'اختر صورة '
   }
 }

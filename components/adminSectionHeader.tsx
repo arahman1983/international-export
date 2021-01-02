@@ -8,10 +8,15 @@ export default function AdminSectionHeader ({sectionName, handleAdd}) {
   return(
     <div className="row justify-content-between">
         <h1 className="textPrimary mt-3">{sectionName}</h1>
-        <button className="btn btnPrimary" onClick={handleAdd}>
-          <FontAwesomeIcon icon={faPlus} color="#FFF" style={{ width: '15px', marginRight: '0.7rem' }} />
-          <span>{t('Add')}</span>
-        </button>
-      </div>
+        {
+          sectionName !==  t('About') 
+          ?
+            <button className="btn btnPrimary" onClick={handleAdd}>
+              <FontAwesomeIcon icon={faPlus} color="#FFF" style={{ width: '15px', marginRight: '0.7rem' }} />
+              <span>{t('Add')}</span>
+            </button>
+          : null
+        }
+    </div>
   )
 }
