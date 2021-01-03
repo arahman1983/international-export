@@ -50,7 +50,9 @@ export const LangStrings = {
     KeyWords: 'Key Words',
     EmailTitle: 'Email',
     UserName:'Username',
-    Password: 'Password'
+    Password: 'Password',
+    Phones: 'Phones',
+    Address: 'Address'
 
   }, 
   ar : {
@@ -103,7 +105,9 @@ export const LangStrings = {
     KeyWords: 'الكلمات الدلالية',
     EmailTitle: 'البريد الالكتروني',
     UserName:'اسم المستخدم',
-    Password: 'كلمة المرور'
+    Password: 'كلمة المرور',
+    Phones: 'التليفونات',
+    Address: 'العنوان'
 
   }
 }
