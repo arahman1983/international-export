@@ -17,4 +17,5 @@ export interface AdminAbout {
   image: string,
   createdAt: string,
   updatedAt: string,
+  keyWords: string
 }

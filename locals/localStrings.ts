@@ -46,7 +46,11 @@ export const LangStrings = {
     ArabicName: "Arabic Name",
     Image: 'Picture',
     Slide: 'Main Slide',
-    Roles: 'Roles'
+    Roles: 'Roles',
+    KeyWords: 'Key Words',
+    EmailTitle: 'Email',
+    UserName:'Username',
+    Password: 'Password'
 
   }, 
   ar : {
@@ -95,6 +99,11 @@ export const LangStrings = {
     ArabicName: "اسم عربي",
     Image: 'اختر صورة ',
     Slide: 'العرض الرئيسي',
-    Roles: 'الصلاحيات'
+    Roles: 'الصلاحيات',
+    KeyWords: 'الكلمات الدلالية',
+    EmailTitle: 'البريد الالكتروني',
+    UserName:'اسم المستخدم',
+    Password: 'كلمة المرور'
+
   }
 }

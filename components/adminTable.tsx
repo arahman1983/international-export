@@ -1,11 +1,9 @@
 import useTranslation from "../locals/localHook"
 import {DeleteBtn, EditBtn, ActiveBtn} from '../components'
-import { AdminCategory } from "../types/categories"
 
 
 export default function AdminTable({tableTitles, items, restoreItem, handleDelete, handleEdit}) {
   const cols =  items?.map(item => Object.values(item))
-
   return (
     <div className="row">
       <table className="table">
@@ -27,11 +25,11 @@ export default function AdminTable({tableTitles, items, restoreItem, handleDelet
                       <td key={i}>{col}</td>
                     ))
                   }
-                  <td>{
+                  <td>{item[item.length-1]}{
                   !item[item.length-1]
-                  ? <DeleteBtn handleDelete={()=>handleDelete(items.find((tItem:AdminCategory) => tItem.id == item[0]))}  /> 
-                  : <ActiveBtn restoreItem={()=>restoreItem(items.find((tItem:AdminCategory) => tItem.id == item[0]))}  />  }</td>
-                  <td>{ <EditBtn handleEdit={()=>handleEdit(items.find((tItem:AdminCategory) => tItem.id == item[0]))} />}</td>
+                  ? <DeleteBtn handleDelete={()=>handleDelete(items.find((tItem) => tItem.id == item[0]))} /> 
+                  : <ActiveBtn restoreItem={()=>restoreItem(items.find((tItem) => tItem.id == item[0]))} />  }</td>
+                  <td>{<EditBtn handleEdit={()=>handleEdit(items.find((tItem) => tItem.id == item[0]))} />}</td>
                 </tr>
               ))
             }

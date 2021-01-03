@@ -23,6 +23,7 @@ export default function AdminAbout({ aboutProp, ...props }) {
       details: about ? about.details : '',
       details_ar: about ? about.details_ar : '',
       image: about ? about.image : '',
+      keyWords: about ? about.keyWords : ''
     },
     validationSchema: Yup.object({
       title: Yup.string().required('Required'),
@@ -31,7 +32,8 @@ export default function AdminAbout({ aboutProp, ...props }) {
       description_ar: Yup.string().required('Required'),
       details: Yup.string().required('Required'),
       details_ar: Yup.string().required('Required'),
-      image: Yup.mixed().required('Required')
+      image: Yup.mixed().required('Required'),
+      keyWords: Yup.string().required('Required')
     }),
     onSubmit: values => {
       setAbout({ ...values });
@@ -142,6 +144,20 @@ export default function AdminAbout({ aboutProp, ...props }) {
                 formik.touched.details_ar && formik.errors.details_ar ?
                   <div className="alert alert-danger my-3" role="alert">
                     {formik.errors.details_ar}
+                  </div>
+                  : null
+              }
+            </div>
+            <div className="form-group">
+              <label htmlFor="keyWords">{t('KeyWords')}</label>
+              <input type="text"
+                className="form-control"
+                id='keyWords'
+                {...formik.getFieldProps('keyWords')} />
+              {
+                formik.touched.keyWords && formik.errors.keyWords ?
+                  <div className="alert alert-danger my-3" role="alert">
+                    {formik.errors.keyWords}
                   </div>
                   : null
               }
