@@ -44,7 +44,9 @@ export const LangStrings = {
     ConfirmMessage: "Do you really want to delete this item ?",
     EnglishName: 'English Name',
     ArabicName: "Arabic Name",
-    Image: 'Upload Image'
+    Image: 'Picture',
+    Slide: 'Main Slide',
+    Roles: 'Roles'
 
   }, 
   ar : {
@@ -91,6 +93,8 @@ export const LangStrings = {
     ConfirmMessage: "هل أنت متأكد من حذف هذا العنصر ؟",
     EnglishName: 'اسم انجليزي',
     ArabicName: "اسم عربي",
-    Image: 'اختر صورة '
+    Image: 'اختر صورة ',
+    Slide: 'العرض الرئيسي',
+    Roles: 'الصلاحيات'
   }
 }

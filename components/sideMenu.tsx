@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import { faTimes, faBars, faUsers, faPuzzlePiece, faCopyright, faCar, faPhoneAlt, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faBars, faUsers, faPuzzlePiece, faCopyright, faCar, faPhoneAlt, faInfoCircle, faImages, faUserTag } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from '../styles/sideMenu.module.css'
 import { useRouter } from 'next/router'
@@ -20,6 +20,11 @@ export default function SideMenu() {
       title: t('About'),
       link: '/admin/about',
       icon: faInfoCircle
+    },
+    {
+      title: t('Slide'),
+      link: '/admin/slide',
+      icon: faImages
     },
     {
       title: t('Categories'),
@@ -45,6 +50,11 @@ export default function SideMenu() {
       title: t('Users'),
       link: '/admin/users',
       icon: faUsers
+    },
+    {
+      title: t('Roles'),
+      link: '/admin/roles',
+      icon: faUserTag
     }
 
   ]

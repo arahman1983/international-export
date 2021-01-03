@@ -22,6 +22,7 @@ export default function CategoryForm({type, item, handleClose, editItem, addItem
   return(
     <form className="my-4 row" onSubmit={formik.handleSubmit}>
       <div className="form-group col-md-6">
+        <label>{t("EnglishName")}</label>
         <input type="text" className="form-control" id="title"
         {...formik.getFieldProps('title')}
         placeholder={t("EnglishName")}/>
@@ -34,6 +35,7 @@ export default function CategoryForm({type, item, handleClose, editItem, addItem
         }
       </div>
       <div className="form-group col-md-6" style={{position: 'relative'}}>
+        <label>{t("ArabicName")}</label>
         <input type="text" id="title_ar" className="form-control" 
         {...formik.getFieldProps('title_ar')}
         placeholder={t("ArabicName")}/>

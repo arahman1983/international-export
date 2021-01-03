@@ -1,3 +1,5 @@
+import { faRoad } from '@fortawesome/free-solid-svg-icons'
+
 export { default as Layout } from './layout'
 export { default as Header } from './header'
 export { default as Footer } from './footer'
@@ -31,4 +33,5 @@ export { default as ActiveBtn } from './utilities/activeButton'
 export { default as ConfirmDelete } from './forms/confirmDelete'
 export { default as CategoryForm } from './forms/categoryForm'
 export { default as BrandForm } from './forms/brandForm'
-export {default as UploadImage} from './forms/uploadImage'
+export { default as UploadImage } from './forms/uploadImage'
+export { default as SliderForm } from './forms/sliderForm'

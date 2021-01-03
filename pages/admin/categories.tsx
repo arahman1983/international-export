@@ -3,14 +3,14 @@ import { AdminLayout, AdminSectionHeader, AdminTable,AdmenFilterByDelete,
   AdminModal, ConfirmDelete, CategoryForm } from '../../components'
 import useTranslation from "../../locals/localHook"
 import {AdminCategory} from '../../types/categories'
-import brandsReducer from "../../reducers/brands/reducer";
-import { addBrand, editBrand } from "../../reducers/brands/actions";
+import categoriesReducer from "../../reducers/categories/reducer";
+import { addCategory, editCategory } from "../../reducers/categories/actions";
 
 
 export default function CategoriesAdmin({ categories }) {
   const { t } = useTranslation()
   
-  const [allCategories, dispatchCategories] = useReducer(brandsReducer, categories)
+  const [allCategories, dispatchCategories] = useReducer(categoriesReducer, categories)
   const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allCategories.filter((category:AdminCategory) => !category.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
@@ -25,25 +25,25 @@ export default function CategoriesAdmin({ categories }) {
 
   const confirmDelete = () => {
     /// API for Edit
-    dispatchCategories(editBrand(selected.id,{...selected, isDeleted: true}))
+    dispatchCategories(editCategory(selected.id,{...selected, isDeleted: true}))
     handleClose()
   }
 
   const restoreItem = (item:AdminCategory) => {
     /// API for Edit
-    dispatchCategories(editBrand(item.id,{...item, isDeleted: false}))
+    dispatchCategories(editCategory(item.id,{...item, isDeleted: false}))
     handleClose()
   }
 
   const editItem = (item:AdminCategory) => {
     /// API for Edit
-    dispatchCategories(editBrand(item.id,{...item}))
+    dispatchCategories(editCategory(item.id,{...item}))
     handleClose()
   }
 
   const addItem = (item:AdminCategory) => {
     /// API for Add
-    dispatchCategories(addBrand({id: categories.length+1 ,...item}))
+    dispatchCategories(addCategory({id: categories.length+1 ,...item}))
     handleClose()
   }
 

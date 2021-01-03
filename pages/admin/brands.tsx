@@ -1,49 +1,65 @@
 import { useState, useEffect, useRef, useReducer } from 'react'
-import { AdminLayout, AdminSectionHeader, AdminTable,AdmenFilterByDelete, 
-  AdminModal, ConfirmDelete, BrandForm } from '../../components'
+import {
+  AdminLayout, AdminSectionHeader, AdminTable, AdmenFilterByDelete,
+  AdminModal, ConfirmDelete, BrandForm
+} from '../../components'
 import useTranslation from "../../locals/localHook"
-import {AdminCategory} from '../../types/categories'
-import categoriesReducer from "../../reducers/categories/reducer";
-import { addCategory, editCategory } from "../../reducers/categories/actions";
+import { AdminCategory } from '../../types/categories'
+import brandsReducer from "../../reducers/brands/reducer";
+import { addBrand, editBrand } from "../../reducers/brands/actions";
 
 
 export default function BrandsAdmin({ brands }) {
   const { t } = useTranslation()
-  
-  const [allBrands, dispatchBrands] = useReducer(categoriesReducer, brands)
-  const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allBrands.filter((brand:AdminCategory) => !brand.isDeleted))
+
+  const [allBrands, dispatchBrands] = useReducer(brandsReducer, brands)
+  const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allBrands.filter((brand: AdminCategory) => !brand.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
   const [selected, setSelected] = useState<AdminCategory | undefined>()
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
-  
+
   let tableTitles = ['#', t('Title'), t('A rTitle'), t('CrDate'), t('UpDate'), '']
-  
+
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
   const confirmDelete = () => {
     /// API for Edit
-    dispatchBrands(editCategory(selected.id,{...selected, isDeleted: true}))
+    dispatchBrands(editBrand(selected.id, { ...selected, isDeleted: true }))
     handleClose()
   }
 
-  const restoreItem = (item:AdminCategory) => {
+  const restoreItem = (item: AdminCategory) => {
     /// API for Edit
-    dispatchBrands(editCategory(item.id,{...item, isDeleted: false}))
+    dispatchBrands(editBrand(item.id, { ...item, isDeleted: false }))
     handleClose()
   }
 
-  const editItem = (item:AdminCategory) => {
+  const editItem = (item: AdminCategory) => {
     /// API for Edit
-    dispatchBrands(editCategory(item.id,{...item}))
+    dispatchBrands(editBrand(item.id, {
+      id: item.id,
+      title: item.title,
+      title_ar: item.title_ar,
+      createdAt: item.createdAt,
+      updatedAt: new Date().toLocaleString(),
+      isDeleted: item.isDeleted
+    }))
     handleClose()
   }
 
-  const addItem = (item:AdminCategory) => {
+  const addItem = (item: AdminCategory) => {
     /// API for Add
-    dispatchBrands(addCategory({id: brands.length+1 ,...item}))
+    dispatchBrands(addBrand({
+      id: brands.length + 1,
+      title: item.title,
+      title_ar: item.title_ar,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+      isDeleted: false
+    }))
     handleClose()
   }
 
@@ -52,13 +68,13 @@ export default function BrandsAdmin({ brands }) {
     handleShow()
   }
 
-  const handleDelete = (item:AdminCategory) => {
+  const handleDelete = (item: AdminCategory) => {
     setModalType("delete")
     handleShow()
     setSelected(item)
   }
 
-  const handleEdit = (item:AdminCategory) => {
+  const handleEdit = (item: AdminCategory) => {
     setModalType("edit")
     handleShow()
     setSelected(item)
@@ -69,11 +85,11 @@ export default function BrandsAdmin({ brands }) {
     setFilterDelete(selectedVal)
     if (selectedVal === "true") {
       setFilteredCategories(
-        allBrands.filter((brand: AdminCategory)  => brand.isDeleted === true)
+        allBrands.filter((brand: AdminCategory) => brand.isDeleted === true)
       )
     } else if (selectedVal === "false") {
       setFilteredCategories(
-        allBrands.filter((brand: AdminCategory)  => brand.isDeleted === false)
+        allBrands.filter((brand: AdminCategory) => brand.isDeleted === false)
       )
     } else {
       setFilteredCategories(allBrands)
@@ -86,18 +102,18 @@ export default function BrandsAdmin({ brands }) {
 
   return (
     <AdminLayout>
-      <AdminSectionHeader 
-        sectionName={t("Brands")} 
+      <AdminSectionHeader
+        sectionName={t("Brands")}
         handleAdd={handleAdd} />
       <hr />
-      <AdmenFilterByDelete 
-        filterRef = {filterRef}
-        filterDelete={filterDelete} 
+      <AdmenFilterByDelete
+        filterRef={filterRef}
+        filterDelete={filterDelete}
         filterChange={filterChange} />
       <hr />
-      <AdminTable tableTitles={tableTitles} 
-        items={filteredCategories} 
-        handleDelete={handleDelete} 
+      <AdminTable tableTitles={tableTitles}
+        items={filteredCategories}
+        handleDelete={handleDelete}
         restoreItem={restoreItem}
         handleEdit={handleEdit} />
       <AdminModal
@@ -133,24 +149,24 @@ export async function getStaticProps() {
           id: 1,
           title: "Brand Name",
           title_ar: "اسم العلامة",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
+          createdAt: '2020-12-31 10:30:00',
+          updatedAt: '2020-12-31 10:30:00',
           isDeleted: false
         },
         {
           id: 2,
           title: "Brand Name",
           title_ar: "اسم العلامة",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
+          createdAt: '2020-12-31 10:30:00',
+          updatedAt: '2020-12-31 10:30:00',
           isDeleted: true
         },
         {
           id: 3,
           title: "Brand Name",
           title_ar: "اسم العلامة",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
+          createdAt: '2020-12-31 10:30:00',
+          updatedAt: '2020-12-31 10:30:00',
           isDeleted: false
         },
       ]

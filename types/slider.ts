@@ -3,3 +3,16 @@ export default interface Slide{
   h2?: string;
   image: string;
 }
+
+
+export interface AdminSlide{
+  id: number;
+  title?: string;
+  title_ar?: string;
+  description?: string;
+  description_ar?: string;
+  image: any;
+  createdAt: string;
+  updatedAt: string;
+  isDeleted: boolean
+}

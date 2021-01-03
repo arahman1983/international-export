@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 
 
-export default function UploadImage({picUrl, setFile}) {
+export default function UploadImage({picUrl, setFile, ...props}) {
   const SUPPORTED_FORMATS = [".jpg", ".gif", ".png", ".gif"];
   const FILE_SIZE = 10000;
   const imageRef = useRef()
@@ -22,6 +22,7 @@ export default function UploadImage({picUrl, setFile}) {
       //this.handleSubmit()
       setFile(file)
       setPicURL(null)
+      props.getBase && props.getBase(reader.result)
     };
   }
 
