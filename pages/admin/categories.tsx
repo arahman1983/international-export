@@ -5,46 +5,92 @@ import useTranslation from "../../locals/localHook"
 import {AdminCategory} from '../../types/categories'
 import categoriesReducer from "../../reducers/categories/reducer";
 import { addCategory, editCategory } from "../../reducers/categories/actions";
+import { useGet } from '../../lib/swr-hooks'
 
-
-export default function CategoriesAdmin({ categories }) {
+export default function CategoriesAdmin() {
   const { t } = useTranslation()
-  
-  const [allCategories, dispatchCategories] = useReducer(categoriesReducer, categories)
+  const {data, isLoading, isError}  = useGet('/api/categories/all')
+  const [allCategories, dispatchCategories] = useReducer(categoriesReducer, data && data.map(d => ({
+    id: d.id,
+    title: d.title,
+    title_ar: d.title_ar,
+    createdAt: d.created_at,
+    updatedAt: d.updated_at,
+    isDeleted: d.isDeleted
+  })))
   const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allCategories.filter((category:AdminCategory) => !category.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
   const [selected, setSelected] = useState<AdminCategory | undefined>()
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
+
   
-  let tableTitles = ['#', t('Title'), t('A rTitle'), t('CrDate'), t('UpDate'), '']
-  
+  let tableTitles = ['#', t('Title'), t('ArTitle'), t('CrDate'), t('UpDate'), '']
+
+  const editFetch = async (values) =>{
+    try {
+      const res = await fetch('/api/categories/edit', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id : values.id,
+          title: values.title,
+          title_ar: values.title_ar,
+          isDeleted: values.isDeleted
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      dispatchCategories(editCategory(values.id,{...values, isDeleted: 1}))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
+
+
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
   const confirmDelete = () => {
     /// API for Edit
-    dispatchCategories(editCategory(selected.id,{...selected, isDeleted: true}))
-    handleClose()
+    editFetch({...selected, isDeleted: 1})
   }
 
   const restoreItem = (item:AdminCategory) => {
     /// API for Edit
-    dispatchCategories(editCategory(item.id,{...item, isDeleted: false}))
-    handleClose()
+    editFetch({...item, isDeleted: 0})
   }
 
   const editItem = (item:AdminCategory) => {
     /// API for Edit
-    dispatchCategories(editCategory(item.id,{...item}))
-    handleClose()
+    editFetch({...item})
   }
 
-  const addItem = (item:AdminCategory) => {
+  const addItem = async (item:AdminCategory) => {
     /// API for Add
-    dispatchCategories(addCategory({id: categories.length+1 ,...item}))
-    handleClose()
+    try {
+      const res = await fetch('/api/categories/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: item.title,
+          title_ar: item.title_ar,
+        }),
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      dispatchCategories(addCategory({id: json.insertId ,...item}))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
   }
 
   const handleAdd = () => {
@@ -69,11 +115,11 @@ export default function CategoriesAdmin({ categories }) {
     setFilterDelete(selectedVal)
     if (selectedVal === "true") {
       setFilteredCategories(
-        allCategories.filter((category: AdminCategory)  => category.isDeleted === true)
+        allCategories.filter((category: AdminCategory)  => category.isDeleted === 1)
       )
     } else if (selectedVal === "false") {
       setFilteredCategories(
-        allCategories.filter((category: AdminCategory)  => category.isDeleted === false)
+        allCategories.filter((category: AdminCategory)  => category.isDeleted === 0)
       )
     } else {
       setFilteredCategories(allCategories)
@@ -119,41 +165,4 @@ export default function CategoriesAdmin({ categories }) {
         } />
     </AdminLayout>
   )
-}
-
-
-export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
-
-  return {
-    props: {
-      categories: [
-        {
-          id: 1,
-          title: "Category Name",
-          title_ar: "اسم الصنف",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-        {
-          id: 2,
-          title: "Category Name",
-          title_ar: "اسم الصنف",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
-          isDeleted: true
-        },
-        {
-          id: 3,
-          title: "Category Name",
-          title_ar: "اسم الصنف",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-      ]
-    },
-  }
 }

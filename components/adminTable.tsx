@@ -25,7 +25,7 @@ export default function AdminTable({tableTitles, items, restoreItem, handleDelet
                       <td key={i}>{col}</td>
                     ))
                   }
-                  <td>{item[item.length-1]}{
+                  <td>{
                   !item[item.length-1]
                   ? <DeleteBtn handleDelete={()=>handleDelete(items.find((tItem) => tItem.id == item[0]))} /> 
                   : <ActiveBtn restoreItem={()=>restoreItem(items.find((tItem) => tItem.id == item[0]))} />  }</td>

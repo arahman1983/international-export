@@ -9,5 +9,5 @@ export interface AdminCategory {
   title_ar: string;
   createdAt?: string;
   updatedAt?: string;
-  isDeleted: boolean;
+  isDeleted: number;
 }
