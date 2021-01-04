@@ -6,7 +6,7 @@ export default interface About {
 }
 
 
-export interface AdminAbout {
+export interface AboutAdmin {
   id: number,
   title: string,
   title_ar: string,

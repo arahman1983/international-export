@@ -1,3 +1,4 @@
+import { verify } from 'jsonwebtoken';
 import { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik'
 import * as Yup from 'yup';
@@ -5,14 +6,42 @@ import { AdminLayout, AdminSectionHeader, UploadImage } from '../../components'
 import useTranslation from "../../locals/localHook"
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
+import { useGet } from '../../lib/swr-hooks'
+import {AboutAdmin} from '../../types/about';
 
-export default function AdminAbout({ aboutProp, ...props }) {
-  const [about, setAbout] = useState(aboutProp ? aboutProp : {})
+
+
+
+export default function AdminAbout({ ...props }) {
+
+  const {data, isLoading, isError}  = useGet('/api/about/about')
+  const [about, setAbout] = useState<AboutAdmin | undefined>(data ? data[0] : {})
   const { t } = useTranslation()
   const SUPPORTED_FORMATS = [".jpg", ".gif", ".png", ".gif"]
   const FILE_SIZE = 10000
   const [changed, setChanged] = useState(false)
 
+  useEffect(() => {
+    data && setAbout(data[0])
+  }, [data])
+
+  async function submitHandler(values) {
+    try {
+      const res = await fetch('/api/about/editAbout', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: about.id,...values }),
+      })
+      const json = await res.json()
+      if (!res.ok) console.log(json.message)
+      setAbout({ ...values });
+      setChanged(false)
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -36,20 +65,21 @@ export default function AdminAbout({ aboutProp, ...props }) {
       keyWords: Yup.string().required('Required')
     }),
     onSubmit: values => {
-      setAbout({ ...values });
-      setChanged(false)
+      submitHandler(values)
     }
   })
 
   const setFile = (file) => formik.values.image = file
 
-
   useEffect(() => {
-    let changes = Object.keys(formik.values).filter(key => formik.values[key] !== about[key])
-    if (changes.length > 0) {
-      setChanged(true)
-    } else {
-      setChanged(false)
+    let changes;
+    if(data){
+      changes = Object.keys(formik.values).filter(key => formik.values[key] !== about[key])
+      if (changes.length > 0) {
+        setChanged(true)
+      } else {
+        setChanged(false)
+      }
     }
   }, [formik.values])
 
@@ -180,28 +210,3 @@ export default function AdminAbout({ aboutProp, ...props }) {
   )
 }
 
-
-
-export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
-
-  return {
-    props: {
-      aboutProp:
-      {
-        id: 1,
-        title: "About Title",
-        title_ar: "عنوان حول الشركة",
-        description: 'About description',
-        description_ar: 'ملخص حول الشركة',
-        details: 'About Company details',
-        details_ar: 'تفاصيل حول الشركة',
-        image: '/images/logo.png',
-        createdAt: '2020-12-31 10:30:00',
-        updatedAt: '2020-12-31 10:30:00',
-
-      },
-    }
-  }
-}

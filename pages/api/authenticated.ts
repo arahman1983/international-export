@@ -14,7 +14,6 @@ export const authenticated = (fn: NextApiHandler) => async (
     if (!err && decoded) {
       return await fn(req, res);
     }
-
     res.status(401).json({ message: 'Sorry you are not authenticated' });
   });
 };

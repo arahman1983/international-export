@@ -31,16 +31,16 @@ async function migrate() {
   try {
     await query(`
     CREATE TABLE IF NOT EXISTS about (
-      a_id INT AUTO_INCREMENT PRIMARY KEY,
-      a_title TEXT NOT NULL,
-      a_title_ar TEXT NOT NULL,
-      a_description TEXT NOT NULL,
-      a_description_ar TEXT NOT NULL,
-      a_details TEXT NOT NULL,
-      a_details_ar TEXT NOT NULL,
-      a_main_img TEXT NOT NULL,
-      a_keywords TEXT NOT NULL,
-      a_isDeleted BOOLEAN NOT NULL DEFAULT 0,
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title TEXT NOT NULL,
+      title_ar TEXT NOT NULL,
+      description TEXT NOT NULL,
+      description_ar TEXT NOT NULL,
+      details TEXT NOT NULL,
+      details_ar TEXT NOT NULL,
+      image TEXT NOT NULL,
+      keyWords TEXT NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at 
         TIMESTAMP 
@@ -80,10 +80,10 @@ async function migrate() {
     `)
     await query(`
     CREATE TABLE IF NOT EXISTS categories (
-      ct_id INT AUTO_INCREMENT PRIMARY KEY,
-      ct_title TEXT NOT NULL,
-      ct_title_ar TEXT NOT NULL,
-      ct_isDeleted BOOLEAN NOT NULL DEFAULT 0,
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title TEXT NOT NULL,
+      title_ar TEXT NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at 
         TIMESTAMP 
@@ -94,11 +94,11 @@ async function migrate() {
     `)
     await query(`
     CREATE TABLE IF NOT EXISTS brands (
-      br_id INT AUTO_INCREMENT PRIMARY KEY,
-      br_title TEXT NOT NULL,
-      br_title_ar TEXT NOT NULL,
-      br_image TEXT NOT NULL,
-      br_isDeleted BOOLEAN NOT NULL DEFAULT 0,
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title TEXT NOT NULL,
+      title_ar TEXT NOT NULL,
+      image TEXT NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at 
         TIMESTAMP 
@@ -109,18 +109,18 @@ async function migrate() {
     `)
     await query(`
     CREATE TABLE IF NOT EXISTS products (
-      pr_id INT AUTO_INCREMENT PRIMARY KEY,
-      pr_title TEXT NOT NULL,
-      pr_title_ar TEXT NOT NULL,
-      pr_description TEXT NOT NULL,
-      pr_description_ar TEXT NOT NULL,
-      pr_details TEXT NOT NULL,
-      pr_details_ar TEXT NOT NULL,
-      pr_ct_id INT NOT NULL,
-      pr_br_id INT NOT NULL,
-      pr_main_img TEXT NOT NULL,
-      pr_keywords TEXT NOT NULL,
-      pr_isDeleted BOOLEAN NOT NULL DEFAULT 0,
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title TEXT NOT NULL,
+      title_ar TEXT NOT NULL,
+      description TEXT NOT NULL,
+      description_ar TEXT NOT NULL,
+      details TEXT NOT NULL,
+      details_ar TEXT NOT NULL,
+      ct_id INT NOT NULL,
+      br_id INT NOT NULL,
+      image TEXT NOT NULL,
+      keyWords TEXT NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at 
         TIMESTAMP 
@@ -131,11 +131,11 @@ async function migrate() {
     `)
     await query(`
     CREATE TABLE IF NOT EXISTS contact (
-      co_id INT AUTO_INCREMENT PRIMARY KEY,
-      co_address TEXT NOT NULL,
-      co_address_ar TEXT NOT NULL,
-      co_phones TEXT NOT NULL,
-      co_emails TEXT NOT NULL,
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      address TEXT NOT NULL,
+      address_ar TEXT NOT NULL,
+      phones TEXT NOT NULL,
+      emails TEXT NOT NULL,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at 
         TIMESTAMP 
@@ -146,13 +146,13 @@ async function migrate() {
     `)
     await query(`
     CREATE TABLE IF NOT EXISTS sliders (
-      sl_id INT AUTO_INCREMENT PRIMARY KEY,
-      sl_title TEXT NOT NULL,
-      sl_title_ar TEXT NOT NULL,
-      sl_description TEXT NOT NULL,
-      sl_description_ar TEXT NOT NULL,
-      sl_img TEXT NOT NULL,
-      sl_isDeleted BOOLEAN NOT NULL DEFAULT 0,
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      title TEXT NOT NULL,
+      title_ar TEXT NOT NULL,
+      description TEXT NOT NULL,
+      description_ar TEXT NOT NULL,
+      image TEXT NOT NULL,
+      isDeleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at 
         TIMESTAMP 
@@ -170,6 +170,9 @@ async function migrate() {
     await query(`
       INSERT INTO users (u_name, u_password, u_email, u_r_id) VALUES ('Abdelrahman', 'arahman1783@yahoo.com', '12oglg8e', 1)
     `)
+    await query(`
+      INSERT INTO about (title, title_ar, description, description_ar, details, details_ar, image, keyWords) VALUES ('About Expo', 'عن الشركة' , 'About Description', 'ملخص عن الشركة',  'About Details', 'تفاصيل عن الشركة', '/images/logo.png', 'cars, spare parts')
+      `)
     console.log('migration ran successfully')
   } catch (e) {
     console.error('could not run migration, double check your credentials.')
