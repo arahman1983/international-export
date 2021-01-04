@@ -7,6 +7,7 @@ import useTranslation from "../../locals/localHook"
 import { User } from '../../types/users'
 import usersReducer from "../../reducers/users/reducer";
 import { addUser, editUser } from "../../reducers/users/actions";
+import fetch from 'isomorphic-unfetch'
 
 
 export default function UsersAdmin({ usersProps, rolesProps }) {
@@ -53,18 +54,41 @@ export default function UsersAdmin({ usersProps, rolesProps }) {
     handleClose()
   }
 
-  const addItem = (item: User) => {
+  const addItem = async (item: User) => {
     /// API for Add
-    dispatchUsers(addUser({
-      id: usersProps.length + 1,
-      userName: item.userName,
-      email: item.email,
-      role: item.role,
-      createdAt: new Date().toLocaleString(),
-      updatedAt: new Date().toLocaleString(),
-      isDeleted: false
-    }))
-    handleClose()
+    try {
+      const res = await fetch('/api/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: item.userName,
+          password: item.password,
+          email: item.email,
+          role: item.role
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok){
+        console.log(json.message)
+      } else {
+        dispatchUsers(addUser({
+          id: usersProps.length + 1,
+          userName: item.userName,
+          email: item.email,
+          role: item.role,
+          createdAt: new Date().toLocaleString(),
+          updatedAt: new Date().toLocaleString(),
+          isDeleted: false
+        }))
+        handleClose()
+      }
+
+    } catch (e) {
+      console.log(e.message)
+    }
+    
   }
 
   const handleAdd = () => {

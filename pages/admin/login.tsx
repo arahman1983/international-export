@@ -2,15 +2,38 @@ import {useState, useRef} from 'react'
 import styles from '../../styles/adminlogin.module.css'
 import useTranslation from '../../locals/localHook'
 import { useFormik } from 'formik';
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import * as Yup from 'yup';
-import { faLock, faLockOpen } from '@fortawesome/free-solid-svg-icons'
+import { faLock, faLockOpen, faRoad } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import fetch from 'isomorphic-unfetch'
 
 export default function Login() {
   const {t} = useTranslation()
+  const router = useRouter()
   const [showPass, setShowPass] = useState(false)
+  const [message, setMessage] = useState('')
+
+  const postSignIn = async (values) => {
+    try {
+      const resp = await fetch('/api/users/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password
+      })
+    });
+    const json = await resp.json();
+    router.push('/admin/about')
+    
+    } catch (e) {
+      console.log(e.message)
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -23,7 +46,9 @@ export default function Login() {
     }),
     onSubmit: values => {
       // send to login API
-      console.log(JSON.stringify(values, null, 2));
+      postSignIn(values).then(()=>{
+        console.log(JSON.stringify(values, null, 2));
+      })
     },
   })
 
@@ -73,6 +98,11 @@ export default function Login() {
             <div className="form-group"><input type="submit" className="btn btn-secondary btn-block"/></div>
 
           </form>
+          {
+            message && <div className="alert alert-danger my-3" role="alert">
+              {message}
+            </div>
+          }
         </div>
       </div>
     </div>

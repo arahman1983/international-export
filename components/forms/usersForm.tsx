@@ -82,7 +82,7 @@ export default function UserForm({type, item, handleClose, editItem, addItem, ro
           placeholder={t("Roles")}>
             <option value="" disabled>Select Role</option>
             {
-              rolesProps.map(role => <option value={role.id}>{role.title}</option>)
+              rolesProps.map((role, i) => <option key={i} value={role.id}>{role.title}</option>)
             }
 
           </select>
