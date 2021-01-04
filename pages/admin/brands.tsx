@@ -7,12 +7,21 @@ import useTranslation from "../../locals/localHook"
 import { AdminCategory } from '../../types/categories'
 import brandsReducer from "../../reducers/brands/reducer";
 import { addBrand, editBrand } from "../../reducers/brands/actions";
+import { useGet } from '../../lib/swr-hooks'
 
-
-export default function BrandsAdmin({ brands }) {
+export default function BrandsAdmin() {
   const { t } = useTranslation()
+  const {data, isLoading, isError}  = useGet('/api/brands/all')
 
-  const [allBrands, dispatchBrands] = useReducer(brandsReducer, brands)
+  const [allBrands, dispatchBrands] = useReducer(brandsReducer, data ? data.map(d => ({
+    id: d.id,
+    title: d.title,
+    title_ar: d.title_ar,
+    image: d.image,
+    createdAt: d.created_at,
+    updatedAt: d.updated_at,
+    isDeleted: d.isDeleted
+  })): [])
   const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allBrands.filter((brand: AdminCategory) => !brand.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
@@ -20,47 +29,73 @@ export default function BrandsAdmin({ brands }) {
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
 
-  let tableTitles = ['#', t('Title'), t('A rTitle'), t('CrDate'), t('UpDate'), '']
+  let tableTitles = ['#', t('Title'), t('ArTitle'), t('CrDate'), t('UpDate'), '']
+
+  const editFetch = async (values) =>{
+    try {
+      const res = await fetch('/api/brands/edit', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id : values.id,
+          title: values.title,
+          title_ar: values.title_ar,
+          image: '/images/bmw.png',
+          isDeleted: values.isDeleted
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      dispatchBrands(editBrand(values.id,{...values, isDeleted: values.isDeleted}))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
   const confirmDelete = () => {
     /// API for Edit
-    dispatchBrands(editBrand(selected.id, { ...selected, isDeleted: true }))
-    handleClose()
+    editFetch({...selected, isDeleted: 1})
   }
 
   const restoreItem = (item: AdminCategory) => {
     /// API for Edit
-    dispatchBrands(editBrand(item.id, { ...item, isDeleted: false }))
-    handleClose()
+    editFetch({...item, isDeleted: 0})
   }
 
   const editItem = (item: AdminCategory) => {
     /// API for Edit
-    dispatchBrands(editBrand(item.id, {
-      id: item.id,
-      title: item.title,
-      title_ar: item.title_ar,
-      createdAt: item.createdAt,
-      updatedAt: new Date().toLocaleString(),
-      isDeleted: item.isDeleted
-    }))
-    handleClose()
+    editFetch({...item})
   }
 
-  const addItem = (item: AdminCategory) => {
+  const addItem = async (item: AdminCategory) => {
     /// API for Add
-    dispatchBrands(addBrand({
-      id: brands.length + 1,
-      title: item.title,
-      title_ar: item.title_ar,
-      createdAt: item.createdAt,
-      updatedAt: item.updatedAt,
-      isDeleted: false
-    }))
-    handleClose()
+    try {
+      const res = await fetch('/api/brands/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: item.title,
+          title_ar: item.title_ar,
+          image: '/images/bmw.png',
+          isDeleted: 0
+        }),
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      dispatchBrands(addBrand({id: json.insertId ,...item}))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
   }
 
   const handleAdd = () => {
@@ -85,11 +120,11 @@ export default function BrandsAdmin({ brands }) {
     setFilterDelete(selectedVal)
     if (selectedVal === "true") {
       setFilteredCategories(
-        allBrands.filter((brand: AdminCategory) => brand.isDeleted === true)
+        allBrands.filter((brand: AdminCategory) => brand.isDeleted === 1)
       )
     } else if (selectedVal === "false") {
       setFilteredCategories(
-        allBrands.filter((brand: AdminCategory) => brand.isDeleted === false)
+        allBrands.filter((brand: AdminCategory) => brand.isDeleted === 0)
       )
     } else {
       setFilteredCategories(allBrands)
@@ -135,41 +170,4 @@ export default function BrandsAdmin({ brands }) {
         } />
     </AdminLayout>
   )
-}
-
-
-export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
-
-  return {
-    props: {
-      brands: [
-        {
-          id: 1,
-          title: "Brand Name",
-          title_ar: "اسم العلامة",
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-        {
-          id: 2,
-          title: "Brand Name",
-          title_ar: "اسم العلامة",
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: true
-        },
-        {
-          id: 3,
-          title: "Brand Name",
-          title_ar: "اسم العلامة",
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-      ]
-    },
-  }
 }

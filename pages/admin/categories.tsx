@@ -25,16 +25,16 @@ export default function CategoriesAdmin() {
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
 
-  useEffect(() => {
-    data && data.map(d => ({
-      id: d.id,
-      title: d.title,
-      title_ar: d.title_ar,
-      createdAt: d.created_at,
-      updatedAt: d.updated_at,
-      isDeleted: d.isDeleted
-    }))
-  }, [data])
+  // useEffect(() => {
+  //   data && data.map(d => ({
+  //     id: d.id,
+  //     title: d.title,
+  //     title_ar: d.title_ar,
+  //     createdAt: d.created_at,
+  //     updatedAt: d.updated_at,
+  //     isDeleted: d.isDeleted
+  //   }))
+  // }, [data])
 
 
   let tableTitles = ['#', t('Title'), t('ArTitle'), t('CrDate'), t('UpDate'), '']
