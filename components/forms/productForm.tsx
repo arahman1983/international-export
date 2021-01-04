@@ -122,7 +122,7 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
               <label htmlFor="details">{t('Details')}</label>
               <SunEditor height={200} name="details"
                 setContents={formik.values.details}
-                onChange={(content) => formik.setValues({ details: content })}
+                onChange={(content) => formik.setValues({ ...formik.values, details: content })}
               />
               {
                 formik.touched.details && formik.errors.details ?
@@ -136,7 +136,7 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
               <label htmlFor="details_ar">{t('ArDetails')}</label>
               <SunEditor height={200} name="details_ar"
                 setContents={formik.values.details_ar}
-                onChange={(content) => formik.setValues({ details_ar: content })}
+                onChange={(content) => formik.setValues({ ...formik.values, details_ar: content })}
               />
               {
                 formik.touched.details_ar && formik.errors.details_ar ?
