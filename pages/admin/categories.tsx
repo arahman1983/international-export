@@ -10,14 +10,14 @@ import { useGet } from '../../lib/swr-hooks'
 export default function CategoriesAdmin() {
   const { t } = useTranslation()
   const {data, isLoading, isError}  = useGet('/api/categories/all')
-  const [allCategories, dispatchCategories] = useReducer(categoriesReducer, data && data.map(d => ({
+  const [allCategories, dispatchCategories] = useReducer(categoriesReducer, data ? data.map(d => ({
     id: d.id,
     title: d.title,
     title_ar: d.title_ar,
     createdAt: d.created_at,
     updatedAt: d.updated_at,
     isDeleted: d.isDeleted
-  })))
+  })): [])
   const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allCategories.filter((category:AdminCategory) => !category.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
@@ -25,7 +25,18 @@ export default function CategoriesAdmin() {
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
 
-  
+  useEffect(() => {
+    data && data.map(d => ({
+      id: d.id,
+      title: d.title,
+      title_ar: d.title_ar,
+      createdAt: d.created_at,
+      updatedAt: d.updated_at,
+      isDeleted: d.isDeleted
+    }))
+  }, [data])
+
+
   let tableTitles = ['#', t('Title'), t('ArTitle'), t('CrDate'), t('UpDate'), '']
 
   const editFetch = async (values) =>{
@@ -44,7 +55,7 @@ export default function CategoriesAdmin() {
       })
       const json = await res.json()
       if (!res.ok) throw Error(json.message)
-      dispatchCategories(editCategory(values.id,{...values, isDeleted: 1}))
+      dispatchCategories(editCategory(values.id,{...values, isDeleted: values.isDeleted}))
       handleClose()
     } catch (e) {
       throw Error(e.message)
@@ -81,6 +92,7 @@ export default function CategoriesAdmin() {
         body: JSON.stringify({
           title: item.title,
           title_ar: item.title_ar,
+          isDeleted: 0
         }),
       })
 

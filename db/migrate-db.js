@@ -54,6 +54,7 @@ async function migrate() {
       r_id INT AUTO_INCREMENT PRIMARY KEY,
       r_role TEXT NOT NULL,
       r_role_ar TEXT NOT NULL,
+      r_isDeleted BOOLEAN NOT NULL DEFAULT 0,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at 
         TIMESTAMP 

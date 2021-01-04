@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
 
     const results = await query(
       `
-      INSERT INTO categories (title, title_ar, isDeleted)
+      INSERT INTO roles (r_role, r_role_ar, r_isDeleted)
       VALUES (?, ?, ?)
       `,
       [title, title_ar, isDeleted]

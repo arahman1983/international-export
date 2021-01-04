@@ -4,13 +4,23 @@ import { AdminLayout, AdminSectionHeader, AdminTable, AdmenFilterByDelete,
 import useTranslation from "../../locals/localHook"
 import {AdminCategory} from '../../types/categories'
 import rolesReducer from "../../reducers/roles/reducer";
-import { addRole, editRole } from "../../reducers/roles/actions";
+import { setRoles, addRole, editRole } from "../../reducers/roles/actions";
+import { useGet } from '../../lib/swr-hooks'
 
 
-export default function RolesAdmin({ rolesProps }) {
+export default function RolesAdmin() {
   const { t } = useTranslation()
-  
-  const [allRoles, dispatchRoles] = useReducer(rolesReducer, rolesProps)
+  const {data, isLoading, isError}  = useGet('/api/roles/all')
+
+  const [allRoles, dispatchRoles] = useReducer(rolesReducer, data ? data.map( d => ({
+    id: d.r_id,
+    title: d.r_role,
+    title_ar: d.r_role_ar,
+    createdAt: d.created_at,
+    updatedAt: d.updated_at,
+    isDeleted: d.r_isDeleted,
+  })) : [])
+
   const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allRoles.filter((role:AdminCategory) => !role.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
@@ -18,33 +28,88 @@ export default function RolesAdmin({ rolesProps }) {
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
   
-  let tableTitles = ['#', t('Title'), t('A rTitle'), t('CrDate'), t('UpDate'), '']
+  useEffect(() => {
+    data &&  
+    dispatchRoles(setRoles(
+      data.map( d => ({
+        id: d.r_id,
+        title: d.r_role,
+        title_ar: d.r_role_ar,
+        createdAt: d.created_at,
+        updatedAt: d.updated_at,
+        isDeleted: d.r_isDeleted,
+      }))
+    ))
+    
+  }, [data])
+
+  const editFetch = async (values) =>{
+    try {
+      const res = await fetch('/api/roles/edit', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id : values.id,
+          title: values.title,
+          title_ar: values.title_ar,
+          isDeleted: values.isDeleted
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      dispatchRoles(editRole(values.id,{...values, isDeleted: values.isDeleted}))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
+  
+  
+  
+  let tableTitles = ['#', t('Title'), t('ArTitle'), t('CrDate'), t('UpDate'), '']
   
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
   const confirmDelete = () => {
     /// API for Edit
-    dispatchRoles(editRole(selected.id,{...selected, isDeleted: true}))
-    handleClose()
+    editFetch({...selected, isDeleted: 1})
   }
 
   const restoreItem = (item:AdminCategory) => {
     /// API for Edit
-    dispatchRoles(editRole(item.id,{...item, isDeleted: false}))
-    handleClose()
+    editFetch({...item, isDeleted: 0})
   }
 
   const editItem = (item:AdminCategory) => {
     /// API for Edit
-    dispatchRoles(editRole(item.id,{...item}))
-    handleClose()
+    editFetch({...item})
   }
 
-  const addItem = (item:AdminCategory) => {
+  const addItem = async (item:AdminCategory) => {
     /// API for Add
-    dispatchRoles(addRole({id: rolesProps.length+1 ,...item}))
-    handleClose()
+    try {
+      const res = await fetch('/api/roles/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: item.title,
+          title_ar: item.title_ar,
+          isDeleted: 0
+        }),
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      dispatchRoles(addRole({id: json.insertId ,...item, isDeleted : 0}))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
   }
 
   const handleAdd = () => {
@@ -69,11 +134,11 @@ export default function RolesAdmin({ rolesProps }) {
     setFilterDelete(selectedVal)
     if (selectedVal === "true") {
       setFilteredCategories(
-        allRoles.filter((category: AdminCategory)  => category.isDeleted === true)
+        allRoles.filter((category: AdminCategory)  => category.isDeleted === 1)
       )
     } else if (selectedVal === "false") {
       setFilteredCategories(
-        allRoles.filter((category: AdminCategory)  => category.isDeleted === false)
+        allRoles.filter((category: AdminCategory)  => category.isDeleted === 0)
       )
     } else {
       setFilteredCategories(allRoles)
@@ -121,31 +186,3 @@ export default function RolesAdmin({ rolesProps }) {
   )
 }
 
-
-export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
-
-  return {
-    props: {
-      rolesProps: [
-        {
-          id: 1,
-          title: "Admin",
-          title_ar: "مدير الموقع",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-        {
-          id: 2,
-          title: "Content",
-          title_ar: "مدير محتوى",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-      ]
-    },
-  }
-}
