@@ -1,26 +1,38 @@
+import { NextPageContext } from 'next'
 import { Layout, DetailsPage, InnerHeader } from '../components'
+import { withTranslation, Link } from '../i18n'
 
-export default function AboutComp({about}) {
+const path = require('path')
+const envPath = path.resolve(process.cwd(), '.env.local')
+require('dotenv').config({ path: envPath })
+
+function AboutComp({about}) {
   return (
     <Layout>
-      <InnerHeader image={about.image}/>
+      <InnerHeader image="/images/sliderA.jpg" />
       <DetailsPage details={about}/>
     </Layout>
   )
 }
 
-export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
+export async function getStaticPaths() {
+  return { paths:[
+      { params: { lang: "en" } },
+      { params: { lang: "ar" } },
+  ], fallback: false }
+}
 
+export async function getStaticProps(context) {
+  let lang = await context.locale
+  console.log(lang)
+  const res = await fetch(`${process.env.URL_ROOT}/api/about/about?lang=${lang ? lang : 'en'}`)
+  const about = await res.json()
   return {
     props: {
-      about: {
-        title: "About International Export",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently ",
-        details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        image: "/images/sliderA.jpg"
-      },
+      about: {...about[0]}
     },
   }
 }
+
+
+export default withTranslation('AboutComp')(AboutComp) 

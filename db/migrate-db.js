@@ -174,6 +174,9 @@ async function migrate() {
     await query(`
       INSERT INTO about (title, title_ar, description, description_ar, details, details_ar, image, keyWords) VALUES ('About Expo', 'عن الشركة' , 'About Description', 'ملخص عن الشركة',  'About Details', 'تفاصيل عن الشركة', '/images/logo.png', 'cars, spare parts')
       `)
+      await query(`
+      INSERT INTO contact (address, address_ar, phones, emails ) VALUES ('address address ', 'العنوان العربي' , 'About Description', '0102055121212', 'info@interational-expo.com' )
+      `)
     console.log('migration ran successfully')
   } catch (e) {
     console.error('could not run migration, double check your credentials.')

@@ -8,12 +8,12 @@ export default async function getAbout(req: NextApiRequest, res: NextApiResponse
     lang
       ? lang === "ar"
         ? (results = await query(`
-              SELECT {title_ar, description_ar, details_ar, image, keyWords} FROM about
+              SELECT title_ar as title, description_ar as description, details_ar as details, image, keyWords FROM about
               ORDER BY id DESC
               LIMIT 1
           `))
         : (results = await query(`
-              SELECT {title, description, details, image, keyWords} FROM about
+              SELECT title, description, details, image, keyWords FROM about
               ORDER BY id DESC
               LIMIT 1
           `))
