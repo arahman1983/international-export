@@ -11,6 +11,7 @@ export default function UploadImage({picUrl, setFile, ...props}) {
   const imageRef = useRef()
   const [picURL, setPicURL] = useState(picUrl)
   const [picture, setPicture] = useState<string | ArrayBuffer>(null)
+
   
   const handleUpload = (e) => {
     e.preventDefault();
@@ -19,8 +20,9 @@ export default function UploadImage({picUrl, setFile, ...props}) {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setPicture (reader.result);
+      console.log(reader.result)
       //this.handleSubmit()
-      setFile(file)
+      setFile(reader.result)
       setPicURL(null)
       props.getBase && props.getBase(reader.result)
     };

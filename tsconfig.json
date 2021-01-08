@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "functions/brandsCategories"  ],
+, "functions/brandsCategories", "pages/api/uploadImage.js"  ],
   "exclude": [
     "node_modules"
   ]

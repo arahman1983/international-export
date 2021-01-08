@@ -10,6 +10,7 @@ export default function BrandForm({type, item, handleClose, editItem, addItem}){
   const setFile = (file) => setPicFile(file)
   const getBase = (pic) => formik.values.image = pic
 
+
   const formik = useFormik({
     initialValues: {
       title : type === 'add' ? '' : item.title,
@@ -25,7 +26,7 @@ export default function BrandForm({type, item, handleClose, editItem, addItem}){
       ? addItem({ 
         title: values.title, 
         title_ar: values.title_ar, 
-        image: <img src={values.image} width={300} height='auto' alt={values.title} />,
+        image: values.image,
         picFile: picFile ,
         createdAt: new Date().toLocaleString(), 
         updatedAt: new Date().toLocaleString() , 
@@ -34,7 +35,7 @@ export default function BrandForm({type, item, handleClose, editItem, addItem}){
         ...item, 
         title: values.title, 
         title_ar: values.title_ar,
-        image: <img src={values.image} width={300} height='auto' alt={values.title} />,
+        image: values.image,
         picFile: picFile , 
         updatedAt: new Date().toLocaleString() , 
       })

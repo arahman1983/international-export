@@ -27,7 +27,10 @@ export default function AdminAbout({ aboutProps }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: about.id, ...values }),
+        body: JSON.stringify({ 
+          ...values,
+          id: about.id, 
+          }),
       })
       const json = await res.json()
       if (!res.ok) console.log(json.message)
@@ -64,7 +67,10 @@ export default function AdminAbout({ aboutProps }) {
     }
   })
 
-  const setFile = (file) => formik.values.image = file
+  const setFile = (file) =>{
+      formik.values.image = file
+      console.log(file)
+    }
 
   useEffect(() => {
     let changes = Object.keys(formik.values).filter(key => formik.values[key] !== about[key])

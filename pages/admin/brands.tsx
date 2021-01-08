@@ -20,14 +20,14 @@ export default function BrandsAdmin({brands}) {
     updatedAt: d.updated_at,
     isDeleted: d.isDeleted
   })): [])
-  const [filteredCategories, setFilteredCategories] = useState<AdminCategory[]>(allBrands.filter((brand: AdminCategory) => !brand.isDeleted))
+  const [filteredCategories, setFilteredCategories] = useState(allBrands.filter((brand) => !brand.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
   const [selected, setSelected] = useState<AdminCategory | undefined>()
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
 
-  let tableTitles = ['#', t('Title'), t('ArTitle'), 'Image',  t('CrDate'), t('UpDate'), '']
+  let tableTitles = ['#', t('Title'), t('ArTitle'),  t('CrDate'), t('UpDate'), '']
 
   const editFetch = async (values) =>{
     try {
@@ -40,7 +40,7 @@ export default function BrandsAdmin({brands}) {
           id : values.id,
           title: values.title,
           title_ar: values.title_ar,
-          image: '/images/bmw.png',
+          image: values.image,
           isDeleted: values.isDeleted
         }),
       })
@@ -61,17 +61,17 @@ export default function BrandsAdmin({brands}) {
     editFetch({...selected, isDeleted: 1})
   }
 
-  const restoreItem = (item: AdminCategory) => {
+  const restoreItem = (item) => {
     /// API for Edit
     editFetch({...item, isDeleted: 0})
   }
 
-  const editItem = (item: AdminCategory) => {
+  const editItem = (item) => {
     /// API for Edit
     editFetch({...item})
   }
 
-  const addItem = async (item: AdminCategory) => {
+  const addItem = async (item) => {
     /// API for Add
     try {
       const res = await fetch('/api/brands/add', {
@@ -82,7 +82,7 @@ export default function BrandsAdmin({brands}) {
         body: JSON.stringify({
           title: item.title,
           title_ar: item.title_ar,
-          image: '/images/bmw.png',
+          image: item.image,
           isDeleted: 0
         }),
       })
@@ -101,16 +101,16 @@ export default function BrandsAdmin({brands}) {
     handleShow()
   }
 
-  const handleDelete = (item: AdminCategory) => {
+  const handleDelete = (item) => {
     setModalType("delete")
     handleShow()
-    setSelected(item)
+    setSelected(allBrands.find(i => i.id == item.id ))
   }
 
-  const handleEdit = (item: AdminCategory) => {
+  const handleEdit = (item) => {
     setModalType("edit")
     handleShow()
-    setSelected(item)
+    setSelected(allBrands.find(i => i.id == item.id ))
   }
 
   const filterChange = () => {
@@ -118,11 +118,11 @@ export default function BrandsAdmin({brands}) {
     setFilterDelete(selectedVal)
     if (selectedVal === "true") {
       setFilteredCategories(
-        allBrands.filter((brand: AdminCategory) => brand.isDeleted === 1)
+        allBrands.filter((brand) => brand.isDeleted === 1)
       )
     } else if (selectedVal === "false") {
       setFilteredCategories(
-        allBrands.filter((brand: AdminCategory) => brand.isDeleted === 0)
+        allBrands.filter((brand) => brand.isDeleted === 0)
       )
     } else {
       setFilteredCategories(allBrands)
@@ -145,7 +145,14 @@ export default function BrandsAdmin({brands}) {
         filterChange={filterChange} />
       <hr />
       <AdminTable tableTitles={tableTitles}
-        items={filteredCategories}
+        items={filteredCategories.map(c=> ({
+          id: c.id,
+          title: c.title,
+          title_ar: c.title_ar,
+          createdAt: c.createdAt,
+          updatedAt: c.updatedAt,
+          isDeleted: c.isDeleted
+        }))}
         handleDelete={handleDelete}
         restoreItem={restoreItem}
         handleEdit={handleEdit} />
