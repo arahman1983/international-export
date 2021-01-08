@@ -26,7 +26,7 @@ export default function ContactInfo ({contactInfo}) {
               <FontAwesomeIcon icon={faPhoneAlt} color="#dc3545" style={{width:'15px'}} />
           </div>
           {
-            contactInfo.phone.map((phone:string, i:number) => <p key={i} className="m-0">{phone}</p>)
+            contactInfo.phones?.split(',').map((phone:string, i:number) => <p key={i} className="m-0">{phone}</p>)
           }
           
         </div>
@@ -35,7 +35,7 @@ export default function ContactInfo ({contactInfo}) {
           <div className={styles.icon}>
               <FontAwesomeIcon icon={faEnvelope} color="#dc3545" style={{width:'15px'}} />
           </div>
-            {contactInfo.email.map((email:string,i:number) => <p key={i} className="m-0">{email}</p>)}
+            {contactInfo.emails?.split(',').map((email:string,i:number) => <p key={i} className="m-0">{email}</p>)}
         </div>
 
       </div>

@@ -1,9 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useRouter } from "next/router"
 import { Layout, InnerHeader, ProductCard, NoData, FilteredProducts } from "../../components";
 import Product from "../../types/product";
 
+
+const path = require('path')
+const envPath = path.resolve(process.cwd(), '.env.local')
+require('dotenv').config({ path: envPath })
+
 export default function products({ products }) {
+  
   const [filteredProducts, setFilteredProducts] = useState<Product[] | undefined>(products)
   const { query } = useRouter();
   let type = query.type;
@@ -56,89 +62,13 @@ export default function products({ products }) {
 
 
 export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
+  
+  const res = await fetch(`${process.env.URL_ROOT}/api/products/all`)
+  const products = await res.json()
+  
   return {
     props: {
-      products: [
-        {
-          id: "1",
-          title: "New Product 1",
-          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
-          image: "/images/wheel.webp",
-          category: 'wheels',
-          brand: 'BMW'
-        },
-        {
-          id: "2",
-          title: "Oil",
-          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
-          image: "/images/1.jpg",
-          category: 'oil',
-          brand: 'Toyota'
-        },
-        {
-          id: "3",
-          title: "New Product 3",
-          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
-          image: "/images/lamp.jpg",
-          category: 'wheels',
-          brand: 'Honda'
-        },
-        {
-          id: "4",
-          title: "New Product 4",
-          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
-          image: "/images/lamp.jpg",
-          category: 'lamps',
-          brand: 'BYD'
-        },
-        {
-          id: "5",
-          title: "Product 5",
-          description: "Lorem Ipsum simply dummy text of the printing and type industry. Lorem Ipsum has been the industry's standard dummy",
-          image: "/images/wheel.webp",
-          category: 'lamps',
-          brand: 'Hundy'
-        }
-      ],
-      brands: [
-        {
-          id: "1",
-          name: "Toyota",
-          image: "/images/toyota.png"
-        },
-        {
-          id: "2",
-          name: "Renault",
-          image: "/images/rino.png"
-        },
-        {
-          id: "3",
-          name: "Hundy",
-          image: "/images/huy.png"
-        },
-        {
-          id: "4",
-          name: "BYD",
-          image: "/images/byd.png"
-        },
-        {
-          id: "5",
-          name: "BMW",
-          image: "/images/bmw.png"
-        }
-      ],
-      categories: [
-        {
-          id: "1",
-          name: "Wheels"
-        },
-        {
-          id: "2",
-          name: "lamps"
-        }
-      ]
+      products: products,
     },
   }
 }
