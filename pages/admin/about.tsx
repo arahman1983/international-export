@@ -7,23 +7,18 @@ import useTranslation from "../../locals/localHook"
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import { useGet } from '../../lib/swr-hooks'
-import {AboutAdmin} from '../../types/about';
+import { AboutAdmin } from '../../types/about';
 
 
 
 
-export default function AdminAbout({ ...props }) {
+export default function AdminAbout({ aboutProps }) {
 
-  const {data, isLoading, isError}  = useGet('/api/about/about')
-  const [about, setAbout] = useState<AboutAdmin | undefined>(data ? data[0] : {})
+  const [about, setAbout] = useState<AboutAdmin | undefined>(aboutProps ? aboutProps : {})
   const { t } = useTranslation()
   const SUPPORTED_FORMATS = [".jpg", ".gif", ".png", ".gif"]
   const FILE_SIZE = 10000
   const [changed, setChanged] = useState(false)
-
-  useEffect(() => {
-    data && setAbout(data[0])
-  }, [data])
 
   async function submitHandler(values) {
     try {
@@ -32,7 +27,7 @@ export default function AdminAbout({ ...props }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: about.id,...values }),
+        body: JSON.stringify({ id: about.id, ...values }),
       })
       const json = await res.json()
       if (!res.ok) console.log(json.message)
@@ -72,14 +67,11 @@ export default function AdminAbout({ ...props }) {
   const setFile = (file) => formik.values.image = file
 
   useEffect(() => {
-    let changes;
-    if(data){
-      changes = Object.keys(formik.values).filter(key => formik.values[key] !== about[key])
-      if (changes.length > 0) {
-        setChanged(true)
-      } else {
-        setChanged(false)
-      }
+    let changes = Object.keys(formik.values).filter(key => formik.values[key] !== about[key])
+    if (changes.length > 0) {
+      setChanged(true)
+    } else {
+      setChanged(false)
     }
   }, [formik.values])
 
@@ -195,7 +187,7 @@ export default function AdminAbout({ ...props }) {
           </div>
           <div className="col-md-4">
             <label htmlFor="image">{t('Image')}</label>
-            <UploadImage picUrl={formik.values.image} setFile = {setFile} />
+            <UploadImage picUrl={formik.values.image} setFile={setFile} />
 
           </div>
         </div>
@@ -210,3 +202,13 @@ export default function AdminAbout({ ...props }) {
   )
 }
 
+export async function getStaticProps() {
+  const res = await fetch(`${process.env.URL_ROOT}/api/about/about`)
+  const about = await res.json()
+
+  return {
+    props: {
+      aboutProps: about[0]
+    }
+  }
+}

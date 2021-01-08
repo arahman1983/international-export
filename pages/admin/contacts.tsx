@@ -5,6 +5,7 @@ import { AdminLayout, AdminSectionHeader, UploadImage } from '../../components'
 import useTranslation from "../../locals/localHook"
 
 export default function AdminContacts({ contactsProp }) {
+  console.log(contactsProp)
   const [contact, setContact] = useState(contactsProp ? contactsProp : {})
   const { t } = useTranslation()
 
@@ -68,7 +69,7 @@ export default function AdminContacts({ contactsProp }) {
               <input type="text"
                 className="form-control"
                 id='phones'
-                {...formik.getFieldProps('Phones')} />
+                {...formik.getFieldProps('phones')} />
               {
                 formik.touched.phones && formik.errors.phones ?
                   <div className="alert alert-danger my-3" role="alert">
@@ -109,17 +110,12 @@ export default function AdminContacts({ contactsProp }) {
 
 
 export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
+  const res = await fetch(`${process.env.URL_ROOT}/api/contact/all`)
+  const contact = await res.json()
 
   return {
     props: {
-      contactsProp:
-      {
-        address: "15 building name, Street Name, Town, Country",
-        phones: "010-202-3555 , 010-202-3555",
-        emails: 'info@international-expo.com',
-      },
+      contactsProp:contact[0]
     }
   }
 }

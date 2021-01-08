@@ -7,10 +7,9 @@ import categoriesReducer from "../../reducers/categories/reducer";
 import { addCategory, editCategory } from "../../reducers/categories/actions";
 import { useGet } from '../../lib/swr-hooks'
 
-export default function CategoriesAdmin() {
+export default function CategoriesAdmin({categories}) {
   const { t } = useTranslation()
-  const {data, isLoading, isError}  = useGet('/api/categories/all')
-  const [allCategories, dispatchCategories] = useReducer(categoriesReducer, data ? data.map(d => ({
+  const [allCategories, dispatchCategories] = useReducer(categoriesReducer, categories ? categories.map(d => ({
     id: d.id,
     title: d.title,
     title_ar: d.title_ar,
@@ -24,18 +23,6 @@ export default function CategoriesAdmin() {
   const [selected, setSelected] = useState<AdminCategory | undefined>()
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
-
-  // useEffect(() => {
-  //   data && data.map(d => ({
-  //     id: d.id,
-  //     title: d.title,
-  //     title_ar: d.title_ar,
-  //     createdAt: d.created_at,
-  //     updatedAt: d.updated_at,
-  //     isDeleted: d.isDeleted
-  //   }))
-  // }, [data])
-
 
   let tableTitles = ['#', t('Title'), t('ArTitle'), t('CrDate'), t('UpDate'), '']
 
@@ -177,4 +164,16 @@ export default function CategoriesAdmin() {
         } />
     </AdminLayout>
   )
+}
+
+
+export async function getStaticProps() {
+  const res = await fetch(`${process.env.URL_ROOT}/api/categories/all`)
+  const categories = await res.json()
+
+  return {
+    props: {
+      categories
+    },
+  }
 }

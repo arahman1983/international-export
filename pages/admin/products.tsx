@@ -9,7 +9,7 @@ import { addProduct, editProduct } from "../../reducers/products/actions";
 
 export default function ProductsAdmin({ productsProps }) {
   const { t } = useTranslation()
-  
+  console.log(productsProps)
   const [allProducts, dispatchProducts] = useReducer(productsReducer, productsProps)
   const [filteredProducts, setFilteredProducts] = useState<AdminProduct[]>(allProducts.filter((product:AdminProduct) => !product.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
@@ -123,41 +123,12 @@ export default function ProductsAdmin({ productsProps }) {
 
 
 export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
+  const res = await fetch(`${process.env.URL_ROOT}/api/products/all`)
+  const products = await res.json()
 
   return {
     props: {
-      productsProps: [
-        {
-          id: 1,
-          title: "Product 1",
-          title_ar: "مدير الموقع",
-          description: "Product Product Product Product Product 1",
-          description_ar: "مدير الموقع",
-          details: "Product 1",
-          details_ar: "مدير الموقع",
-          image: "/images/1.jpg",
-          keyWords: "Product 1, cars",
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-        {
-          id: 2,
-          title: "Product 2",
-          title_ar: "مدير الموقع",
-          description: "Product 1",
-          description_ar: "مدير الموقع",
-          details: "Product 1",
-          details_ar: "مدير الموقع",
-          image: "/images/1.jpg",
-          keyWords: "Product 1, cars",
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-      ]
+      productsProps: products
     },
   }
 }

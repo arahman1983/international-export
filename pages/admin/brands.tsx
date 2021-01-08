@@ -7,13 +7,11 @@ import useTranslation from "../../locals/localHook"
 import { AdminCategory } from '../../types/categories'
 import brandsReducer from "../../reducers/brands/reducer";
 import { addBrand, editBrand } from "../../reducers/brands/actions";
-import { useGet } from '../../lib/swr-hooks'
 
-export default function BrandsAdmin() {
+export default function BrandsAdmin({brands}) {
   const { t } = useTranslation()
-  const {data, isLoading, isError}  = useGet('/api/brands/all')
 
-  const [allBrands, dispatchBrands] = useReducer(brandsReducer, data ? data.map(d => ({
+  const [allBrands, dispatchBrands] = useReducer(brandsReducer, brands ? brands.map(d => ({
     id: d.id,
     title: d.title,
     title_ar: d.title_ar,
@@ -29,7 +27,7 @@ export default function BrandsAdmin() {
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
 
-  let tableTitles = ['#', t('Title'), t('ArTitle'), t('CrDate'), t('UpDate'), '']
+  let tableTitles = ['#', t('Title'), t('ArTitle'), 'Image',  t('CrDate'), t('UpDate'), '']
 
   const editFetch = async (values) =>{
     try {
@@ -170,4 +168,17 @@ export default function BrandsAdmin() {
         } />
     </AdminLayout>
   )
+}
+
+
+
+export async function getStaticProps() {
+  const res = await fetch(`${process.env.URL_ROOT}/api/brands/all`)
+  const brands = await res.json()
+
+  return {
+    props: {
+      brands
+    },
+  }
 }

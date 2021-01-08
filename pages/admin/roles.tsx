@@ -8,11 +8,10 @@ import { setRoles, addRole, editRole } from "../../reducers/roles/actions";
 import { useGet } from '../../lib/swr-hooks'
 
 
-export default function RolesAdmin() {
+export default function RolesAdmin({roles}) {
   const { t } = useTranslation()
-  const {data, isLoading, isError}  = useGet('/api/roles/all')
 
-  const [allRoles, dispatchRoles] = useReducer(rolesReducer, data ? data.map( d => ({
+  const [allRoles, dispatchRoles] = useReducer(rolesReducer, roles ? roles.map( d => ({
     id: d.r_id,
     title: d.r_role,
     title_ar: d.r_role_ar,
@@ -28,20 +27,19 @@ export default function RolesAdmin() {
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
   
-  useEffect(() => {
-    data &&  
-    dispatchRoles(setRoles(
-      data.map( d => ({
-        id: d.r_id,
-        title: d.r_role,
-        title_ar: d.r_role_ar,
-        createdAt: d.created_at,
-        updatedAt: d.updated_at,
-        isDeleted: d.r_isDeleted,
-      }))
-    ))
+  // useEffect(() => { 
+  //   dispatchRoles(setRoles(
+  //     roles.map( d => ({
+  //       id: d.r_id,
+  //       title: d.r_role,
+  //       title_ar: d.r_role_ar,
+  //       createdAt: d.created_at,
+  //       updatedAt: d.updated_at,
+  //       isDeleted: d.r_isDeleted,
+  //     }))
+  //   ))
     
-  }, [data])
+  // }, [data])
 
   const editFetch = async (values) =>{
     try {
@@ -186,3 +184,14 @@ export default function RolesAdmin() {
   )
 }
 
+
+export async function getStaticProps() {
+  const res = await fetch(`${process.env.URL_ROOT}/api/roles/all`)
+  const roles = await res.json()
+
+  return {
+    props: {
+      roles
+    },
+  }
+}
