@@ -52,7 +52,11 @@ export const LangStrings = {
     UserName:'Username',
     Password: 'Password',
     Phones: 'Phones',
-    Address: 'Address'
+    Address: 'Address',
+    ChangePassword: 'Change Password',
+    OldPassword: 'Old Password',
+    NewPassword: 'New Password',
+    CoPassword: 'Confirm Password',
 
   }, 
   ar : {
@@ -107,7 +111,10 @@ export const LangStrings = {
     UserName:'اسم المستخدم',
     Password: 'كلمة المرور',
     Phones: 'التليفونات',
-    Address: 'العنوان'
-
+    Address: 'العنوان',
+    ChangePassword: 'تغيير كلمة المرور',
+    OldPassword: 'كلمة المرور القديمة',
+    NewPassword: 'كلمة مرور جديدة',
+    CoPassword: 'تأكيد كلمة المرور الجديدة',
   }
 }

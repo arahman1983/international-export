@@ -26,20 +26,6 @@ export default function RolesAdmin({roles}) {
   const [selected, setSelected] = useState<AdminCategory | undefined>()
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
-  
-  // useEffect(() => { 
-  //   dispatchRoles(setRoles(
-  //     roles.map( d => ({
-  //       id: d.r_id,
-  //       title: d.r_role,
-  //       title_ar: d.r_role_ar,
-  //       createdAt: d.created_at,
-  //       updatedAt: d.updated_at,
-  //       isDeleted: d.r_isDeleted,
-  //     }))
-  //   ))
-    
-  // }, [data])
 
   const editFetch = async (values) =>{
     try {
@@ -76,12 +62,12 @@ export default function RolesAdmin({roles}) {
     editFetch({...selected, isDeleted: 1})
   }
 
-  const restoreItem = (item:AdminCategory) => {
+  const restoreItem = (item) => {
     /// API for Edit
     editFetch({...item, isDeleted: 0})
   }
 
-  const editItem = (item:AdminCategory) => {
+  const editItem = (item) => {
     /// API for Edit
     editFetch({...item})
   }

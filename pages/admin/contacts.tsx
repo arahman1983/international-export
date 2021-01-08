@@ -5,7 +5,6 @@ import { AdminLayout, AdminSectionHeader, UploadImage } from '../../components'
 import useTranslation from "../../locals/localHook"
 
 export default function AdminContacts({ contactsProp }) {
-  console.log(contactsProp)
   const [contact, setContact] = useState(contactsProp ? contactsProp : {})
   const { t } = useTranslation()
 

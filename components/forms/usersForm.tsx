@@ -3,13 +3,14 @@ import * as Yup from 'yup';
 import useTranslation from '../../locals/localHook';
 
 export default function UserForm({type, item, handleClose, editItem, addItem, rolesProps}){
+  
   const {t} = useTranslation()
   const formik = useFormik({
     initialValues: {
       userName : type === 'add' ? '' : item.userName,
       email: type === 'add' ? '' : item.email,
       password: '',
-      role : type === 'add' ? '' : rolesProps.find(role => role.title === item.role).id,
+      role : type === 'add' ? '' : rolesProps.find(role => role.role === item.role)?.id,
     },
     validationSchema: Yup.object({
       userName: Yup.string().required('Required'),
@@ -27,7 +28,7 @@ export default function UserForm({type, item, handleClose, editItem, addItem, ro
         createdAt: new Date().toLocaleString(), 
         updatedAt: new Date().toLocaleString() , 
         isDeleted: false})
-      : editItem({...item, userName: values.userName, email: values.email, role: values.role })
+      : editItem({...item, role: values.role })
     },
   })
   return(
@@ -36,6 +37,7 @@ export default function UserForm({type, item, handleClose, editItem, addItem, ro
         <label>{t("UserName")}</label>
         <input type="text" className="form-control" id="userName"
         {...formik.getFieldProps('userName')}
+        disabled={type === 'edit'}
         placeholder={t("EnglishName")}/>
         {
           formik.touched.userName && formik.errors.userName ?
@@ -48,6 +50,7 @@ export default function UserForm({type, item, handleClose, editItem, addItem, ro
       <div className="form-group col-md-6" style={{position: 'relative'}}>
         <label>{t("EmailTitle")}</label>
         <input type="text" id="email" className="form-control" 
+        disabled={type === 'edit'}
         {...formik.getFieldProps('email')}
         placeholder={t("EmailTitle")}/>
         {
@@ -82,7 +85,7 @@ export default function UserForm({type, item, handleClose, editItem, addItem, ro
           placeholder={t("Roles")}>
             <option value="" disabled>Select Role</option>
             {
-              rolesProps.map((role, i) => <option key={i} value={role.id}>{role.title}</option>)
+              rolesProps.map((role, i) => <option key={i} value={role.id}>{role.role}</option>)
             }
 
           </select>

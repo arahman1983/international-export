@@ -3,10 +3,7 @@ import { query } from '../../../lib/db'
 
 const handler: NextApiHandler = async (_, res) => {
   try {
-    const results = await query(`
-      SELECT * FROM users
-      ORDER BY updated_at DESC
-  `)
+    const results = await query(` SELECT * FROM users INNER JOIN roles ON u_r_id = r_id ORDER BY users.updated_at DESC `)
 
     return res.json(results)
   } catch (e) {

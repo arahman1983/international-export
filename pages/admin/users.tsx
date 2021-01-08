@@ -13,18 +13,18 @@ import fetch from 'isomorphic-unfetch'
 export default function UsersAdmin({ usersProps, rolesProps }) {
   const { t } = useTranslation()
 
-  const [allUsers, dispatchUsers] = useReducer(usersReducer, usersProps.map((user: User) => {
+  const [allUsers, dispatchUsers] = useReducer(usersReducer, usersProps.map((user) => {
     return {
-      id: user.id,
-      userName: user.userName,
-      email: user.email,
-      role: user.role,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-      isDeleted: user.isDeleted
+      id: user.u_id,
+      userName: user.u_name,
+      email: user.u_email,
+      role: user.r_role,
+      createdAt: user.created_at,
+      updatedAt: user.updated_at,
+      isDeleted: user.u_isDeleted
     }
   }))
-  const [filteredUsers, setFilteredUsers] = useState<User[]>(allUsers.filter((user: User) => !user.isDeleted))
+  const [filteredUsers, setFilteredUsers] = useState<User[]>(allUsers.filter((user) => user.isDeleted === 0))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
   const [selected, setSelected] = useState<User | undefined>()
@@ -36,25 +36,66 @@ export default function UsersAdmin({ usersProps, rolesProps }) {
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     /// API for Edit
-    dispatchUsers(editUser(selected.id, { ...selected, isDeleted: true }))
-    handleClose()
+    try {
+      const res = await fetch('/api/users/adminEdit', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: selected.id, role_id: rolesProps.find(r => r.role == selected.role)?.id, isDeleted: 1 }),
+      })
+      const json = await res.json()
+      if (!res.ok) console.log(json.message)
+      dispatchUsers(editUser(selected.id, { ...selected, isDeleted: 1 }))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
+    
   }
 
-  const restoreItem = (item: User) => {
+  const restoreItem = async (item) => {
     /// API for Edit
-    dispatchUsers(editUser(item.id, { ...item, isDeleted: false }))
-    handleClose()
+    try {
+      const res = await fetch('/api/users/adminEdit', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: item.id, role_id: rolesProps.find(r => r.role == item.role)?.id, isDeleted: 0 }),
+      })
+      const json = await res.json()
+      if (!res.ok) console.log(json.message)
+      dispatchUsers(editUser(item.id, { ...item, isDeleted: 0 }))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
+    
   }
 
-  const editItem = (item: User) => {
+  const editItem = async (item) => {
     /// API for Edit
-    dispatchUsers(editUser(item.id, { ...item }))
-    handleClose()
+    try {
+      const res = await fetch('/api/users/adminEdit', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: item.id, role_id: item.role, isDeleted: item.isDeleted }),
+      })
+      const json = await res.json()
+      if (!res.ok) console.log(json.message)
+      dispatchUsers(editUser(item.id, { ...item, role: rolesProps.find(r => r.id == item.role).role }))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
   }
 
-  const addItem = async (item: User) => {
+  const addItem = async (item) => {
     /// API for Add
     try {
       const res = await fetch('/api/users/signup', {
@@ -66,24 +107,21 @@ export default function UsersAdmin({ usersProps, rolesProps }) {
           username: item.userName,
           password: item.password,
           email: item.email,
-          role: item.role
+          role: Number(item.role)
         }),
       })
       const json = await res.json()
-      if (!res.ok){
-        console.log(json.message)
-      } else {
-        dispatchUsers(addUser({
-          id: usersProps.length + 1,
-          userName: item.userName,
-          email: item.email,
-          role: item.role,
-          createdAt: new Date().toLocaleString(),
-          updatedAt: new Date().toLocaleString(),
-          isDeleted: false
-        }))
-        handleClose()
-      }
+      if (!res.ok) console.log(json.message)
+      dispatchUsers(addUser({
+        id: json.insertId,
+        userName: item.userName,
+        email: item.email,
+        role: rolesProps.find(r => r.id == item.role)?.role ,
+        createdAt: new Date().toLocaleString(),
+        updatedAt: new Date().toLocaleString(),
+        isDeleted: 0
+      }))
+      handleClose()
 
     } catch (e) {
       console.log(e.message)
@@ -113,11 +151,11 @@ export default function UsersAdmin({ usersProps, rolesProps }) {
     setFilterDelete(selectedVal)
     if (selectedVal === "true") {
       setFilteredUsers(
-        allUsers.filter((user: User) => user.isDeleted === true)
+        allUsers.filter((user) => user.isDeleted === 1)
       )
     } else if (selectedVal === "false") {
       setFilteredUsers(
-        allUsers.filter((user: User) => user.isDeleted === false)
+        allUsers.filter((user) => user.isDeleted === 0)
       )
     } else {
       setFilteredUsers(allUsers)
@@ -167,52 +205,16 @@ export default function UsersAdmin({ usersProps, rolesProps }) {
 
 
 export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
+  const res = await fetch(`${process.env.URL_ROOT}/api/users/all`)
+  const users = await res.json()
+
+  const resRoles = await fetch(`${process.env.URL_ROOT}/api/roles/all`)
+  const roles = await resRoles.json()
 
   return {
     props: {
-      usersProps: [
-        {
-          id: 1,
-          userName: 'arahman',
-          email: 'ar@nail.co',
-          password: '6465546454rwerwerfew',
-          role: 'Admin',
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-        {
-          id: 2,
-          userName: 'aaa',
-          email: 'aa@nail.co',
-          password: '6465546454rwerwerfew',
-          role: 'Content',
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-
-      ],
-      rolesProps: [
-        {
-          id: 1,
-          title: "Admin",
-          title_ar: "مدير الموقع",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-        {
-          id: 2,
-          title: "Content",
-          title_ar: "مدير محتوى",
-          created: '2020-12-31 10:30:00',
-          updated: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-      ]
+      usersProps: users,
+      rolesProps: roles.map(r => ({id: r.r_id, role: r.r_role}))
     },
   }
 }
