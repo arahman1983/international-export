@@ -11,7 +11,7 @@ export default function ProductDetails({product}) {
 }
 
 export async function getStaticPaths() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/products/all`)
+  const res = await fetch(`${process.env.URL_ROOT}/api/products/notDeleted`)
   const products = await res.json()
 
   const paths = products.map((product) => `/products/${product.id}`)

@@ -63,7 +63,7 @@ export default function products({ products }) {
 
 export async function getStaticProps() {
   
-  const res = await fetch(`${process.env.URL_ROOT}/api/products/all`)
+  const res = await fetch(`${process.env.URL_ROOT}/api/products/notDeleted`)
   const products = await res.json()
   
   return {

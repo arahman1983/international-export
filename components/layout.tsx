@@ -11,8 +11,8 @@ export default function Layout({ children }) {
     lang = localStorage.getItem('lang')
   }
 
-  const brands = useGet('/api/brands/all')
-  const categories = useGet('/api/categories/all')
+  const brands = useGet('/api/brands/notDeleted')
+  const categories = useGet('/api/categories/notDeleted')
 
   let BrandsArray:[] = brands.data &&
     brands.data.length > 0 && lang === 'ar'
@@ -35,7 +35,7 @@ export default function Layout({ children }) {
       </div>
       <div style={{ minHeight: '80vh', paddingTop: '120px' }}>
         <BrandsCategoriesContext.Provider value={[categoriesArray, BrandsArray]}>
-           {children}
+            {children}
         </BrandsCategoriesContext.Provider>
       </div>
       <Footer />
