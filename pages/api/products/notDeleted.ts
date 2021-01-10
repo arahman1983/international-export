@@ -5,7 +5,7 @@ const handler: NextApiHandler = async (req, res) => {
   let limit = req.query.limit;
   try {
     let results = await query(`
-      SELECT * FROM products
+      SELECT * FROM products WHERE isDeleted = 0
       ORDER BY updated_at DESC ${limit ? "LIMIT " + limit : ""}
   `);
 
