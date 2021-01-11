@@ -1,4 +1,4 @@
-import {useFormik} from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import useTranslation from '../../locals/localHook';
 import { UploadImage } from '..'
@@ -6,67 +6,81 @@ import { useState } from 'react';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 
+<<<<<<< HEAD
 export default function ProductsForm({type, item, handleClose, editItem, addItem, categories, brandsProps}){
   const {t} = useTranslation()
+=======
+export default function ProductsForm({ type, item, handleClose, editItem, addItem }) {
+  const { t } = useTranslation()
+>>>>>>> e76f0826c27069768f9d3c1b89e0d10b3f6a1f1e
   const [picFile, setPicFile] = useState()
   const setFile = (file) => setPicFile(file)
   const getBase = (pic) => formik.values.image = pic
 
   const formik = useFormik({
     initialValues: {
-      title : type === 'add' ? '' : item.title,
+      title: type === 'add' ? '' : item.title,
       title_ar: type === 'add' ? '' : item.title_ar,
-      description : type === 'add' ? '' : item.description,
+      description: type === 'add' ? '' : item.description,
       description_ar: type === 'add' ? '' : item.description_ar,
-      details : type === 'add' ? '' : item.details,
+      details: type === 'add' ? '' : item.details,
       details_ar: type === 'add' ? '' : item.details_ar,
+<<<<<<< HEAD
       ct_id : type === 'add' ? '' : item.ct_id,
       br_id : type === 'add' ? '' : item.br_id,
       keyWords : type === 'add' ? '' : item.keyWords,
+=======
+      keyWords: type === 'add' ? '' : item.keyWords,
+>>>>>>> e76f0826c27069768f9d3c1b89e0d10b3f6a1f1e
       image: type === 'add' ? null : item.image
     },
     validationSchema: Yup.object({
       title: Yup.string().required('Required'),
       title_ar: Yup.string().required('required'),
-      description : Yup.string().required('required'),
+      description: Yup.string().required('required'),
       description_ar: Yup.string().required('required'),
-      details : Yup.string().required('required'),
+      details: Yup.string().required('required'),
       details_ar: Yup.string().required('required'),
+<<<<<<< HEAD
       ct_id : Yup.string().required('required'),
       br_id : Yup.string().required('required'),
       keyWords : Yup.string().required('required'),
+=======
+      keyWords: Yup.string().required('required'),
+>>>>>>> e76f0826c27069768f9d3c1b89e0d10b3f6a1f1e
     }),
     onSubmit: values => {
       type === 'add'
-      ? addItem({ 
-        title: values.title, 
-        title_ar: values.title_ar, 
-        description : values.description,
-        description_ar: values.description_ar,
-        details : values.details,
-        details_ar: values.details_ar,
-        keyWords : values.keyWords,
-        image: values.image,
-        picFile: picFile ,
-        createdAt: new Date().toLocaleString(), 
-        updatedAt: new Date().toLocaleString() , 
-        isDeleted: false})
-      : editItem({
-        ...item, 
-        title: values.title, 
-        title_ar: values.title_ar,
-        description : values.description,
-        description_ar: values.description_ar,
-        details : values.details,
-        details_ar: values.details_ar,
-        keyWords : values.keyWords,
-        image: values.image,
-        picFile: picFile , 
-        updatedAt: new Date().toLocaleString() , 
-      })
+        ? addItem({
+          title: values.title,
+          title_ar: values.title_ar,
+          description: values.description,
+          description_ar: values.description_ar,
+          details: values.details,
+          details_ar: values.details_ar,
+          keyWords: values.keyWords,
+          image: values.image,
+          picFile: picFile,
+          createdAt: new Date().toLocaleString(),
+          updatedAt: new Date().toLocaleString(),
+          isDeleted: false
+        })
+        : editItem({
+          ...item,
+          title: values.title,
+          title_ar: values.title_ar,
+          description: values.description,
+          description_ar: values.description_ar,
+          details: values.details,
+          details_ar: values.details_ar,
+          keyWords: values.keyWords,
+          image: values.image,
+          picFile: picFile,
+          updatedAt: new Date().toLocaleString(),
+        })
     },
   })
-  return(
+  return (
     <form className="my-4 row" onSubmit={formik.handleSubmit}>
       <div className="form-group col-md-6">
         <label>{t("EnglishName")}</label>
@@ -124,10 +138,13 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
       
       <div className="form-group col-md-12">
               <label htmlFor="details">{t('Details')}</label>
-              <SunEditor height={200} name="details"
+              <textarea id="details" className="form-control" rows={5}
+              {...formik.getFieldProps('details')} 
+              placeholder={t('Details')}></textarea>
+              {/* <SunEditor height={200} name="details"
                 setContents={formik.values.details}
                 onChange={(content) => formik.setValues({ ...formik.values, details: content })}
-              />
+              /> */}
               {
                 formik.touched.details && formik.errors.details ?
                   <div className="alert alert-danger my-3" role="alert">
@@ -138,10 +155,13 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
             </div>
             <div className="form-group col-md-12">
               <label htmlFor="details_ar">{t('ArDetails')}</label>
-              <SunEditor height={200} name="details_ar"
+              <textarea id="details_ar" className="form-control" rows={5}
+              {...formik.getFieldProps('details_ar')} 
+              placeholder={t('ArDetails')}></textarea>
+              {/* <SunEditor height={200} name="details_ar"
                 setContents={formik.values.details_ar}
                 onChange={(content) => formik.setValues({ ...formik.values, details_ar: content })}
-              />
+              /> */}
               {
                 formik.touched.details_ar && formik.errors.details_ar ?
                   <div className="alert alert-danger my-3" role="alert">
@@ -206,6 +226,6 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
         </button>
       </div>
 
-    </form>
+    </form >
   )
 }

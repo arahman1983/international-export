@@ -44,14 +44,11 @@ export async function getStaticProps() {
   const resAbout = await fetch(`${process.env.URL_ROOT}/api/about/about`)
   const about = await resAbout.json()
 
-  const resBrands = await fetch(`${process.env.URL_ROOT}/api/brands/all`)
+  const resBrands = await fetch(`${process.env.URL_ROOT}/api/brands/notDeleted`)
   const brands = await resBrands.json()
 
-  const resProducts = await fetch(`${process.env.URL_ROOT}/api/products/all`)
+  const resProducts = await fetch(`${process.env.URL_ROOT}/api/products/notDeleted?limit=6`)
   const products = await resProducts.json()
-
-  const resCategories = await fetch(`${process.env.URL_ROOT}/api/categories/all`)
-  const categories = await resCategories.json()
 
   return {
     props: {
