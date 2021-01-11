@@ -22,7 +22,7 @@ export default function Header({brands, categories}) {
     let newLocal: string = t("ChangeLang").toLowerCase();
     setLocale(newLocal)
     localStorage.setItem('lang', newLocal)
-    router.push(`${router.pathname}?lang=${newLocal}`)
+    router.push(`${router.pathname}`)
   }
 
   // get brand and category

@@ -23,18 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
 
     const results = await query(
       `
-      INSERT INTO products (
-        title, 
-        title_ar, 
-        description, 
-        description_ar,
-        details,
-        details_ar,
-        ct_id,
-        br_id,
-        image,
-        keyWords,
-      )
+      INSERT INTO products ( title, title_ar, description, description_ar, details, details_ar, ct_id, br_id, image, keyWords )
       VALUES (?, ?, ?, ?, ? , ?, ?, ?, ?, ?)
       `,
       [
@@ -47,7 +36,7 @@ const handler: NextApiHandler = async (req, res) => {
         ct_id,
         br_id,
         image,
-        keyWords,
+        keyWords
       ]
     )
     return res.json(results)

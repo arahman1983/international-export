@@ -4,7 +4,7 @@ import { query } from '../../../lib/db'
 const handler: NextApiHandler = async (_, res) => {
   try {
     const results = await query(`
-      SELECT * FROM categories WHERE isDeleted = 1
+      SELECT * FROM categories WHERE isDeleted = 0
       ORDER BY updated_at DESC
   `)
 

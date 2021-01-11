@@ -1,3 +1,4 @@
+import {useState, useEffect} from 'react'
 import styles from '../styles/Home.module.css'
 import { Layout, Slider, HomeAbout, ProductCard, BrandSlider } from '../components'
 import Product from '../types/product'
@@ -7,7 +8,50 @@ const path = require('path')
 const envPath = path.resolve(process.cwd(), '.env.local')
 require('dotenv').config({ path: envPath })
 
-export default function Home({ about, brands, products, slider }) {
+export default function Home({ aboutProps, brandsProps, productsProps, sliderProps }) {
+  const [about, setAbout] = useState(aboutProps)
+  const [brands, setBrands] = useState(brandsProps)
+  const [slider, setSlider] = useState(sliderProps)
+  const [products, setProducts] = useState(productsProps)
+
+  let lang: string
+  if(typeof Storage !== 'undefined'){
+    lang = localStorage.getItem('lang')
+  }
+  
+  useEffect(() => {
+    if(lang){
+      lang === 'ar' 
+        ? (
+          setProducts( productsProps.map(product => ({
+          ...product,
+          title: product.title_ar,
+          details: product.details_ar,
+          description: product.description_ar
+        }))),
+        setSlider( sliderProps.map(slide => ({
+          ...slide,
+          title: slide.title_ar,
+          description: slide.description_ar
+        }))),
+        setBrands( brandsProps.map(brand => ({
+          ...brand,
+          title: brand.title_ar,
+        }))),
+        setAbout( {
+          ...aboutProps, 
+          title: aboutProps.title_ar, 
+          description: aboutProps.description_ar,
+          details: about.details_ar
+        })
+        )
+        : 
+        setProducts( productsProps ),
+        setSlider( sliderProps ),
+        setBrands( brandsProps ),
+        setAbout({...aboutProps})
+    }
+  }, [lang])
   return (
     <div className={styles.container}>
       <Layout>
@@ -41,6 +85,9 @@ export default function Home({ about, brands, products, slider }) {
 
 
 export async function getStaticProps() {
+  const resSlider = await fetch(`${process.env.URL_ROOT}/api/about/about`)
+  const slider = await resSlider.json()
+  
   const resAbout = await fetch(`${process.env.URL_ROOT}/api/about/about`)
   const about = await resAbout.json()
 
@@ -52,26 +99,10 @@ export async function getStaticProps() {
 
   return {
     props: {
-      slider: [
-        {
-          h1: "First slide label",
-          h2: "Nulla vitae elit libero, a pharetra augue mollis interdum.",
-          image: "/images/slider.svg"
-        },
-        {
-          h1: "Second slide label",
-          h2: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          image: "/images/slide2.jpeg"
-        },
-        {
-          h1: "Third slide label",
-          h2: "Praesent commodo cursus magna, vel scelerisque nisl consectetur.",
-          image: "/images/slide3.jpeg"
-        }
-      ],
-      about: about[0],
-      products: products,
-      brands: brands,
+      sliderProps: slider,
+      aboutProps: about[0],
+      productsProps: products,
+      brandsProps: brands,
     },
   }
 }

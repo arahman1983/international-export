@@ -11,8 +11,8 @@ export interface AdminSlide{
   title_ar?: string;
   description?: string;
   description_ar?: string;
-  image: any;
+  image: string;
   createdAt: string;
   updatedAt: string;
-  isDeleted: boolean
+  isDeleted: number
 }

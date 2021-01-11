@@ -2,19 +2,18 @@ import { useState, useEffect, useRef, useReducer } from 'react'
 import { AdminLayout, AdminSectionHeader, AdminTable, AdmenFilterByDelete, 
   AdminModal, ConfirmDelete, ProductsForm } from '../../components'
 import useTranslation from "../../locals/localHook"
-// import {AdminProduct} from '../../types/product'
+import {AdminProduct} from '../../types/product'
 import productsReducer from "../../reducers/products/reducer";
 import { addProduct, editProduct } from "../../reducers/products/actions";
 
 
 export default function ProductsAdmin({ productsProps, brandsProps, categories  }) {
   const { t } = useTranslation()
-  console.log(productsProps)
   const [allProducts, dispatchProducts] = useReducer(productsReducer, productsProps)
   const [filteredProducts, setFilteredProducts] = useState(allProducts.filter((product) => !product.isDeleted))
   const [filterDelete, setFilterDelete] = useState<string | undefined>("false")
   const [modalType, setModalType] = useState<string | undefined>("add")
-  const [selected, setSelected] = useState()
+  const [selected, setSelected] = useState<AdminProduct | undefined>()
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
   
@@ -23,23 +22,58 @@ export default function ProductsAdmin({ productsProps, brandsProps, categories  
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
+  const editFetch = async (item) => {
+    try {
+      const res = await fetch('/api/products/edit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: item.id,
+          title: item.title, 
+          title_ar: item.title_ar, 
+          description: item.description, 
+          description_ar: item.description_ar,
+          details: item.details,
+          details_ar: item.details_ar,
+          ct_id: item.ct_id,
+          br_id: item.br_id,
+          keyWords: item.keyWords,
+          image: item.image,
+          isDeleted: item.isDeleted
+        }),
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
 
   const confirmDelete = () => {
     /// API for Edit
-    dispatchProducts(editProduct(selected.id,{...selected, isDeleted: true}))
-    handleClose()
+    editFetch({...productsProps.find(p => p.id === selected.id),isDeleted: 1 }).then(()=>{
+      dispatchProducts(editProduct(selected.id,{...selected, isDeleted: 1}))
+      handleClose()
+    })
   }
 
   const restoreItem = (item) => {
     /// API for Edit
-    dispatchProducts(editProduct(item.id,{...item, isDeleted: false}))
-    handleClose()
+    editFetch({...productsProps.find(p => p.id === item.id),isDeleted: 0 }).then(()=>{
+      dispatchProducts(editProduct(item.id,{...item, isDeleted: 0}))
+      handleClose()
+    })
   }
 
   const editItem = async (item) => {
     /// API for Edit
-    dispatchProducts(editProduct(item.id,{...item}))
-    handleClose()
+    editFetch(item).then(()=>{
+      dispatchProducts(editProduct(item.id,{...item}))
+      handleClose()
+    })
   }
 
   const addItem = async (item) => {
@@ -59,14 +93,14 @@ export default function ProductsAdmin({ productsProps, brandsProps, categories  
           details_ar: item.details_ar,
           ct_id: item.ct_id,
           br_id: item.br_id,
-          image: item.image,
           keyWords: item.keyWords,
+          image: item.image,
         }),
       })
 
       const json = await res.json()
       if (!res.ok) throw Error(json.message)
-      dispatchProducts(addProduct({id: productsProps.length+1 ,...item}))
+      dispatchProducts(addProduct({id: json.insertId ,...item}))
       handleClose()
     } catch (e) {
       throw Error(e.message)
@@ -95,11 +129,11 @@ export default function ProductsAdmin({ productsProps, brandsProps, categories  
     setFilterDelete(selectedVal)
     if (selectedVal === "true") {
       setFilteredProducts(
-        allProducts.filter((category)  => category.isDeleted === true)
+        allProducts.filter((category)  => category.isDeleted === 1)
       )
     } else if (selectedVal === "false") {
       setFilteredProducts(
-        allProducts.filter((category)  => category.isDeleted === false)
+        allProducts.filter((category)  => category.isDeleted === 0)
       )
     } else {
       setFilteredProducts(allProducts)
@@ -122,7 +156,7 @@ export default function ProductsAdmin({ productsProps, brandsProps, categories  
         filterChange={filterChange} />
       <hr />
       <AdminTable tableTitles={tableTitles} 
-        items={filteredProducts.map(({id,title, title_ar, createdAt, updatedAt, isDeleted}) => ({id, title, title_ar, createdAt, updatedAt, isDeleted}))} 
+        items={filteredProducts.map(({id ,title, title_ar, created_at, updated_at, isDeleted}) => ({id, title, title_ar, createdAt: created_at, updatedAt: updated_at, isDeleted}))} 
         handleDelete={handleDelete} 
         restoreItem={restoreItem}
         handleEdit={handleEdit} />

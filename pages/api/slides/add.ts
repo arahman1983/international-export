@@ -5,7 +5,7 @@ import { query } from '../../../lib/db'
 const filter = new Filter()
 
 const handler: NextApiHandler = async (req, res) => {
-  const { title, title_ar, description, description_ar } = req.body
+  const { title, title_ar, description, description_ar, image } = req.body
   try {
     if (!title || !title_ar) {
       return res
@@ -15,10 +15,10 @@ const handler: NextApiHandler = async (req, res) => {
 
     const results = await query(
       `
-      INSERT INTO sliders (title, title_ar, description, description_ar)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO sliders (title, title_ar, description, description_ar, image)
+      VALUES (?, ?, ?, ?, ?)
       `,
-      [title, title_ar, description, description_ar]
+      [title, title_ar, description, description_ar, image]
     )
     return res.json(results)
   } catch (e) {

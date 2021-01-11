@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import useTranslation from '../../locals/localHook';
 import { UploadImage } from '..'
 import { useState } from 'react';
-import SunEditor from 'suneditor-react';
+// import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 
 export default function ProductsForm({type, item, handleClose, editItem, addItem, categories, brandsProps}){
@@ -45,12 +45,12 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
         description_ar: values.description_ar,
         details : values.details,
         details_ar: values.details_ar,
+        ct_id: Number(values.ct_id),
+        br_id: Number(values.br_id),
         keyWords : values.keyWords,
         image: values.image,
         picFile: picFile ,
-        createdAt: new Date().toLocaleString(), 
-        updatedAt: new Date().toLocaleString() , 
-        isDeleted: false})
+        })
       : editItem({
         ...item, 
         title: values.title, 
@@ -59,10 +59,11 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
         description_ar: values.description_ar,
         details : values.details,
         details_ar: values.details_ar,
+        ct_id: Number(values.ct_id),
+        br_id: Number(values.br_id),
         keyWords : values.keyWords,
         image: values.image,
         picFile: picFile , 
-        updatedAt: new Date().toLocaleString() , 
       })
     },
   })
@@ -124,10 +125,9 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
       
       <div className="form-group col-md-12">
               <label htmlFor="details">{t('Details')}</label>
-              <SunEditor height={200} name="details"
-                setContents={formik.values.details}
-                onChange={(content) => formik.setValues({ ...formik.values, details: content })}
-              />
+              <textarea rows={8} id="details" className="form-control" 
+                {...formik.getFieldProps('details')}
+                placeholder={t("Details")} ></textarea>
               {
                 formik.touched.details && formik.errors.details ?
                   <div className="alert alert-danger my-3" role="alert">
@@ -138,10 +138,13 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
             </div>
             <div className="form-group col-md-12">
               <label htmlFor="details_ar">{t('ArDetails')}</label>
-              <SunEditor height={200} name="details_ar"
+              {/* <SunEditor height={200} name="details_ar"
                 setContents={formik.values.details_ar}
                 onChange={(content) => formik.setValues({ ...formik.values, details_ar: content })}
-              />
+              /> */}
+              <textarea rows={8} id="details_ar" className="form-control" 
+                {...formik.getFieldProps('details_ar')}
+                placeholder={t("ArDetails")} ></textarea>
               {
                 formik.touched.details_ar && formik.errors.details_ar ?
                   <div className="alert alert-danger my-3" role="alert">
@@ -152,8 +155,8 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
             </div>
             <div className="form-group col-md-6">
               <label htmlFor="ct_id">{t('Categories')}</label>
-              <select className="form-control" id='ct_id' {...formik.getFieldProps('ct_id')} >
-                  <option selected disabled>Select Category</option>
+              <select className="form-control" value="" id='ct_id' {...formik.getFieldProps('ct_id')} >
+                  <option value="" disabled>Select Category</option>
                   {
                     categories?.map((c, i) => <option key={i} value={c.id}>{c.title}</option>)
                   }
@@ -168,8 +171,8 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
             </div>
             <div className="form-group col-md-6">
               <label htmlFor="br_id">{t('Brands')}</label>
-              <select className="form-control" id='br_id' {...formik.getFieldProps('br_id')} >
-                  <option selected disabled>Select Category</option>
+              <select className="form-control" id='br_id' value="" {...formik.getFieldProps('br_id')} >
+                  <option value="" disabled>Select Category</option>
                   {
                     brandsProps?.map((b, i) => <option key={i} value={b.id}>{b.title}</option>)
                   }

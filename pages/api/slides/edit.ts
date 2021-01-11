@@ -3,7 +3,7 @@ import { query } from '../../../lib/db'
 
 
 const handler: NextApiHandler = async (req, res) => {
-  const { id, title, title_ar, description, description_ar, isDeleted } = req.body
+  const { id, title, title_ar, description, description_ar, image , isDeleted } = req.body
   try {
     if (!id) {
       return res
@@ -14,10 +14,10 @@ const handler: NextApiHandler = async (req, res) => {
     const results = await query(
       `
       UPDATE sliders
-      SET title = ?, title_ar = ?, description = ?, description_ar = ?, isDeleted = ?
+      SET title = ?, title_ar = ?, description = ?, description_ar = ?, image = ?, isDeleted = ?
       WHERE id = ?
       `,
-      [title ,title_ar , description, description_ar, isDeleted , id]
+      [title ,title_ar , description, description_ar, image , isDeleted , id]
     )
 
     return res.json(results)

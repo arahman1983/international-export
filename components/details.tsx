@@ -15,7 +15,7 @@ return(
             </p>
           </div>
           <div className="col-md-4 text-center">
-            <Image src={details.image} width={200} height={'auto'} alt={details.title} />
+          {details.image && <Image src={details.image} width={200} height={'auto'} alt={details.title} />}
           </div>
           
         </div>

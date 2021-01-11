@@ -23,5 +23,5 @@ export interface AdminProduct {
   keyWords: string;
   createdAt: string;
   updatedAt: string;
-  isDeleted: boolean;
+  isDeleted: number;
 }

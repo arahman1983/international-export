@@ -28,22 +28,19 @@ export default function SliderForm({ type, item, handleClose, editItem, addItem 
         ? addItem({ 
           title: values.title, 
           title_ar: values.title_ar, 
-          image: <img src={values.image} width={300} height='auto' alt={values.title} />,
-          picFile: picFile ,
+          image: values.image,
+          //picFile: picFile ,
           description: values.description, 
           description_ar: values.description_ar, 
-          createdAt: new Date().toLocaleString(), 
-          updatedAt: new Date().toLocaleString(), 
-          isDeleted: false })
+          })
         : editItem({ 
           ...item, 
           title: values.title, 
           title_ar: values.title_ar, 
-          image: <img src={values.image} width={300} height='auto' alt={values.title} />,
-          picFile: picFile ,
+          image: values.image,
+          //picFile: picFile ,
           description: values.description, 
           description_ar: values.description_ar, 
-          updatedAt: new Date().toLocaleString() 
         })
     },
   })

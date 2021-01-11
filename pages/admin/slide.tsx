@@ -17,9 +17,9 @@ export default function SliderAdmin({ sliderProp }) {
     id: slider.id,
     title: slider.title,
     title_ar: slider.title_ar,
-    image: <Image src={slider.image} width={300} height={'auto'} alt={slider.title} />,
-    createdAt: slider.createdAt,
-    updatedAt: slider.updatedAt,
+    image: slider.image ,
+    createdAt: slider.created_at,
+    updatedAt: slider.updated_at,
     isDeleted: slider.isDeleted
   })))
   const [filteredSlides, setFilteredSlides] = useState<AdminSlide[]>(allSlides.filter((brand: AdminSlide) => !brand.isDeleted))
@@ -28,61 +28,114 @@ export default function SliderAdmin({ sliderProp }) {
   const [selected, setSelected] = useState<AdminSlide | undefined>()
   const [show, setShow] = useState<boolean>(false)
   const filterRef = useRef<HTMLSelectElement>()
-
   let tableTitles = ['#', t('Title'), t('ArTitle'), t('Image'), t('CrDate'), t('UpDate'), '']
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
+
+  const fetchEdit = async (item) => {
+    try {
+      const res = await fetch('/api/slides/edit', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: item.id,
+          title: item.title,
+          title_ar: item.title_ar,
+          image: item.image,
+          description: item.description,
+          description_ar: item.description_ar,
+          isDeleted: item.isDeleted
+        }),
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
+
   const confirmDelete = () => {
     /// API for Edit
-    dispatchSlides(editSlide(selected.id, {
-      id: selected.id,
-      title: selected.title,
-      title_ar: selected.title_ar,
-      image: <Image src={selected.image} width={300} height={'auto'} alt={selected.title} />,
-      createdAt: selected.createdAt,
-      updatedAt: new Date().toLocaleString(),
-      isDeleted: true
-
-    }))
-    handleClose()
+    fetchEdit({...selected, isDeleted: 1}).then(()=>{
+      dispatchSlides(editSlide(selected.id, {
+        id: selected.id,
+        title: selected.title,
+        title_ar: selected.title_ar,
+        image: selected.image,
+        createdAt: selected.createdAt,
+        updatedAt: new Date().toLocaleString(),
+        isDeleted: 1
+  
+      }))
+      handleClose()
+    })
   }
 
   const restoreItem = (item: AdminSlide) => {
     /// API for Edit
-    dispatchSlides(editSlide(item.id, { ...item, updatedAt: new Date().toLocaleString(), isDeleted: false }))
-    handleClose()
+    fetchEdit({...selected, isDeleted: 0}).then(()=>{
+      dispatchSlides(editSlide(item.id, { ...item, updatedAt: new Date().toLocaleString(), isDeleted: 0 }))
+      handleClose()
+    })
   }
+
 
   const editItem = (item: AdminSlide) => {
     /// API for Edit
-    dispatchSlides(editSlide(item.id, { 
-      id : item.id,
-      title: item.title,
-      title_ar: item.title_ar,
-      image: item.image,
-      createdAt: item.createdAt,
-      updatedAt: new Date().toLocaleString(),
-      isDeleted: item.isDeleted
-    }))
-    handleClose()
+    fetchEdit(item).then(()=>{
+      dispatchSlides(editSlide(item.id, { 
+        id : item.id,
+        title: item.title,
+        title_ar: item.title_ar,
+        image: item.image,
+        createdAt: item.createdAt,
+        updatedAt: new Date().toLocaleString(),
+        isDeleted: item.isDeleted
+      }))
+      handleClose()
+    })
   }
 
-  const addItem = (item: AdminSlide) => {
+  const addItem = async (item: AdminSlide) => {
     /// API for Add
-    dispatchSlides(addSlide({ id: sliderProp.length + 1,
-      title: item.title,
-      title_ar: item.title_ar,
-      image: item.image,
-      // picFile: picFile,
-      // description: item.description,
-      // description_ar: item.description_ar,
-      createdAt: new Date().toLocaleString(),
-      updatedAt: new Date().toLocaleString(),
-      isDeleted: false
-    }))
-    handleClose()
+    try {
+      const res = await fetch('/api/slides/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: item.title,
+          title_ar: item.title_ar,
+          image: item.image,
+          description: item.description,
+          description_ar: item.description_ar,
+        }),
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw Error(json.message)
+      dispatchSlides(addSlide({ 
+        id: json.insertId,
+        title: item.title,
+        title_ar: item.title_ar,
+        // picFile: picFile,
+        description: item.description,
+        description_ar: item.description_ar,
+        image: item.image,
+        createdAt: new Date().toLocaleString(),
+        updatedAt: new Date().toLocaleString(),
+        isDeleted: 0
+      }))
+      handleClose()
+    } catch (e) {
+      throw Error(e.message)
+    }
 }
 
 const handleAdd = () => {
@@ -107,11 +160,11 @@ const filterChange = () => {
   setFilterDelete(selectedVal)
   if (selectedVal === "true") {
     setFilteredSlides(
-      allSlides.filter((brand: AdminSlide) => brand.isDeleted === true)
+      allSlides.filter((brand: AdminSlide) => brand.isDeleted === 1)
     )
   } else if (selectedVal === "false") {
     setFilteredSlides(
-      allSlides.filter((brand: AdminSlide) => brand.isDeleted === false)
+      allSlides.filter((brand: AdminSlide) => brand.isDeleted === 0)
     )
   } else {
     setFilteredSlides(allSlides)
@@ -134,7 +187,18 @@ return (
       filterChange={filterChange} />
     <hr />
     <AdminTable tableTitles={tableTitles}
-      items={filteredSlides}
+      items={filteredSlides.map(pro => {
+        return ({
+          id: pro.id,
+          title: pro.title,
+          title_ar: pro.title_ar,
+          image : <img src={pro.image} width={300} height={100} alt={pro.title} />,
+          createdAt: pro.createdAt,
+          updatedAt: pro.updatedAt,
+          isDeleted: pro.isDeleted
+        
+        })
+      })}
       handleDelete={handleDelete}
       restoreItem={restoreItem}
       handleEdit={handleEdit} />
@@ -161,47 +225,12 @@ return (
 
 
 export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
+  const res = await fetch(`${process.env.URL_ROOT}/api/slides/all`)
+  const sliderProp = await res.json()
 
   return {
     props: {
-      sliderProp: [
-        {
-          id: 1,
-          title: "First slide label",
-          title_ar: "شريحة العرض الأولى",
-          description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-          description_ar: ' ',
-          image: '/images/slider.svg',
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-        {
-          id: 2,
-          title: "Secpnd slide label",
-          title_ar: "شريحة العرض الثانية",
-          description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-          description_ar: ' ',
-          image: '/images/slide2.jpeg',
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: false
-        },
-        {
-          id: 3,
-          title: "Third slide label",
-          title_ar: "شريحة العرض الثالثة",
-          description: 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-          description_ar: ' ',
-          image: '/images/slide3.jpeg',
-          createdAt: '2020-12-31 10:30:00',
-          updatedAt: '2020-12-31 10:30:00',
-          isDeleted: true
-        },
-
-      ]
+      sliderProp
     },
   }
 }
