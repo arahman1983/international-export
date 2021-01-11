@@ -13,7 +13,6 @@ const handler: NextApiHandler = async (req, res) => {
     br_id,
     image,
     keyWords,
-    isDeleted 
   } = req.body
   try {
     if (!title || !title_ar) {
@@ -35,9 +34,8 @@ const handler: NextApiHandler = async (req, res) => {
         br_id,
         image,
         keyWords,
-        isDeleted 
       )
-      VALUES (?, ?, ?)
+      VALUES (?, ?, ?, ?, ? , ?, ?, ?, ?, ?)
       `,
       [
         title, 
@@ -50,7 +48,6 @@ const handler: NextApiHandler = async (req, res) => {
         br_id,
         image,
         keyWords,
-        isDeleted
       ]
     )
     return res.json(results)

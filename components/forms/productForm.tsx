@@ -6,7 +6,7 @@ import { useState } from 'react';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 
-export default function ProductsForm({type, item, handleClose, editItem, addItem}){
+export default function ProductsForm({type, item, handleClose, editItem, addItem, categories, brandsProps}){
   const {t} = useTranslation()
   const [picFile, setPicFile] = useState()
   const setFile = (file) => setPicFile(file)
@@ -20,6 +20,8 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
       description_ar: type === 'add' ? '' : item.description_ar,
       details : type === 'add' ? '' : item.details,
       details_ar: type === 'add' ? '' : item.details_ar,
+      ct_id : type === 'add' ? '' : item.ct_id,
+      br_id : type === 'add' ? '' : item.br_id,
       keyWords : type === 'add' ? '' : item.keyWords,
       image: type === 'add' ? null : item.image
     },
@@ -30,6 +32,8 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
       description_ar: Yup.string().required('required'),
       details : Yup.string().required('required'),
       details_ar: Yup.string().required('required'),
+      ct_id : Yup.string().required('required'),
+      br_id : Yup.string().required('required'),
       keyWords : Yup.string().required('required'),
     }),
     onSubmit: values => {
@@ -91,7 +95,7 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
         }
       </div>
 
-      <div className="form-group col-md-6">
+      <div className="form-group col-md-12">
         <label>{t("Description")}</label>
         <input type="text" className="form-control" id="description"
         {...formik.getFieldProps('description')}
@@ -104,7 +108,7 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
           : null
         }
       </div>
-      <div className="form-group col-md-6" style={{position: 'relative'}}>
+      <div className="form-group col-md-12" style={{position: 'relative'}}>
         <label>{t("ArDescription")}</label>
         <input type="text" id="description_ar" className="form-control" 
         {...formik.getFieldProps('description_ar')}
@@ -146,6 +150,38 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
                   : null
               }
             </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="ct_id">{t('Categories')}</label>
+              <select className="form-control" id='ct_id' {...formik.getFieldProps('ct_id')} >
+                  <option selected disabled>Select Category</option>
+                  {
+                    categories?.map((c, i) => <option key={i} value={c.id}>{c.title}</option>)
+                  }
+              </select>
+              {
+                formik.touched.ct_id && formik.errors.ct_id ?
+                  <div className="alert alert-danger my-3" role="alert">
+                    {formik.errors.ct_id}
+                  </div>
+                  : null
+              }
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="br_id">{t('Brands')}</label>
+              <select className="form-control" id='br_id' {...formik.getFieldProps('br_id')} >
+                  <option selected disabled>Select Category</option>
+                  {
+                    brandsProps?.map((b, i) => <option key={i} value={b.id}>{b.title}</option>)
+                  }
+              </select>
+              {
+                formik.touched.br_id && formik.errors.br_id ?
+                  <div className="alert alert-danger my-3" role="alert">
+                    {formik.errors.br_id}
+                  </div>
+                  : null
+              }
+            </div>
             <div className="form-group col-md-12">
               <label htmlFor="keyWords">{t('KeyWords')}</label>
               <input type="text"
@@ -160,8 +196,6 @@ export default function ProductsForm({type, item, handleClose, editItem, addItem
                   : null
               }
             </div>
-
-
       
           <UploadImage picUrl={formik.values.image} setFile={setFile} getBase={getBase}/>
       

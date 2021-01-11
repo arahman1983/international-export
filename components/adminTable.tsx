@@ -18,6 +18,7 @@ export default function AdminTable({tableTitles, items, restoreItem, handleDelet
         </thead>
         <tbody>
             {
+              cols.length > 0 ?
               cols?.map ((item:any[], i:number) =>(
                 <tr key={i} className={item[item.length-1] == true ? 'alert-danger' : ''}>
                   {
@@ -32,6 +33,12 @@ export default function AdminTable({tableTitles, items, restoreItem, handleDelet
                   <td>{<EditBtn handleEdit={()=>handleEdit(items.find((tItem) => tItem.id == item[0]))} />}</td>
                 </tr>
               ))
+              :
+              <tr>
+                <td colSpan={tableTitles.length}>
+                  <h5 className="w-100 text-center my-3">No data here!</h5>
+                </td>
+              </tr>
             }
         </tbody>
       </table>
