@@ -3,6 +3,8 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup';
 import { AdminLayout, AdminSectionHeader, UploadImage } from '../../components'
 import useTranslation from "../../locals/localHook"
+import { NextPageContext } from 'next';
+import Router from 'next/router'
 
 export default function AdminContacts({ contactsProp }) {
   const [contact, setContact] = useState(contactsProp ? contactsProp : {})
@@ -108,9 +110,31 @@ export default function AdminContacts({ contactsProp }) {
 
 
 
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/contact/all`)
-  const contact = await res.json()
+export async function getServerSideProps(ctx:NextPageContext) {
+
+  const cookie = ctx.req?.headers.cookie;
+  const url = `${process.env.URL_ROOT}/api/contact/admin`;
+  
+  const resp = await fetch(url, {
+    headers: {
+      cookie: cookie!
+    }
+  });
+
+  if (resp.status === 401 && !ctx.req) {
+    Router.replace('/admin/login');
+    return {};
+  }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return;
+  }
+
+  const contact = await resp.json()
 
   return {
     props: {

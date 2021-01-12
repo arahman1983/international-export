@@ -5,6 +5,8 @@ import useTranslation from "../../locals/localHook"
 import {AdminProduct} from '../../types/product'
 import productsReducer from "../../reducers/products/reducer";
 import { addProduct, editProduct } from "../../reducers/products/actions";
+import { NextPageContext } from 'next';
+import Router from 'next/router'
 
 
 export default function ProductsAdmin({ productsProps, brandsProps, categories  }) {
@@ -182,14 +184,35 @@ export default function ProductsAdmin({ productsProps, brandsProps, categories  
 }
 
 
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/products/all`)
-  const products = await res.json()
+export async function getServerSideProps(ctx: NextPageContext) {
+  const cookie = ctx.req?.headers.cookie;
+  const url = `${process.env.URL_ROOT}/api/products/all`;
+  
+  const resp = await fetch(url, {
+    headers: {
+      cookie: cookie!
+    }
+  });
 
-  const resBrands = await fetch(`${process.env.URL_ROOT}/api/brands/all`)
+  if (resp.status === 401 && !ctx.req) {
+    Router.replace('/admin/login');
+    return {};
+  }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return;
+  }
+  
+  const products = await resp.json()
+
+  const resBrands = await fetch(`${process.env.URL_ROOT}/api/brands/notDeleted`)
   const brands = await resBrands.json()
 
-  const resCat = await fetch(`${process.env.URL_ROOT}/api/categories/all`)
+  const resCat = await fetch(`${process.env.URL_ROOT}/api/categories/notDeleted`)
   const categories = await resCat.json()
 
   return {

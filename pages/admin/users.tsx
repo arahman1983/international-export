@@ -8,6 +8,8 @@ import { User } from '../../types/users'
 import usersReducer from "../../reducers/users/reducer";
 import { addUser, editUser } from "../../reducers/users/actions";
 import fetch from 'isomorphic-unfetch'
+import { NextPageContext } from 'next';
+import Router from 'next/router'
 
 
 export default function UsersAdmin({ usersProps, rolesProps }) {
@@ -204,11 +206,35 @@ export default function UsersAdmin({ usersProps, rolesProps }) {
 }
 
 
-export async function getStaticProps() {
+export async function getServerSideProps(ctx:NextPageContext) {
+
+  
+  const cookie = ctx.req?.headers.cookie;
+  const url = `${process.env.URL_ROOT}/api/users/all`;
+  
+  const resp = await fetch(url, {
+    headers: {
+      cookie: cookie!
+    }
+  });
+
+  if (resp.status === 401 && !ctx.req) {
+    Router.replace('/admin/login');
+    return {};
+  }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return;
+  }
+
   const res = await fetch(`${process.env.URL_ROOT}/api/users/all`)
   const users = await res.json()
 
-  const resRoles = await fetch(`${process.env.URL_ROOT}/api/roles/all`)
+  const resRoles = await fetch(`${process.env.URL_ROOT}/api/roles/notDeleted`)
   const roles = await resRoles.json()
 
   return {

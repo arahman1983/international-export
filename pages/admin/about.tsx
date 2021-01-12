@@ -8,6 +8,8 @@ import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import { useGet } from '../../lib/swr-hooks'
 import { AboutAdmin } from '../../types/about';
+import { NextPageContext } from 'next';
+import Router from 'next/router';
 
 
 
@@ -208,9 +210,30 @@ export default function AdminAbout({ aboutProps }) {
   )
 }
 
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/about/about`)
-  const about = await res.json()
+export async function getServerSideProps(ctx:NextPageContext) {
+  const cookie = ctx.req?.headers.cookie;
+  const url = `${process.env.URL_ROOT}/api/about/aboutAdmin`;
+  
+  const resp = await fetch(url, {
+    headers: {
+      cookie: cookie!
+    }
+  });
+
+  if (resp.status === 401 && !ctx.req) {
+    Router.replace('/admin/login');
+    return {};
+  }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return;
+  }
+  
+  const about = await resp.json()
 
   return {
     props: {

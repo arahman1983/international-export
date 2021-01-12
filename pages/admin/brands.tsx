@@ -7,6 +7,8 @@ import useTranslation from "../../locals/localHook"
 import { AdminCategory } from '../../types/categories'
 import brandsReducer from "../../reducers/brands/reducer";
 import { addBrand, editBrand } from "../../reducers/brands/actions";
+import Router from 'next/router';
+import { NextPageContext } from 'next';
 
 export default function BrandsAdmin({brands}) {
   const { t } = useTranslation()
@@ -179,9 +181,30 @@ export default function BrandsAdmin({brands}) {
 
 
 
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/brands/all`)
-  const brands = await res.json()
+export async function getServerSideProps(ctx:NextPageContext) {
+  const cookie = ctx.req?.headers.cookie;
+  const url = `${process.env.URL_ROOT}/api/brands/all`;
+  
+  const resp = await fetch(url, {
+    headers: {
+      cookie: cookie!
+    }
+  });
+
+  if (resp.status === 401 && !ctx.req) {
+    Router.replace('/admin/login');
+    return {};
+  }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return;
+  }
+  
+  const brands = await resp.json()
 
   return {
     props: {

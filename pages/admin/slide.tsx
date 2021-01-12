@@ -8,6 +8,8 @@ import { AdminSlide } from '../../types/slider'
 import slidesReducer from "../../reducers/slides/reducer";
 import { addSlide, editSlide } from "../../reducers/slides/actions";
 import Image from 'next/image'
+import { NextPageContext } from 'next';
+import  Router  from 'next/router';
 
 
 export default function SliderAdmin({ sliderProp }) {
@@ -224,9 +226,31 @@ return (
 }
 
 
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/slides/all`)
-  const sliderProp = await res.json()
+export async function getServerSideProps(ctx:NextPageContext) {
+
+  const cookie = ctx.req?.headers.cookie;
+  const url = `${process.env.URL_ROOT}/api/slides/all`;
+  
+  const resp = await fetch(url, {
+    headers: {
+      cookie: cookie!
+    }
+  });
+
+  if (resp.status === 401 && !ctx.req) {
+    Router.replace('/admin/login');
+    return {};
+  }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return;
+  }
+
+  const sliderProp = await resp.json()
 
   return {
     props: {

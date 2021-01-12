@@ -1,7 +1,8 @@
-import { NextApiHandler } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { query } from '../../../lib/db'
+import { authenticated } from '../authenticated'
 
-const handler: NextApiHandler = async (req, res) => {
+export default authenticated(async (req:NextApiRequest, res:NextApiResponse) => {
   console.log(req.body)
   const { 
     id,
@@ -60,5 +61,4 @@ const handler: NextApiHandler = async (req, res) => {
     res.status(500).json({ message: e.message })
   }
 }
-
-export default handler
+)

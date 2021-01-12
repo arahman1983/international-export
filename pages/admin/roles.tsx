@@ -6,6 +6,8 @@ import {AdminCategory} from '../../types/categories'
 import rolesReducer from "../../reducers/roles/reducer";
 import { setRoles, addRole, editRole } from "../../reducers/roles/actions";
 import { useGet } from '../../lib/swr-hooks'
+import Router from 'next/router'
+import { NextPageContext } from 'next';
 
 
 export default function RolesAdmin({roles}) {
@@ -171,9 +173,32 @@ export default function RolesAdmin({roles}) {
 }
 
 
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/roles/all`)
-  const roles = await res.json()
+export async function getServerSideProps(ctx: NextPageContext) {
+
+  const cookie = ctx.req?.headers.cookie;
+  const url = `${process.env.URL_ROOT}/api/roles/all`;
+  
+  const resp = await fetch(url, {
+    headers: {
+      cookie: cookie!
+    }
+  });
+
+  if (resp.status === 401 && !ctx.req) {
+    Router.replace('/admin/login');
+    return {};
+  }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return;
+  }
+
+
+  const roles = await resp.json()
 
   return {
     props: {

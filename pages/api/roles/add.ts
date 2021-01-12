@@ -1,10 +1,11 @@
-import { NextApiHandler } from 'next'
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import Filter from 'bad-words'
 import { query } from '../../../lib/db'
+import { authenticated } from '../authenticated'
 
 const filter = new Filter()
 
-const handler: NextApiHandler = async (req, res) => {
+export default authenticated(async (req:NextApiRequest, res:NextApiResponse) => {
   const { title, title_ar, isDeleted } = req.body
   try {
     if (!title || !title_ar) {
@@ -25,5 +26,4 @@ const handler: NextApiHandler = async (req, res) => {
     res.status(500).json({ message: e.message })
   }
 }
-
-export default handler
+)

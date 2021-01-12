@@ -6,6 +6,9 @@ import {AdminCategory} from '../../types/categories'
 import categoriesReducer from "../../reducers/categories/reducer";
 import { addCategory, editCategory } from "../../reducers/categories/actions";
 import { useGet } from '../../lib/swr-hooks'
+import { NextPageContext } from 'next';
+import Router from 'next/router';
+
 
 export default function CategoriesAdmin({categories}) {
   const { t } = useTranslation()
@@ -167,9 +170,29 @@ export default function CategoriesAdmin({categories}) {
 }
 
 
-export async function getStaticProps() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/categories/all`)
-  const categories = await res.json()
+export async function getServerSideProps(ctx: NextPageContext) {
+  const cookie = ctx.req?.headers.cookie;
+  const url = `${process.env.URL_ROOT}/api/categories/all`;
+  
+  const resp = await fetch(url, {
+    headers: {
+      cookie: cookie!
+    }
+  });
+
+  if (resp.status === 401 && !ctx.req) {
+    Router.replace('/admin/login');
+    return {};
+  }
+
+  if (resp.status === 401 && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return;
+  }
+  const categories = await resp.json()
 
   return {
     props: {

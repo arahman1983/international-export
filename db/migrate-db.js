@@ -1,5 +1,6 @@
 const path = require('path')
 const envPath = path.resolve(process.cwd(), '.env.local')
+const bcrypt = require('bcrypt')
 
 console.log({ envPath })
 
@@ -28,6 +29,7 @@ async function query(q) {
 
 // Create "entries" table if doesn't exist
 async function migrate() {
+
   try {
     await query(`
     CREATE TABLE IF NOT EXISTS about (
@@ -169,7 +171,7 @@ async function migrate() {
       INSERT INTO roles (r_role,r_role_ar) VALUES ('Content Admin', 'مدير محتوى')
     `)
     await query(`
-      INSERT INTO users (u_name, u_email,  u_password, u_r_id) VALUES ('Abdelrahman', 'arahman1783@yahoo.com', '12oglg8e', 1)
+      INSERT INTO users (u_name, u_email,  u_password, u_r_id) VALUES ('Abdelrahman', 'arahman1783@yahoo.com', '12345@p', 1)
     `)
     await query(`
       INSERT INTO about (title, title_ar, description, description_ar, details, details_ar, image, keyWords) VALUES ('About Expo', 'عن الشركة' , 'About Description', 'ملخص عن الشركة',  'About Details', 'تفاصيل عن الشركة', '/images/logo.png', 'cars, spare parts')
