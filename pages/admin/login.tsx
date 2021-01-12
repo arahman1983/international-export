@@ -28,6 +28,7 @@ export default function Login() {
       })
     });
     const json = await resp.json();
+    if(typeof(Storage) !== 'undefined') localStorage.setItem('user', JSON.stringify(json))
     router.push('/admin/about')
     
     } catch (e) {

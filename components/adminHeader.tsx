@@ -3,7 +3,7 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import { faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {AdminModal, ChangePasswordForm} from '../components'
 import useTranslation from '../locals/localHook'
 
@@ -15,16 +15,24 @@ export default function AdminHeader(){
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
+  const [user, setUser] = useState<any>()
+  useEffect(() => {
+    if(typeof(Storage) !== 'undefined'){
+      setUser(JSON.parse(localStorage.getItem('user')))
+    }
+  }, [])
+
   const logoutHandler = async(e) => {
     e.preventDefault();
     try {
       const resp = await fetch('/api/users/signout', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // },
     });
     const json = await resp.json();
+    if(typeof(Storage) !== 'undefined') localStorage.removeItem('user')
     router.push('/admin/login')
     
     } catch (e) {
@@ -40,7 +48,7 @@ export default function AdminHeader(){
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: 1, 
+          id: user.id, 
           old_password: item.old_password,
           password: item.password,
         }),
@@ -65,9 +73,10 @@ export default function AdminHeader(){
           <button className="btn mt-3" onClick={(e)=> {
             e.preventDefault();
             handleShow()
+
           }}>
             <FontAwesomeIcon icon={faUser} color="#888" style={{width:'15px', marginRight: '10px', marginTop:'0'}} />
-            <span>User Name</span>
+            <span>{user && user?.userName}</span>
           </button>
         </li>
         
