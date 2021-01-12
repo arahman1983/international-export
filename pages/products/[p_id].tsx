@@ -1,42 +1,51 @@
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { DetailsPage, Layout, InnerHeader } from '../../components'
 
 
 export default function ProductDetails({product}) {
+  const [productDetails, setProductDetails] = useState<any>({...product})
+  let lang: string
+  if(typeof Storage !== 'undefined'){
+    lang = localStorage.getItem('lang')
+  }
+  useEffect(() => {
+    if(lang){
+      lang === 'ar' 
+        ? setProductDetails ({
+          ...product,
+          title: product.title_ar,
+          details: product.details_ar,
+          description: product.description_ar
+        })
+        : setProductDetails ({
+          ...product
+        })
+    }
+    
+  }, [lang])
   return (
     <Layout>
-      <InnerHeader image={product.image} />
-      <DetailsPage details={product} />
+      <InnerHeader image="/images/sliderA.jpg" />
+      <DetailsPage details={productDetails} />
     </Layout>
   )
 }
 
 export async function getStaticPaths() {
-  let products = [
-    {
-      id: "1",
-    },
-    {
-      id: "2",
-    },
-    {
-      id: "3",
-    }
-  ]
+  const res = await fetch(`${process.env.URL_ROOT}/api/products/notDeleted`)
+  const products = await res.json()
+
   const paths = products.map((product) => `/products/${product.id}`)
   return { paths, fallback: false }
 }
 
 export async function getStaticProps({params}) {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
+  const res = await fetch(`${process.env.URL_ROOT}/api/products/${params.p_id}`)
+  const product = await res.json()
   return {
     props: {
-      product: {
-        title: "Product Name " + params.p_id,
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently ",
-        details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        image: "/images/sliderA.jpg"
-      },
+      product: product[0]
     },
   }
 }

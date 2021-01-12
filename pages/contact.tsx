@@ -1,6 +1,20 @@
+import { useRouter } from 'next/router';
 import { Layout, ContactForm, InnerHeader, ContactInfo } from '../components'
 
-export default function ContactUs({ contactInfo }) {
+const path = require('path')
+const envPath = path.resolve(process.cwd(), '.env.local')
+require('dotenv').config({ path: envPath })
+
+export default function ContactUs({ contact }) {
+  const router = useRouter();
+  //let lang = 
+  let lang = router.query.lang
+  if(typeof(Storage) !== "undefined"){
+    lang =  localStorage.getItem('lang')
+  }
+
+  let contactInfo = lang === 'ar' ? {...contact, address: contact.address_ar} : {...contact}
+
   return (
     <Layout>
       <InnerHeader image="/images/aboutBg.svg" />
@@ -20,16 +34,12 @@ export default function ContactUs({ contactInfo }) {
 
 
 export async function getStaticProps() {
-  //const res = await fetch('https://.../posts')
-  //const about = await res.json()
+  const res = await fetch(`${process.env.URL_ROOT}/api/contact/all`)
+  const contact = await res.json()
 
   return {
     props: {
-      contactInfo: {
-        address: "15 building name, Street Name, Town, Country",
-        phone: ["010-202-3555", "010-202-3500"],
-        email: ["info@international-expo.com"],
-      },
+      contact: contact[0]
     },
   }
 }

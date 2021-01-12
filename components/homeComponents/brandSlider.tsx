@@ -33,7 +33,7 @@ export default function BrandSlider(props: any) {
       keyBoardControl={true}
       customTransition="all .5"
       transitionDuration={500}
-      containerClass="carousel-container text-center"
+      containerClass="carousel-container d-flex justify-content-center"
       removeArrowOnDeviceType={["tablet", "mobile"]}
       deviceType={props.deviceType}
       itemClass="carousel-item-padding-40-px mx-0"

@@ -164,6 +164,21 @@ a, a:hover {
   transform: scale(1.2);
 }
 
+.content-warper{
+  min-height: 80vh !important;
+  padding: 2rem;
+  min-width: 80%;
+}
+
+.textPrimary{
+  color: var(--primary)
+}
+
+.thead-dark{
+  background-color: var(--primary) !important;
+}
+
+
 @media only screen and (max-width: 550px){
   .carousel-item{
     height: max-content

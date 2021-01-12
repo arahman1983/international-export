@@ -4,3 +4,18 @@ export default interface About {
   details?: string;
   image?: string;
 }
+
+
+export interface AboutAdmin {
+  id: number,
+  title: string,
+  title_ar: string,
+  description: string,
+  description_ar: string ,
+  details: string,
+  details_ar: string,
+  image: string,
+  createdAt: string,
+  updatedAt: string,
+  keyWords: string
+}

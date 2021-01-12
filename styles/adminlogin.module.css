@@ -1,0 +1,45 @@
+.loginPage{
+  width: 80vw;
+  height: 100vh;
+  padding: 2rem;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  background: url('/images/adminbg.jpg') no-repeat;
+  background-position: left center;
+}
+
+.loginCard{
+  width: 350px;
+  border-radius: 20px;
+  box-shadow: rgba(0,0,0,0.2) 0 0 10px;
+  border-color: transparent;
+}
+
+.loginCard h3{
+  text-align: center;
+  color: gray;
+  margin-top: 20px
+};
+
+.loginCard .form-group{
+  position: relative !important;
+}
+
+.togglePass{
+  position: absolute !important;
+  right: 0;
+  top: 0;
+  z-index: 99;
+}
+
+@media only screen and (max-width: 550px){
+  .loginPage{
+    width: 100vw;
+    height: 100vh;
+    padding: 5px;
+    background: none
+  }
+}

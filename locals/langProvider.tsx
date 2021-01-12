@@ -8,7 +8,6 @@ export const LanguageProvider: React.FC = ({ children }) => {
   let lang:string;
   if(typeof(Storage) !== "undefined"){
    lang =  localStorage.getItem('lang')
-
   }
   const [locale, setLocale] = useState<string | undefined>(lang ? lang : "en")
 

@@ -10,7 +10,7 @@ import Brand from '../types/brands'
 import Category from '../types/categories'
 
 
-export default function Header() {
+export default function Header({brands, categories}) {
   const router = useRouter()
 
   // function to get the language translation 
@@ -22,49 +22,10 @@ export default function Header() {
     let newLocal: string = t("ChangeLang").toLowerCase();
     setLocale(newLocal)
     localStorage.setItem('lang', newLocal)
+    router.push(`${router.pathname}`)
   }
 
   // get brand and category
-
-  const [brands] = useState<Brand[]>([
-    {
-      id: "1",
-      name: "Toyota",
-      image: "/images/toyota.png"
-    },
-    {
-      id: "2",
-      name: "Renault",
-      image: "/images/rino.png"
-    },
-    {
-      id: "3",
-      name: "Hundy",
-      image: "/images/huy.png"
-    },
-    {
-      id: "4",
-      name: "BYD",
-      image: "/images/byd.png"
-    },
-    {
-      id: "5",
-      name: "BMW",
-      image: "/images/bmw.png"
-    }
-  ])
-
-  const [categories] = useState<Category[]>([
-    {
-      id: "1",
-      name: "wheels"
-    },
-    {
-      id: "2",
-      name: "lamps"
-    }
-  ])
-
 
 
 
@@ -89,7 +50,7 @@ export default function Header() {
             </Link>
             <NavDropdown title={t("Products")} id="products">
               {
-                categories.map((category: Category, i: number) => (
+                categories?.map((category: Category, i: number) => (
                   <Link href={`/products?type=category&q=${category.name}`} key={i}>
                     <a className="dropdown-item" >{category.name}</a>
                   </Link>
@@ -98,7 +59,7 @@ export default function Header() {
             </NavDropdown>
             <NavDropdown title={t("Brands")} id="Brands">
               {
-                brands.map((brand: Brand, i: number) => (
+                brands?.map((brand: Brand, i: number) => (
                   <Link href={`/products?type=brand&q=${brand.name}`} key={i}>
                     <a className="dropdown-item" >{brand.name}</a>
                   </Link>

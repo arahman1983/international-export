@@ -1,6 +1,6 @@
 import { Carousel } from 'react-bootstrap'
 import { useState } from 'react'
-import Slide from '../../types/slider'
+import {AdminSlide} from '../../types/slider'
 
 export default function Slider({ slider }) {
   const [index, setIndex] = useState(0)
@@ -11,16 +11,16 @@ export default function Slider({ slider }) {
   return (
     <Carousel activeIndex={index} onSelect={handleSelect} >
       {
-        slider.map((slide: Slide, i: number) => (
+        slider.map((slide: AdminSlide, i: number) => (
           <Carousel.Item key={i}>
             <img
               className="d-block w-100"
               src={slide.image}
-              alt={slide?.h1}
+              alt={slide?.title}
             />
             <Carousel.Caption>
-              <h3>{slide?.h1}</h3>
-              <p>{slide?.h2}</p>
+              <h3>{slide?.title}</h3>
+              <p>{slide?.description}</p>
             </Carousel.Caption>
           </Carousel.Item>
         ))
