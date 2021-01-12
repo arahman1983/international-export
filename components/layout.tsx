@@ -3,7 +3,7 @@ import { createContext, useState } from 'react'
 import { Header, Footer } from "../components"
 import { useGet } from '../lib/swr-hooks'
 
-export const BrandsCategoriesContext = createContext({})
+export const BrandsCategoriesContext = createContext([])
 
 export default function Layout({ children }) {
   let lang: string;
