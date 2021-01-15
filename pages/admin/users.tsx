@@ -228,7 +228,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
       Location: `${process.env.URL_ROOT}/admin/login`
     });
     ctx.res?.end();
-    return;
+    return {};
   }
 
   const res = await fetch(`${process.env.URL_ROOT}/api/users/all`)

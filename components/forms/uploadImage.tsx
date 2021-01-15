@@ -42,7 +42,7 @@ export default function UploadImage({picUrl, setFile, ...props}) {
           : picURL
           ?
           <div className={styles.uploadDiv}>
-            <Image src={picURL} width={300} height={300} alt="pic"  />
+            <img src={picURL} width={300} height={300} alt="pic"  />
           </div>
           :
           <div className={styles.uploadDiv}>

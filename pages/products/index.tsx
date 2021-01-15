@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from "next/router"
 import { Layout, InnerHeader, ProductCard, NoData, FilteredProducts } from "../../components";
 import Product from "../../types/product";
-
+import { query } from "../../lib/db";
 
 const path = require('path')
 const envPath = path.resolve(process.cwd(), '.env.local')
@@ -61,14 +61,14 @@ export default function products({ products }) {
 }
 
 
-export async function getStaticProps() {
+export async function getStaticProps(ctx) {
   
   const res = await fetch(`${process.env.URL_ROOT}/api/products/notDeleted`)
   const products = await res.json()
   
   return {
     props: {
-      products: products,
+      products,
     },
   }
 }

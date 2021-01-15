@@ -63,7 +63,7 @@ export default function Login() {
       <div className={`card ${styles.loginCard}`}>
         <div className="card-body">
           <div className="w-100 text-center">
-            <Image src="/images/logo.png" className="mx-auto" width={140} height={100} />
+            <img src="/images/logo.png" className="mx-auto" width={140} height={100} />
           </div>
           <h3>{t('LoginHead')}</h3>
           <form className="my-4" onSubmit={formik.handleSubmit}>

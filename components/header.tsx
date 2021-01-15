@@ -35,7 +35,7 @@ export default function Header({brands, categories}) {
       <Navbar bg="white" expand="lg" className="w-100 p-0" style={{maxHeight:'120px'}}>
         <SpeedContact />
         <Link href="/">
-          <a><Image src="/images/logo.png" width={188} height={133} alt="International Export" /></a>
+          <a><img src="/images/logo.png" width={188} height={133} alt="International Export" /></a>
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

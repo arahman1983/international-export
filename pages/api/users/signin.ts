@@ -15,7 +15,7 @@ export default async function signIn (req:NextApiRequest, res:NextApiResponse) {
   try {
   if(req.method === 'POST') {
     const person = await query(`
-      SELECT * FROM users WHERE isDeleted = 0 and u_email = ?
+      SELECT * FROM users WHERE u_isDeleted = 0 and u_email = ?
     `, [req.body.email])
 
     compare(req.body.password, person[0].u_password, function(err, result){
