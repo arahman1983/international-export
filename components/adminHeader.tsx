@@ -66,7 +66,6 @@ export default function AdminHeader(){
 
   return(
     <div className={`bg-light py-2 px-5 ${styles.header} `}>
-      {/* <Image src="/images/logo.png" className="mx-auto" width={155} height={100} /> */}
       <h3 className="my-3 text-danger">International Export</h3>
       <ul className="nav">
       <li className="nav-item mx-2">

@@ -82,7 +82,7 @@ return (
 
 
 export async function getStaticProps() {
-  const resSlider = await fetch(`${process.env.URL_ROOT}/api/about/about`)
+  const resSlider = await fetch(`${process.env.URL_ROOT}/api/slides/notDeleted`)
   const slider = await resSlider.json()
 
   const resAbout = await fetch(`${process.env.URL_ROOT}/api/about/about`)
