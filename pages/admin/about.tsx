@@ -219,7 +219,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
       cookie: cookie!
     }
   });
-
+  console.log(resp.status)
   if (resp.status === 401 && !ctx.req) {
     Router.replace('/admin/login');
     return {};
