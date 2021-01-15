@@ -231,11 +231,22 @@ export async function getServerSideProps(ctx:NextPageContext) {
     return {};
   }
 
+
   const res = await fetch(`${process.env.URL_ROOT}/api/users/all`)
   const users = await res.json()
 
   const resRoles = await fetch(`${process.env.URL_ROOT}/api/roles/notDeleted`)
   const roles = await resRoles.json()
+
+
+  if (users.message === 'Sorry you are not authenticated' && ctx.req) {
+    ctx.res?.writeHead(302, {
+      Location: `${process.env.URL_ROOT}/admin/login`
+    });
+    ctx.res?.end();
+    return {};
+  }
+
 
   return {
     props: {
