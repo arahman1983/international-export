@@ -193,7 +193,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
 
   if (resp.status === 401 && !ctx.req) {
     Router.replace('/admin/login');
-    return {};
+    return {props:{}};
   }
 
   if (resp.status === 401 && ctx.req) {
@@ -201,7 +201,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
       Location: `${process.env.URL_ROOT}/admin/login`
     });
     ctx.res?.end();
-    return {};
+    return {props:{}};
   }
   
   const brands = await resp.json()
