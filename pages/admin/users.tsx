@@ -241,8 +241,8 @@ export async function getServerSideProps(ctx:NextPageContext) {
 
   return {
     props: {
-      usersProps: users,
-      rolesProps: roles.map(r => ({id: r.r_id, role: r.r_role}))
+      usersProps: users ? users : [],
+      rolesProps: roles ? roles.map(r => ({id: r.r_id, role: r.r_role})) : []
     },
   }
 }

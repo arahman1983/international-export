@@ -208,7 +208,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
 
   return {
     props: {
-      brands
+      brands : brands ? brands : []
     },
   }
 }

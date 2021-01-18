@@ -254,7 +254,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
 
   return {
     props: {
-      sliderProp
+      sliderProp : sliderProp ? sliderProp : []
     },
   }
 }

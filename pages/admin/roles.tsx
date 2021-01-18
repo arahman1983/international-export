@@ -202,7 +202,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
 
   return {
     props: {
-      roles
+      roles : roles ? roles : []
     },
   }
 }

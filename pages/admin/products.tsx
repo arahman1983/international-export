@@ -217,9 +217,9 @@ export async function getServerSideProps(ctx: NextPageContext) {
 
   return {
     props: {
-      brandsProps: brands,
-      categories: categories,
-      productsProps: products
+      brandsProps: brands ? brands : [],
+      categories: categories ? categories : [],
+      productsProps: products ? products : []
     },
   }
 }

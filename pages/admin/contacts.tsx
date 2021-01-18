@@ -138,7 +138,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
 
   return {
     props: {
-      contactsProp:contact[0]
+      contactsProp: contact ? contact[0] : {}
     }
   }
 }

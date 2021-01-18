@@ -237,7 +237,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
 
   return {
     props: {
-      aboutProps: about[0]
+      aboutProps: about ? about[0] : {}
     }
   }
 }
