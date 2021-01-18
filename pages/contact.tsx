@@ -39,7 +39,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      contact: contact[0]
+      contact: contact ? contact[0] : {}
     },
   }
 }

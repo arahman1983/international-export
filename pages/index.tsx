@@ -96,10 +96,10 @@ export async function getStaticProps() {
 
   return {
     props: {
-      sliderProps: slider,
-      aboutProps: about[0],
-      productsProps: products,
-      brandsProps: brands,
+      sliderProps: slider ? slider : [],
+      aboutProps: about ? about[0] : {},
+      productsProps: products ? products : [],
+      brandsProps: brands ? brands : [],
     },
   }
 }

@@ -46,16 +46,16 @@ export default function SideMenu() {
       link: '/admin/contacts',
       icon: faPhoneAlt
     },
-    {
-      title: t('Users'),
-      link: '/admin/users',
-      icon: faUsers
-    },
-    {
-      title: t('Roles'),
-      link: '/admin/roles',
-      icon: faUserTag
-    }
+    // {
+    //   title: t('Users'),
+    //   link: '/admin/users',
+    //   icon: faUsers
+    // },
+    // {
+    //   title: t('Roles'),
+    //   link: '/admin/roles',
+    //   icon: faUserTag
+    // }
 
   ]
 

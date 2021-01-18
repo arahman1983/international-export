@@ -211,7 +211,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
   
   const cookie = ctx.req?.headers.cookie;
   const url = `${process.env.URL_ROOT}/api/users/all`;
-  
+
   const resp = await fetch(url, {
     headers: {
       cookie: cookie!
@@ -220,7 +220,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
 
   if (resp.status === 401 && !ctx.req) {
     Router.replace('/admin/login');
-    return {};
+    return {props:{}};
   }
 
   if (resp.status === 401 && ctx.req) {
@@ -228,7 +228,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
       Location: `${process.env.URL_ROOT}/admin/login`
     });
     ctx.res?.end();
-    return {};
+    return {props:{}};
   }
 
 
@@ -239,19 +239,10 @@ export async function getServerSideProps(ctx:NextPageContext) {
   const roles = await resRoles.json()
 
 
-  if (users.message === 'Sorry you are not authenticated' && ctx.req) {
-    ctx.res?.writeHead(302, {
-      Location: `${process.env.URL_ROOT}/admin/login`
-    });
-    ctx.res?.end();
-    return {};
-  }
-
-
   return {
     props: {
-      usersProps: users,
-      rolesProps: roles.map(r => ({id: r.r_id, role: r.r_role}))
+      usersProps: users ? users : [],
+      rolesProps: roles ? roles.map(r => ({id: r.r_id, role: r.r_role})) : []
     },
   }
 }

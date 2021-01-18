@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.css';
 import { Loader } from '../components'
 
-
 function MyApp({ Component, pageProps }) {
   const Router = useRouter()
   
@@ -21,9 +20,11 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   return isLoaded ? (
+    
       <LanguageProvider>
         <Component {...pageProps} />
       </LanguageProvider>
+    
       ) : <Loader />
 }
 

@@ -64,7 +64,7 @@ export async function getStaticProps() {
   const about = await res.json()
   return {
     props: {
-      about: {...about[0]}
+      about: about ? {...about[0]} : {}
     },
   }
 }

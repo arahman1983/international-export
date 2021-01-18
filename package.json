@@ -2,11 +2,10 @@
   "name": "international-export",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://international-expo.com/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 1234",
     "migrate": "node db/migrate-db.js"
   },
   "dependencies": {
