@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { authenticated } from '../authenticated'
+import { authenticated } from '../../../functions/authenticated'
 import cookie from 'cookie';
 
 

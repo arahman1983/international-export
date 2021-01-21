@@ -47,9 +47,7 @@ export default function Login() {
     }),
     onSubmit: values => {
       // send to login API
-      postSignIn(values).then(()=>{
-        console.log(JSON.stringify(values, null, 2));
-      })
+      postSignIn(values)
     },
   })
 

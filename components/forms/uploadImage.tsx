@@ -20,7 +20,6 @@ export default function UploadImage({picUrl, setFile, ...props}) {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setPicture (reader.result);
-      console.log(reader.result)
       //this.handleSubmit()
       setFile(reader.result)
       setPicURL(null)

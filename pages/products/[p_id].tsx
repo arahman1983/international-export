@@ -32,16 +32,16 @@ export default function ProductDetails({product}) {
   )
 }
 
-export async function getStaticPaths() {
-  const res = await fetch(`${process.env.URL_ROOT}/api/products/notDeleted`)
-  const products = await res.json()
+// export async function getStaticPaths() {
+//   const res = await fetch(`${process.env.URL_ROOT}/api/products/notDeleted`)
+//   const products = await res.json()
 
-  const paths = products.map((product) => `/products/${product.id}`)
-  return { paths, fallback: false }
-}
+//   const paths = products.map((product) => `/products/${product.id}`)
+//   return { paths, fallback: false }
+// }
 
-export async function getStaticProps({params}) {
-  const res = await fetch(`${process.env.URL_ROOT}/api/products/${params.p_id}`)
+export async function getServerSideProps(ctx) {
+  const res = await fetch(`${process.env.URL_ROOT}/api/products/${ctx.query.p_id}`)
   const product = await res.json()
   return {
     props: {

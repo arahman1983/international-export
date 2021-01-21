@@ -174,11 +174,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
   const cookie = ctx.req?.headers.cookie;
   const url = `${process.env.URL_ROOT}/api/categories/all`;
   
-  const resp = await fetch(url, {
-    headers: {
-      cookie: cookie!
-    }
-  });
+  const resp = await fetch(url);
 
   if (resp.status === 401 && !ctx.req) {
     Router.replace('/admin/login');

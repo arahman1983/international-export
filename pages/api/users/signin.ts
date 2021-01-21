@@ -25,7 +25,7 @@ export default async function signIn (req:NextApiRequest, res:NextApiResponse) {
         
         res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
           httpOnly: true,
-          secure: process.env.NODE_ENV !== 'development',
+          secure: false,
           sameSite: 'strict',
           maxAge: 3600,
           path: '/admin/'
