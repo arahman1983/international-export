@@ -58,7 +58,7 @@ function AboutComp({about}) {
 }
 
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   
   const res = await fetch(`${process.env.URL_ROOT}/api/about/about`)
   const about = await res.json()

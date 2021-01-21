@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Filter from "bad-words";
 import { query } from "../../../lib/db";
-import { authenticated } from "../authenticated";
+import { authenticated } from "../../../functions/authenticated";
 
 const filter = new Filter();
 

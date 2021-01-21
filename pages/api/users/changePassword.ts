@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { query } from "../../../lib/db";
 import { compare, hash } from "bcrypt";
 import path from "path";
-import { authenticated } from "../authenticated";
+import { authenticated } from "../../../functions/authenticated";
 
 const envPath = path.resolve(process.cwd(), ".env.local");
 require("dotenv").config({ path: envPath });

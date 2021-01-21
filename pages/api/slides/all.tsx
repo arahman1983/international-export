@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query } from '../../../lib/db'
-import { authenticated } from '../authenticated'
+import { authenticated } from '../../../functions/authenticated'
 
 export default authenticated(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
