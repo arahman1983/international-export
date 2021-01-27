@@ -9,6 +9,7 @@ const envPath = path.resolve(process.cwd(), '.env.local')
 require('dotenv').config({ path: envPath })
 
 
+const secret = '0e900be1-0ac5-3b6c-bf4b-38f8b21a189b'
 
 export default async function signIn (req:NextApiRequest, res:NextApiResponse) {
   // const { username, password, email, role } = req.body
@@ -21,14 +22,14 @@ export default async function signIn (req:NextApiRequest, res:NextApiResponse) {
     compare(req.body.password, person[0].u_password, function(err, result){
       if(!err && result){
         const claims = { sub: person[0].u_id, myPersonEmail: person[0].u_email };
-        const jwt = sign(claims, process.env.SECRET, { expiresIn: '8h' });
+        const jwt = sign(claims, secret, { expiresIn: '8h' });
         
         res.setHeader('Set-Cookie', cookie.serialize('auth', jwt, {
           httpOnly: true,
           secure: false,
           sameSite: 'strict',
           maxAge: 3600,
-          path: '/admin/'
+          path: '/'
         }))
         res.json({id : person[0].u_id, userName: person[0].u_name,  role: person[0].u_r_id});
       } else {

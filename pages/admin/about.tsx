@@ -214,7 +214,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
   const cookie = ctx.req?.headers.cookie;
   const url = `${process.env.URL_ROOT}/api/about/aboutAdmin`;
   
-  const resp = await fetch(url);
+  const resp = await fetch(url,{headers: {cookie: ctx.req.headers.cookie}});
 
   if (resp.status === 401 && !ctx.req) {
     Router.replace('/admin/login');
@@ -222,15 +222,13 @@ export async function getServerSideProps(ctx:NextPageContext) {
   }
 
   if (resp.status === 401 && ctx.req) {
-    ctx.res?.writeHead(302, {
-      Location: `${process.env.URL_ROOT}/admin/login`
-    });
-    ctx.res?.end();
+    ctx.res.setHeader('Location', '/admin/login');
+    ctx.res.statusCode = 302;
+    // return { redirect: '/admin/login' }
     return {props:{}};
   }
-  
   const about = await resp.json()
-
+  console.log("before return")
   return {
     props: {
       aboutProps: about ? about[0] : {}

@@ -212,7 +212,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
   const cookie = ctx.req?.headers.cookie;
   const url = `${process.env.URL_ROOT}/api/users/all`;
 
-  const resp = await fetch(url);
+  const resp = await fetch(url,{headers: {cookie: ctx.req.headers.cookie}});
 
   if (resp.status === 401 && !ctx.req) {
     Router.replace('/admin/login');
@@ -227,9 +227,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
     return {props:{}};
   }
 
-
-  const res = await fetch(`${process.env.URL_ROOT}/api/users/all`)
-  const users = await res.json()
+  const users = await resp.json()
 
   const resRoles = await fetch(`${process.env.URL_ROOT}/api/roles/notDeleted`)
   const roles = await resRoles.json()

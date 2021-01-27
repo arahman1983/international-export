@@ -7,10 +7,10 @@ export default async function signOut (req:NextApiRequest, res:NextApiResponse) 
   try {
         res.setHeader('Set-Cookie', cookie.serialize('auth', '', {
           httpOnly: true,
-          secure: process.env.NODE_ENV !== 'development',
+          secure: false,
           sameSite: 'strict',
           maxAge: 0,
-          path: '/admin/'
+          path: '/'
         }))
         res.json({auth:'', expiresIn: Date.now()})
         res.destroy()
