@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "next start -p 2500",
     "migrate": "node db/migrate-db.js"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "jsonwebtoken": "^8.5.1",
     "next": "10.0.3",
     "next-i18next": "^7.0.1",
+    "pm2": "^4.5.1",
     "react": "17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "17.0.1",
