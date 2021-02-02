@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { faTimes, faBars, faUsers, faPuzzlePiece, faCopyright, faCar, faPhoneAlt, faInfoCircle, faImages, faUserTag } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,49 +15,59 @@ export default function SideMenu() {
     setCollapsed(!collapsed)
   }
 
-  const menuItems = [
-    {
-      title: t('About'),
-      link: '/admin/about',
-      icon: faInfoCircle
-    },
-    {
-      title: t('Slide'),
-      link: '/admin/slide',
-      icon: faImages
-    },
-    {
-      title: t('Categories'),
-      link: '/admin/categories',
-      icon: faPuzzlePiece
-    },
-    {
-      title: t('AdBrands'),
-      link: '/admin/brands',
-      icon: faCopyright
-    },
-    {
-      title: t('AdProducts'),
-      link: '/admin/products',
-      icon: faCar
-    },
-    {
-      title: t('Contact'),
-      link: '/admin/contacts',
-      icon: faPhoneAlt
-    },
-    {
-      title: t('Users'),
-      link: '/admin/users',
-      icon: faUsers
-    },
-    {
-      title: t('Roles'),
-      link: '/admin/roles',
-      icon: faUserTag
-    }
+  const [menuItems, setMenuItems] = useState(
+    [
+      {
+        title: t('About'),
+        link: '/admin/about',
+        icon: faInfoCircle
+      },
+      {
+        title: t('Slide'),
+        link: '/admin/slide',
+        icon: faImages
+      },
+      {
+        title: t('Categories'),
+        link: '/admin/categories',
+        icon: faPuzzlePiece
+      },
+      {
+        title: t('AdBrands'),
+        link: '/admin/brands',
+        icon: faCopyright
+      },
+      {
+        title: t('AdProducts'),
+        link: '/admin/products',
+        icon: faCar
+      },
+      {
+        title: t('Contact'),
+        link: '/admin/contacts',
+        icon: faPhoneAlt
+      },
+      {
+        title: t('Users'),
+        link: '/admin/users',
+        icon: faUsers
+      },
+      // {
+      //   title: t('Roles'),
+      //   link: '/admin/roles',
+      //   icon: faUserTag
+      // }
+  ])
 
-  ]
+
+  useEffect(() => {
+    let uRole:number
+    if(typeof(Storage) !== 'undefined') uRole = JSON.parse(localStorage.getItem('user')).role
+    if(uRole && uRole != 1){
+      setMenuItems(menuItems.filter(item => item.link !== '/admin/users'))
+    }
+  }, [])
+
 
   return (
     <div className={ !collapsed ? styles.sideMenu : styles.sideMenuCollapsed}>

@@ -29,10 +29,10 @@ export default function AdminAbout({ aboutProps }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           ...values,
-          id: about.id, 
-          }),
+          id: about.id,
+        }),
       })
       const json = await res.json()
       if (!res.ok) console.log(json.message)
@@ -69,10 +69,10 @@ export default function AdminAbout({ aboutProps }) {
     }
   })
 
-  const setFile = (file) =>{
-      formik.values.image = file
-      console.log(file)
-    }
+  const setFile = (file) => {
+    formik.values.image = file
+    console.log(file)
+  }
 
   useEffect(() => {
     let changes = Object.keys(formik.values).filter(key => formik.values[key] !== about[key])
@@ -152,10 +152,12 @@ export default function AdminAbout({ aboutProps }) {
             </div>
             <div className="form-group">
               <label htmlFor="details">{t('Details')}</label>
-              <SunEditor height={200} name="details"
+              <textarea name="details" className="form-control" id='details' rows = {5}
+                {...formik.getFieldProps('details')}></textarea>
+              {/* <SunEditor height={200} name="details"
                 setContents={formik.values.details}
                 onChange={(content) => formik.setValues({ ...formik.values, details: content })}
-              />
+              /> */}
               {
                 formik.touched.details && formik.errors.details ?
                   <div className="alert alert-danger my-3" role="alert">
@@ -166,10 +168,12 @@ export default function AdminAbout({ aboutProps }) {
             </div>
             <div className="form-group">
               <label htmlFor="details_ar">{t('ArDetails')}</label>
-              <SunEditor height={200} name="details_ar"
+              <textarea name="details_ar" className="form-control" id='details_ar' rows = {5}
+                {...formik.getFieldProps('details_ar')}></textarea>
+              {/* <SunEditor height={200} name="details_ar"
                 setContents={formik.values.details_ar}
                 onChange={(content) => formik.setValues({ ...formik.values, details_ar: content })}
-              />
+              /> */}
               {
                 formik.touched.details_ar && formik.errors.details_ar ?
                   <div className="alert alert-danger my-3" role="alert">
@@ -210,22 +214,22 @@ export default function AdminAbout({ aboutProps }) {
   )
 }
 
-export async function getServerSideProps(ctx:NextPageContext) {
+export async function getServerSideProps(ctx: NextPageContext) {
   const cookie = ctx.req?.headers.cookie;
   const url = `${process.env.URL_ROOT}/api/about/aboutAdmin`;
-  
-  const resp = await fetch(url,{headers: {cookie: ctx.req.headers.cookie}});
+
+  const resp = await fetch(url, { headers: { cookie: ctx.req.headers.cookie } });
 
   if (resp.status === 401 && !ctx.req) {
     Router.replace('/admin/login');
-    return {props:{}};
+    return { props: {} };
   }
 
   if (resp.status === 401 && ctx.req) {
     ctx.res.setHeader('Location', '/admin/login');
     ctx.res.statusCode = 302;
     // return { redirect: '/admin/login' }
-    return {props:{}};
+    return { props: {} };
   }
   const about = await resp.json()
   console.log("before return")

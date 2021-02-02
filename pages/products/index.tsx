@@ -10,6 +10,7 @@ require('dotenv').config({ path: envPath })
 
 export default function products({ products }) {
   
+  //br_id ct_id
   const [filteredProducts, setFilteredProducts] = useState<Product[] | undefined>(products)
   const { query } = useRouter();
   let type = query.type;
@@ -29,7 +30,10 @@ export default function products({ products }) {
   const filterProducts = (title:string, brand:string, category:string) => {
     setFilteredProducts(
       products.filter((product: Product) => 
-      product.title.toLocaleLowerCase().indexOf(title.toLocaleLowerCase()) >= 0 &&  product.brand.toLocaleLowerCase().indexOf(brand.toLocaleLowerCase())>=0 && product.category.toLocaleLowerCase().indexOf(category.toLocaleLowerCase())>=0)
+      product.title.toLocaleLowerCase().indexOf(title.toLocaleLowerCase()) >= 0 
+      &&  product.brand.toLocaleLowerCase().indexOf(brand.toLocaleLowerCase())>=0 
+      && product.category.toLocaleLowerCase().indexOf(category.toLocaleLowerCase())>=0
+      )
       )
   }
 

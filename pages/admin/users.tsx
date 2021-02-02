@@ -165,6 +165,14 @@ export default function UsersAdmin({ usersProps, rolesProps }) {
   }
 
   useEffect(() => {
+    let uRole:number
+    if(typeof(Storage) !== 'undefined') uRole = JSON.parse(localStorage.getItem('user')).role
+    if(uRole && uRole != 1){
+      Router.push('/admin/login')
+    }
+  }, [])
+
+  useEffect(() => {
     filterChange()
   }, [allUsers])
 
@@ -213,6 +221,7 @@ export async function getServerSideProps(ctx:NextPageContext) {
   const url = `${process.env.URL_ROOT}/api/users/all`;
 
   const resp = await fetch(url,{headers: {cookie: ctx.req.headers.cookie}});
+
 
   if (resp.status === 401 && !ctx.req) {
     Router.replace('/admin/login');

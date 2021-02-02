@@ -10,7 +10,7 @@ import Brand from '../types/brands'
 import Category from '../types/categories'
 
 
-export default function Header({brands, categories}) {
+export default function Header({ brands, categories }) {
   const router = useRouter()
 
   // function to get the language translation 
@@ -32,7 +32,7 @@ export default function Header({brands, categories}) {
 
   return (
     <div className="container" >
-      <Navbar bg="white" expand="lg" className="w-100 p-0" style={{maxHeight:'120px'}}>
+      <Navbar bg="white" expand="lg" className="w-100 p-0" style={{ maxHeight: '120px' }}>
         <SpeedContact />
         <Link href="/">
           <a><img src="/images/logo.png" width={188} height={133} alt="International Export" /></a>
@@ -43,7 +43,7 @@ export default function Header({brands, categories}) {
 
           <Nav className="ml-auto mt-md-5" dir={t("Dir")} >
             <Link href="/">
-              <a className={`nav-link ${router.pathname === '/' && 'active'}`}>{t("Home")}</a>
+              <a className={`nav-link ${router.pathname === '/home' || router.pathname === '/' ? 'active' : ''}`}>{t("Home")}</a>
             </Link>
             <Link href="/about">
               <a className={`nav-link ${router.pathname === '/about' && 'active'}`}>{t("About")}</a>

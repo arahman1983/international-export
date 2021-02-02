@@ -27,6 +27,19 @@
   z-index: 9;
 }
 
+@media only screen and (max-width: 600px) {
+  .aboutHome p {
+    line-height: 1.8 !important;
+    font-size: 0.8rem !important;
+    width: 100% !important;
+  }
+
+.container{
+  width: 100% !important;
+  z-index: 999;
+}
+}
+
 .container{
   z-index: 999;
 }
