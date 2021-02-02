@@ -40,9 +40,9 @@ export default function BrandSlider(props: any) {
     >
       {
         props.sliderItems.map((item, i) => (
-          <Link href={`/products?type=brand&q=${item.name}`} key={i}>
+          <Link href={`/products?type=brand&q=${item.title}`} key={i}>
             <a className="brand-img">
-              <img src={item.image} alt={item.name} width={100} />
+              <img src={item.image} alt={item.title} width={100} />
             </a>
           </Link>
         ))

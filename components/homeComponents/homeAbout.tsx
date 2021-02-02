@@ -8,8 +8,8 @@ export default function HomeAbout({about}) {
   const { t } = useTranslation()
   return (
     <div className={`row mx-0 p-5 ${styles.aboutHome}`}>
-      <h1 className="w-100">{about.title}</h1>
-      <p className="container my-3 px-5 text-justify text-center">
+      <h2 className="w-100">{about.title}</h2>
+      <p className="w-md-90 mx-auto my-3 px-md-5 text-justify text-center">
         {about.description}
       </p>
       <div className="container" style={{ zIndex: 99 }}>
