@@ -19,6 +19,7 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  basePath: '/',
   async redirects() {
     return [
       {
