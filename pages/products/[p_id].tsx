@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { DetailsPage, Layout, InnerHeader } from '../../components'
-
+import Link from 'next/link'
+import HEAD from 'next/head'
 
 export default function ProductDetails({product}) {
   const [productDetails, setProductDetails] = useState<any>({...product})
@@ -26,8 +27,28 @@ export default function ProductDetails({product}) {
   }, [lang])
   return (
     <Layout>
+      <HEAD>
+        <title>{product.title}</title>
+        <meta property="og:title" content={product.title} key="title" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content={product.details}/>
+        <meta name="keywords" content={product.keyWords}/>
+      </HEAD>
       <InnerHeader image="/images/sliderA.jpg" />
       <DetailsPage details={productDetails} />
+      <div className="container ">
+      <div className="row">
+          <div className= "col-md-8 mx-auto">
+          </div>
+          <div className= "col-md-4 text-center">
+            <Link href={`/contacts`}>
+                <a className="btn btnPrimaryOutline mb-5">
+                  Order Now
+                </a>
+            </Link>
+          </div>
+      </div>
+      </div>
     </Layout>
   )
 }

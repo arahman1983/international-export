@@ -91,7 +91,7 @@ export default function BrandsAdmin({brands}) {
 
       const json = await res.json()
       if (!res.ok) throw Error(json.message)
-      dispatchBrands(addBrand({id: json.insertId ,...item}))
+      dispatchBrands(addBrand({id: json.insertId ,...item, isDeleted: 0}))
       handleClose()
     } catch (e) {
       throw Error(e.message)

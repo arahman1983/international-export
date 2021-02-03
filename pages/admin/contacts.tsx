@@ -12,21 +12,45 @@ export default function AdminContacts({ contactsProp }) {
 
   const [changed, setChanged] = useState(false)
 
+  const editContact = async (values)=>{
+    try {
+      const res = await fetch('/api/contact/edit', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...values,
+          id: contact.id,
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) console.log(json.message)
+      setContact({ ...values });
+      setChanged(false)
+    } catch (e) {
+      throw Error(e.message)
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
       address: contactsProp ? contact.address : '',
+      address_ar: contactsProp ? contact.address_ar : '',
       phones: contactsProp ? contact.phones : '',
       emails: contactsProp ? contact.emails : '',
+      facebook: contactsProp ? contact.Facebook : '',
+      youtube: contactsProp ? contact.Youtube : '',
+      instagram: contactsProp ? contact.Instagram : '',
     },
     validationSchema: Yup.object({
       address: Yup.string().required('Required'),
+      address_ar: Yup.string().required('Required'),
       phones: Yup.string().required('Required'),
       emails: Yup.string().required('Required'),
     }),
     onSubmit: values => {
-      setContact({ ...values });
-      setChanged(false)
+      editContact(values)
     }
   })
 
@@ -66,6 +90,22 @@ export default function AdminContacts({ contactsProp }) {
               }
             </div>
             <div className="form-group">
+              <label htmlFor="address_ar" className="d-flex justify-content-between">
+                {t('Address_ar')}
+              </label>
+              <input type="text"
+                className="form-control"
+                id='address_ar'
+                {...formik.getFieldProps('address_ar')} />
+              {
+                formik.touched.address_ar && formik.errors.address_ar ?
+                  <div className="alert alert-danger my-3" role="alert">
+                    {formik.errors.address_ar}
+                  </div>
+                  : null
+              }
+            </div>
+            <div className="form-group">
               <label htmlFor="phones">{t('Phones')}</label>
               <input type="text"
                 className="form-control"
@@ -92,6 +132,29 @@ export default function AdminContacts({ contactsProp }) {
                   </div>
                   : null
               }
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="facebook">Facebook</label>
+              <input type="text"
+                className="form-control"
+                id='facebook'
+                {...formik.getFieldProps('facebook')} />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="youtube">Youtube</label>
+              <input type="text"
+                className="form-control"
+                id='youtube'
+                {...formik.getFieldProps('youtube')} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="instagram">Instagram</label>
+              <input type="text"
+                className="form-control"
+                id='instagram'
+                {...formik.getFieldProps('instagram')} />
             </div>
 
           </div>

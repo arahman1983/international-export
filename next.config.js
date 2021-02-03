@@ -10,7 +10,6 @@ module.exports = {
         fs: 'empty'
       }
     }
-
     return config
   },
   typescript: {
@@ -19,5 +18,14 @@ module.exports = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/home',
+        permanent: true,
+      },
+    ]
   },
 }

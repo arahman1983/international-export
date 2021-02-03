@@ -88,7 +88,7 @@ export default function CategoriesAdmin({categories}) {
 
       const json = await res.json()
       if (!res.ok) throw Error(json.message)
-      dispatchCategories(addCategory({id: json.insertId ,...item}))
+      dispatchCategories(addCategory({id: json.insertId ,...item,isDeleted: 0}))
       handleClose()
     } catch (e) {
       throw Error(e.message)

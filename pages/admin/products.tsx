@@ -102,7 +102,7 @@ export default function ProductsAdmin({ productsProps, brandsProps, categories  
 
       const json = await res.json()
       if (!res.ok) throw Error(json.message)
-      dispatchProducts(addProduct({id: json.insertId ,...item}))
+      dispatchProducts(addProduct({id: json.insertId ,...item, isDeleted: 0}))
       handleClose()
     } catch (e) {
       throw Error(e.message)

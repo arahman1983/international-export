@@ -8,7 +8,6 @@ export default authenticated(async (req:NextApiRequest, res:NextApiResponse) => 
       SELECT * FROM contact
       ORDER BY updated_at DESC LIMIT 1
   `)
-
     return res.json(results)
   } catch (e) {
     res.status(500).json({ message: e.message })

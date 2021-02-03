@@ -22,6 +22,7 @@ export default function BrandForm({type, item, handleClose, editItem, addItem}){
       title_ar: Yup.string().required('required')
     }),
     onSubmit: values => {
+      formik.isSubmitting = false
       type === 'add'
       ? addItem({ 
         title: values.title, 

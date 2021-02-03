@@ -36,7 +36,6 @@ export default function ContactUs({ contact }) {
 export async function getServerSideProps() {
   const res = await fetch(`${process.env.URL_ROOT}/api/contact/all`)
   const contact = await res.json()
-
   return {
     props: {
       contact: contact ? contact[0] : {}

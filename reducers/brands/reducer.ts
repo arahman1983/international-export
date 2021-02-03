@@ -1,6 +1,7 @@
 const brandsReducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_BRAND":
+      console.log(action.brand)
       return [...state, action.brand];
     case "EDIT_BRAND":
       return state.map((brand) => {
