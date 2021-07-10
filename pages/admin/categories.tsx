@@ -16,6 +16,7 @@ export default function CategoriesAdmin({categories}) {
     id: d.id,
     title: d.title,
     title_ar: d.title_ar,
+    image: d.image,
     createdAt: d.created_at,
     updatedAt: d.updated_at,
     isDeleted: d.isDeleted
@@ -40,6 +41,7 @@ export default function CategoriesAdmin({categories}) {
           id : values.id,
           title: values.title,
           title_ar: values.title_ar,
+          image: values.image,
           isDeleted: values.isDeleted
         }),
       })
@@ -82,6 +84,7 @@ export default function CategoriesAdmin({categories}) {
         body: JSON.stringify({
           title: item.title,
           title_ar: item.title_ar,
+          image: item.image,
           isDeleted: 0
         }),
       })
@@ -144,7 +147,14 @@ export default function CategoriesAdmin({categories}) {
         filterChange={filterChange} />
       <hr />
       <AdminTable tableTitles={tableTitles} 
-        items={filteredCategories} 
+        items={filteredCategories.map(c=> ({
+          id: c.id,
+          title: c.title,
+          title_ar: c.title_ar,
+          createdAt: c.createdAt,
+          updatedAt: c.updatedAt,
+          isDeleted: c.isDeleted
+        }))} 
         handleDelete={handleDelete} 
         restoreItem={restoreItem}
         handleEdit={handleEdit} />

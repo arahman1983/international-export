@@ -41,7 +41,7 @@ export default function ProductDetails({product}) {
           <div className= "col-md-8 mx-auto">
           </div>
           <div className= "col-md-4 text-center">
-            <Link href={`/contacts`}>
+            <Link href={`/contact`}>
                 <a className="btn btnPrimaryOutline mb-5">
                   Order Now
                 </a>

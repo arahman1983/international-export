@@ -51,5 +51,6 @@
     "UserName":"Username",
     "Password": "Password",
     "Phones": "Phones",
-    "Address": "Address"
+    "Address": "Address",
+    "Browse Products": "Browse Products"
   }

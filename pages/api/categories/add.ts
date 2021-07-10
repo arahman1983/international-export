@@ -3,7 +3,7 @@ import { query } from '../../../lib/db'
 import { authenticated } from '../../../functions/authenticated'
 
 export default authenticated(async (req:NextApiRequest, res:NextApiResponse) => {
-  const { title, title_ar, isDeleted } = req.body
+  const { title, title_ar, image, isDeleted } = req.body
   try {
     if (!title || !title_ar) {
       return res
@@ -13,10 +13,10 @@ export default authenticated(async (req:NextApiRequest, res:NextApiResponse) => 
 
     const results = await query(
       `
-      INSERT INTO categories (title, title_ar, isDeleted)
-      VALUES (?, ?, ?)
+      INSERT INTO categories (title, title_ar, image, isDeleted)
+      VALUES (?, ?, ? , ?)
       `,
-      [title, title_ar, isDeleted]
+      [title, title_ar, image, isDeleted]
     )
     return res.json(results)
   } catch (e) {

@@ -15,14 +15,14 @@ export default function products({ products }) {
   const { query } = useRouter();
   let type = query.type;
   let q = query.q;
-
+  console.log(q)
   useEffect(() => {
     type === 'brand'
       ?
-      setFilteredProducts(products.filter((product: Product) => product.brand === q))
+      setFilteredProducts(products.filter((product: Product) => product.brand.indexOf(`${q}`) >= 0))
       : type === 'category'
         ?
-        setFilteredProducts(products.filter((product: Product) => product.category === q))
+        setFilteredProducts(products.filter((product: Product) => product.category.indexOf(`${q}`) >= 0))
         : 
         setFilteredProducts(products)
   }, [])

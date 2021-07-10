@@ -4,7 +4,7 @@ import { authenticated } from '../../../functions/authenticated'
 
 
 export default authenticated(async (req:NextApiRequest, res:NextApiResponse) => {
-  const { id, title, title_ar, isDeleted } = req.body
+  const { id, title, title_ar, image, isDeleted } = req.body
   try {
     if (!id) {
       return res
@@ -15,10 +15,10 @@ export default authenticated(async (req:NextApiRequest, res:NextApiResponse) => 
     const results = await query(
       `
       UPDATE categories
-      SET title = ?, title_ar = ?, isDeleted = ?
+      SET title = ?, title_ar = ?, isDeleted = ?, image = ?
       WHERE id = ?
       `,
-      [title ,title_ar , isDeleted , id]
+      [title ,title_ar , isDeleted, image , id]
     )
 
     return res.json(results)
